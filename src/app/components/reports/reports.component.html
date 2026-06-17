@@ -1,0 +1,49 @@
+<div class="fade-in space-y-6">
+  <div>
+    <h1 class="text-3xl font-bold text-gray-900">Reportes Globales</h1>
+    <p class="text-gray-500 mt-1">Accede a todos los estados financieros generados en la plataforma.</p>
+  </div>
+
+  <div class="grid grid-cols-1 gap-4">
+    <div *ngFor="let report of reports" class="bg-white p-6 rounded-2xl border border-gray-100 flex items-center justify-between hover:shadow-md transition-all group">
+      <div class="flex items-center gap-4">
+        <div class="h-12 w-12 bg-gray-50 rounded-xl flex items-center justify-center group-hover:bg-gray-900 transition-colors">
+          <lucide-icon [img]="FileText" class="w-6 h-6 text-gray-400 group-hover:text-white transition-colors"></lucide-icon>
+        </div>
+        <div>
+          <p class="font-bold text-gray-900">{{ report.name }}</p>
+          <p class="text-xs text-gray-400 uppercase tracking-widest font-bold mt-1">{{ report.type }} • {{ report.date }}</p>
+        </div>
+      </div>
+      
+      <div class="flex items-center gap-2">
+        <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase bg-blue-50 text-blue-600 mr-4">
+          {{ report.status }}
+        </span>
+        <button (click)="viewReport(report)" class="p-2 text-gray-400 hover:text-gray-900 rounded-lg hover:bg-gray-50">
+          <lucide-icon [img]="Eye" class="w-5 h-5"></lucide-icon>
+        </button>
+        <button (click)="downloadReport(report)" class="p-2 text-gray-400 hover:text-gray-900 rounded-lg hover:bg-gray-50">
+          <lucide-icon [img]="Download" class="w-5 h-5"></lucide-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-gray-50 p-12 rounded-2xl border-2 border-dashed border-gray-100 flex flex-col items-center text-center">
+    <div class="h-16 w-16 bg-white rounded-2xl shadow-sm flex items-center justify-center mb-4">
+      <lucide-icon [img]="Clock" class="w-8 h-8 text-gray-200"></lucide-icon>
+    </div>
+    <h3 class="font-bold text-gray-900 text-lg">Programar Reporte Automático</h3>
+    <p class="text-gray-400 text-sm max-w-sm mt-2">Configura el sistema para generar balances generales y estados de cuenta automáticamente cada fin de mes.</p>
+    <button (click)="configureAutomatedReport()" class="mt-6 px-6 py-2.5 bg-gray-900 text-white rounded-xl text-sm font-bold hover:bg-gray-800 transition-all">
+      Configurar ahora
+    </button>
+  </div>
+
+  <!-- Notification Toast -->
+  <div *ngIf="notification" class="fixed bottom-8 right-8 z-[100] px-6 py-4 bg-gray-900 text-white rounded-2xl shadow-2xl flex items-center gap-3 animate-in slide-in-from-bottom-4 duration-300">
+    <lucide-icon [img]="Clock" class="w-5 h-5 text-blue-400"></lucide-icon>
+    <span class="text-sm font-semibold">{{ notification }}</span>
+  </div>
+</div>

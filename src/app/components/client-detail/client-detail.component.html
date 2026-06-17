@@ -1,0 +1,310 @@
+<div class="fade-in space-y-6 pb-12" *ngIf="client">
+  <!-- Header -->
+  <div class="flex items-center gap-4 mb-2">
+    <a routerLink="/dashboard/clients" class="p-2 hover:bg-white rounded-xl text-gray-400 hover:text-gray-900 transition-all border border-transparent hover:border-gray-100">
+      <lucide-icon [img]="ArrowLeft" class="w-5 h-5"></lucide-icon>
+    </a>
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900">{{ client.name }}</h1>
+      <p class="text-sm text-gray-500">{{ client.email }} • <span class="font-semibold">{{ client.type }}</span></p>
+    </div>
+    <div class="ml-auto flex items-center gap-2">
+      <span class="px-3 py-1 bg-green-50 text-green-600 rounded-full text-xs font-bold uppercase tracking-tight">
+        {{ client.status }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Tabs Navigation -->
+  <div class="flex gap-2 border-b border-gray-100 pb-px">
+    <button 
+      (click)="activeTab = 'docs'"
+      [class.border-gray-900]="activeTab === 'docs'"
+      [class.text-gray-900]="activeTab === 'docs'"
+      class="px-6 py-3 text-sm font-semibold text-gray-400 border-b-2 border-transparent transition-all hover:text-gray-600"
+    >
+      Documentos
+    </button>
+    <button 
+      (click)="activeTab = 'accounting'"
+      [class.border-gray-900]="activeTab === 'accounting'"
+      [class.text-gray-900]="activeTab === 'accounting'"
+      class="px-6 py-3 text-sm font-semibold text-gray-400 border-b-2 border-transparent transition-all hover:text-gray-600"
+    >
+      Contabilidad
+    </button>
+    <button 
+      (click)="activeTab = 'reports'"
+      [class.border-gray-900]="activeTab === 'reports'"
+      [class.text-gray-900]="activeTab === 'reports'"
+      class="px-6 py-3 text-sm font-semibold text-gray-400 border-b-2 border-transparent transition-all hover:text-gray-600"
+    >
+      Estados Financieros
+    </button>
+  </div>
+
+  <!-- Content Areas -->
+  <div [ngSwitch]="activeTab" class="pt-4">
+    
+    <!-- Tab Documentos -->
+    <div *ngSwitchCase="'docs'" class="space-y-6">
+      <div class="flex items-center justify-between">
+        <h3 class="text-lg font-bold">Documentos del Cliente</h3>
+        <input #fileInput type="file" (change)="onFileSelected($event)" class="hidden">
+        <button (click)="fileInput.click()" class="flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-xl text-sm font-semibold hover:bg-white transition-all shadow-sm">
+          <lucide-icon [img]="Upload" class="w-4 h-4"></lucide-icon>
+          Subir PDF
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div *ngFor="let doc of documents" class="bg-white p-4 rounded-2xl border border-gray-100 flex items-start gap-4 hover:shadow-md transition-all group">
+          <div class="h-12 w-12 bg-red-50 rounded-xl flex items-center justify-center shrink-0">
+            <lucide-icon [img]="File" class="w-6 h-6 text-red-500"></lucide-icon>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="font-bold text-gray-900 truncate">{{ doc.name }}</p>
+            <p class="text-[10px] text-gray-400 uppercase font-semibold tracking-wider mt-1">{{ doc.uploadDate }} • {{ doc.size }}</p>
+          </div>
+          <div class="flex flex-col gap-1">
+            <button (click)="downloadDocument(doc)" class="p-2 text-gray-300 hover:text-gray-900 rounded-lg group-hover:bg-gray-50">
+              <lucide-icon [img]="Download" class="w-4 h-4"></lucide-icon>
+            </button>
+            <button (click)="deleteDocument(doc.id)" class="p-2 text-gray-300 hover:text-red-500 rounded-lg group-hover:bg-gray-50">
+              <lucide-icon [img]="Trash2" class="w-4 h-4"></lucide-icon>
+            </button>
+          </div>
+        </div>
+
+        <div (click)="fileInput.click()" class="border-2 border-dashed border-gray-100 rounded-2xl flex flex-col items-center justify-center p-8 text-center hover:border-gray-300 transition-colors cursor-pointer group">
+          <lucide-icon [img]="Plus" class="w-8 h-8 text-gray-200 group-hover:text-gray-400 mb-2"></lucide-icon>
+          <p class="text-sm font-semibold text-gray-400">Seleccionar archivo</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab Contabilidad (Calculations) -->
+    <div *ngSwitchCase="'accounting'" class="space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Input Form -->
+        <div class="lg:col-span-1 space-y-6">
+          <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-4">
+            <h3 class="text-lg font-bold flex items-center gap-2">
+              <lucide-icon [img]="Calculator" class="w-5 h-5 text-gray-400"></lucide-icon>
+              Nuevo Asiento
+            </h3>
+            
+            <div class="space-y-3">
+              <div>
+                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Descripción</label>
+                <input [(ngModel)]="newDescription" type="text" placeholder="Ej. Pago Proveedor X" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+              </div>
+              
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Monto ($)</label>
+                  <input [(ngModel)]="newAmount" type="number" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+                </div>
+                <div>
+                  <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Categoría</label>
+                  <select [(ngModel)]="newCategory" class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+                    <option value="Ingreso">Ingreso</option>
+                    <option value="Gasto">Gasto</option>
+                    <option value="Activo">Activo</option>
+                    <option value="Pasivo">Pasivo</option>
+                  </select>
+                </div>
+              </div>
+
+              <button (click)="addEntry()" class="w-full py-3 bg-gray-900 text-white rounded-xl text-sm font-bold hover:bg-gray-800 transition-all active:scale-[0.98]">
+                Registrar Movimiento
+              </button>
+            </div>
+          </div>
+
+          <!-- Quick Totals -->
+          <div class="bg-gray-900 text-white p-6 rounded-2xl shadow-xl space-y-4">
+            <p class="text-xs font-bold text-gray-400 uppercase tracking-[0.2em]">Balance del Periodo</p>
+            <h2 class="text-4xl font-bold">${{ totalBalance | number }}</h2>
+            <div class="flex justify-between border-t border-white/10 pt-4">
+              <div>
+                <p class="text-[10px] text-gray-400 font-bold uppercase">Activos</p>
+                <p class="font-bold text-green-400">${{ totalAssets | number }}</p>
+              </div>
+              <div>
+                <p class="text-[10px] text-gray-400 font-bold uppercase">Pasivos</p>
+                <p class="font-bold text-red-400">${{ totalLiabilities | number }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ledger Table -->
+        <div class="lg:col-span-2">
+          <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-50 bg-gray-50/30">
+              <h3 class="font-bold text-gray-900">Libro Diario / Movimientos</h3>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-sm">
+                <thead>
+                  <tr class="bg-gray-50/50 text-gray-400 font-bold border-b border-gray-100">
+                    <th class="px-6 py-3 uppercase tracking-wider text-[10px]">Fecha</th>
+                    <th class="px-6 py-3 uppercase tracking-wider text-[10px]">Descripción</th>
+                    <th class="px-6 py-3 uppercase tracking-wider text-[10px]">Categoría</th>
+                    <th class="px-6 py-3 uppercase tracking-wider text-[10px] text-right">Monto</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-50">
+                  <tr *ngFor="let t of transactions" class="hover:bg-gray-50 transition-colors">
+                    <td class="px-6 py-4 text-gray-500">{{ t.date }}</td>
+                    <td class="px-6 py-4 font-semibold">{{ t.description }}</td>
+                    <td class="px-6 py-4">
+                      <span class="px-2 py-0.5 rounded text-[10px] font-bold"
+                        [ngClass]="{
+                          'bg-green-50 text-green-600': t.category === 'Ingreso',
+                          'bg-red-50 text-red-600': t.category === 'Gasto',
+                          'bg-blue-50 text-blue-600': t.category === 'Activo',
+                          'bg-orange-50 text-orange-600': t.category === 'Pasivo'
+                        }">
+                        {{ t.category }}
+                      </span>
+                    </td>
+                    <td class="px-6 py-4 text-right font-bold flex items-center justify-end gap-3">
+                      <span [ngClass]="t.category === 'Ingreso' ? 'text-green-600' : (t.category === 'Gasto' ? 'text-red-600' : 'text-gray-900')">
+                        {{ (t.category === 'Gasto' || t.category === 'Pasivo') ? '-' : '+' }}${{ t.amount | number }}
+                      </span>
+                      <button (click)="deleteEntry(t.id)" class="p-1 text-gray-300 hover:text-red-500 transition-colors">
+                        <lucide-icon [img]="Trash2" class="w-3.5 h-3.5"></lucide-icon>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr *ngIf="transactions.length === 0">
+                    <td colspan="4" class="px-6 py-12 text-center text-gray-400 italic">No hay movimientos registrados.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab Reports -->
+    <div *ngSwitchCase="'reports'" class="space-y-8 max-w-4xl mx-auto">
+      <div class="flex items-center justify-between">
+        <h3 class="text-lg font-bold">Generación de Estados Financieros</h3>
+        <div class="flex gap-2">
+          <button (click)="generateReport()" class="px-4 py-2 text-sm font-semibold text-gray-600 border border-gray-100 rounded-xl hover:bg-white transition-all shadow-sm flex items-center gap-2">
+            <lucide-icon [img]="Clock" class="w-4 h-4"></lucide-icon>
+            Historial
+          </button>
+          <button (click)="generateReport()" class="px-4 py-2 text-sm font-semibold text-white bg-gray-900 rounded-xl hover:bg-gray-800 transition-all shadow-lg flex items-center gap-2">
+            <lucide-icon [img]="BarChart" class="w-4 h-4"></lucide-icon>
+            Generar Nuevo
+          </button>
+        </div>
+      </div>
+
+      <!-- Financial Report Mockup -->
+      <div class="bg-white p-12 rounded-[2rem] border border-gray-100 shadow-2xl space-y-10 relative overflow-hidden">
+        <!-- Background Decoration -->
+        <div class="absolute top-0 right-0 p-12">
+          <div class="h-32 w-32 bg-gray-50 rounded-full blur-3xl"></div>
+        </div>
+
+        <div class="flex justify-between items-start relative">
+          <div>
+            <h4 class="text-3xl font-black text-gray-900 tracking-tighter">Balance General</h4>
+            <p class="text-gray-400 font-medium uppercase tracking-[0.3em] text-[10px] mt-1">Al {{ today | date:'mediumDate' }}</p>
+          </div>
+          <div class="text-right">
+            <p class="font-bold text-gray-900">FinanzaPro Accountants</p>
+            <p class="text-xs text-gray-400">Certificado No. 8829-11</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-16 relative">
+          <!-- Activos -->
+          <div class="space-y-6">
+            <h5 class="text-xs font-black text-gray-400 uppercase tracking-widest border-b border-gray-100 pb-2">Activos</h5>
+            <div class="space-y-4">
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-600 font-medium">Caja y Bancos</span>
+                <span class="font-bold text-gray-900">${{ totalBalance > 0 ? (totalBalance * 0.4 | number) : 0 }}</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-600 font-medium">Cuentas por Cobrar</span>
+                <span class="font-bold text-gray-900">${{ totalBalance > 0 ? (totalBalance * 0.3 | number) : 0 }}</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-600 font-medium">Equipos y Mobiliario</span>
+                <span class="font-bold text-gray-900">${{ totalAssets | number }}</span>
+              </div>
+              <div class="pt-4 border-t border-gray-50 flex justify-between">
+                <span class="font-black text-gray-900 uppercase text-[11px]">Total Activos</span>
+                <span class="font-black text-gray-900">${{ (totalBalance > 0 ? totalBalance * 0.7 : 0) + totalAssets | number }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pasivos & Patrimonio -->
+          <div class="space-y-10">
+            <div class="space-y-6">
+              <h5 class="text-xs font-black text-gray-400 uppercase tracking-widest border-b border-gray-100 pb-2">Pasivos</h5>
+              <div class="space-y-4">
+                <div class="flex justify-between text-sm">
+                  <span class="text-gray-600 font-medium">Deudas Corto Plazo</span>
+                  <span class="font-bold text-gray-900">${{ totalLiabilities | number }}</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                  <span class="text-gray-600 font-medium">Otras Obligaciones</span>
+                  <span class="font-bold text-gray-900">$0</span>
+                </div>
+                <div class="pt-4 border-t border-gray-50 flex justify-between">
+                  <span class="font-black text-gray-900 uppercase text-[11px]">Total Pasivos</span>
+                  <span class="font-black text-gray-900">${{ totalLiabilities | number }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="space-y-6">
+              <h5 class="text-xs font-black text-gray-400 uppercase tracking-widest border-b border-gray-100 pb-2">Patrimonio</h5>
+              <div class="space-y-4">
+                <div class="flex justify-between text-sm">
+                  <span class="text-gray-600 font-medium">Capital Social</span>
+                  <span class="font-bold text-gray-900">$10,000</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                  <span class="text-gray-600 font-medium">Resultados Acumulados</span>
+                  <span class="font-bold text-gray-900">${{ totalBalance | number }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-10 border-t border-gray-100 flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <lucide-icon [img]="CheckCircle" class="w-4 h-4 text-green-500"></lucide-icon>
+            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Documento Verificado por Sistema</span>
+          </div>
+          <button class="px-6 py-2.5 bg-gray-50 hover:bg-gray-100 text-gray-900 rounded-xl text-xs font-bold transition-all flex items-center gap-2">
+            <lucide-icon [img]="Download" class="w-4 h-4"></lucide-icon>
+            Descargar PDF
+          </button>
+        </div>
+      </div>
+    </div>
+  <!-- Loading Overlay for Reports -->
+  <div *ngIf="isGeneratingReport" class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-gray-900/60 backdrop-blur-md animate-in fade-in duration-300">
+    <div class="relative">
+      <div class="h-24 w-24 border-4 border-white/20 border-t-white rounded-full animate-spin"></div>
+      <div class="absolute inset-0 flex items-center justify-center">
+        <lucide-icon [img]="BarChart" class="w-8 h-8 text-white"></lucide-icon>
+      </div>
+    </div>
+    <h3 class="mt-6 text-xl font-bold text-white tracking-tight">Generando Reporte Financiero</h3>
+    <p class="mt-2 text-white/60 text-sm">Procesando transacciones y balances...</p>
+  </div>
+</div>

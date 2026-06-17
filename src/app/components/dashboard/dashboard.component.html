@@ -1,0 +1,96 @@
+<div class="flex h-screen bg-white text-gray-900 font-sans overflow-hidden">
+  
+  <!-- Sidebar -->
+  <aside 
+    class="bg-white border-r border-gray-100 flex flex-col transition-all duration-300 ease-in-out z-30"
+    [class.w-64]="isSidebarOpen"
+    [class.w-20]="!isSidebarOpen"
+  >
+    <div class="h-16 flex items-center px-6 border-b border-gray-50 shrink-0">
+      <div class="flex items-center gap-3 overflow-hidden">
+        <div class="h-8 w-8 bg-gray-900 rounded-lg flex items-center justify-center shrink-0">
+          <lucide-icon [img]="PieChart" class="text-white w-5 h-5"></lucide-icon>
+        </div>
+        <span class="font-bold text-lg tracking-tight whitespace-nowrap transition-opacity duration-200" [class.opacity-0]="!isSidebarOpen">
+          FinanzaPro
+        </span>
+      </div>
+    </div>
+
+    <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+      <a 
+        routerLink="/dashboard" 
+        [routerLinkActiveOptions]="{exact: true}"
+        routerLinkActive="bg-gray-50 text-gray-900"
+        class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-500 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 group"
+      >
+        <lucide-icon [img]="LayoutDashboard" class="w-5 h-5 group-hover:scale-110 transition-transform"></lucide-icon>
+        <span class="font-medium whitespace-nowrap transition-opacity duration-200" [class.hidden]="!isSidebarOpen">Resumen</span>
+      </a>
+
+      <a 
+        routerLink="/dashboard/clients" 
+        routerLinkActive="bg-gray-50 text-gray-900"
+        class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-500 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 group"
+      >
+        <lucide-icon [img]="Users" class="w-5 h-5 group-hover:scale-110 transition-transform"></lucide-icon>
+        <span class="font-medium whitespace-nowrap transition-opacity duration-200" [class.hidden]="!isSidebarOpen">Clientes</span>
+      </a>
+
+      <a 
+        routerLink="/dashboard/reports" 
+        routerLinkActive="bg-gray-50 text-gray-900"
+        class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-500 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 group"
+      >
+        <lucide-icon [img]="FileText" class="w-5 h-5 group-hover:scale-110 transition-transform"></lucide-icon>
+        <span class="font-medium whitespace-nowrap transition-opacity duration-200" [class.hidden]="!isSidebarOpen">Reportes</span>
+      </a>
+      <a 
+      routerLink="/dashboard/personal" 
+      routerLinkActive="bg-gray-50 text-gray-900"
+      class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-500 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 group"
+    >
+      <lucide-icon [img]="FileText" class="w-5 h-5 group-hover:scale-110 transition-transform"></lucide-icon>
+      <span class="font-medium whitespace-nowrap transition-opacity duration-200" [class.hidden]="!isSidebarOpen">Personal</span>
+    </a>
+    </nav>
+
+    <div class="p-4 border-t border-gray-50">
+      <button 
+        (click)="logout()"
+        class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-400 hover:bg-red-50 hover:text-red-600 transition-all duration-200 group"
+      >
+        <lucide-icon [img]="LogOut" class="w-5 h-5 group-hover:scale-110 transition-transform"></lucide-icon>
+        <span class="font-medium whitespace-nowrap transition-opacity duration-200" [class.hidden]="!isSidebarOpen">Cerrar Sesión</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1 flex flex-col overflow-hidden relative">
+    
+    <!-- Top Header -->
+    <header class="h-16 border-b border-gray-50 flex items-center justify-between px-8 bg-white/80 backdrop-blur-md sticky top-0 z-20">
+      <button (click)="toggleSidebar()" class="p-2 hover:bg-gray-50 rounded-lg text-gray-500 transition-colors">
+        <lucide-icon [img]="isSidebarOpen ? X : Menu" class="w-5 h-5"></lucide-icon>
+      </button>
+
+      <div class="flex items-center gap-4">
+        <div class="text-right hidden sm:block">
+          <p class="text-sm font-semibold">Administrador</p>
+          <p class="text-xs text-gray-400 uppercase tracking-tighter">Contable Senior</p>
+        </div>
+        <div class="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center border border-gray-200 overflow-hidden">
+          <img src="https://ui-avatars.com/api/?name=Admin&background=0D1117&color=fff" alt="User Avatar">
+        </div>
+      </div>
+    </header>
+
+    <!-- Scrollable content area -->
+    <div class="flex-1 overflow-y-auto bg-[#fafafa] p-8">
+      <div class="max-w-7xl mx-auto h-full">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </main>
+</div>

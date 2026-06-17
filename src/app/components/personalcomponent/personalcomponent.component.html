@@ -1,0 +1,170 @@
+<div class="min-h-screen bg-gray-50/50 p-6">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-900 tracking-tight">Gestión de Personal</h1>
+    <p class="text-gray-500 mt-2 text-sm">Administra los accesos y roles de los empleados en el sistema.</p>
+  </div>
+
+  <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+    
+    <!-- Register Form -->
+    <div class="xl:col-span-1">
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="border-b border-gray-100 bg-gray-50/50 p-6 flex items-center gap-3">
+          <div class="p-2 bg-indigo-50 text-indigo-600 rounded-lg">
+            <lucide-icon [img]="UserPlus" size="20"></lucide-icon>
+          </div>
+          <div>
+            <h2 class="text-lg font-semibold text-gray-900">Nuevo Registro</h2>
+            <p class="text-xs text-gray-500">Agrega un nuevo miembro al personal</p>
+          </div>
+        </div>
+        
+        <form [formGroup]="personalForm" (ngSubmit)="onSubmit()" class="p-6 space-y-5">
+          <div class="grid grid-cols-2 gap-4">
+            <div class="space-y-1.5">
+              <label class="text-sm font-medium text-gray-700">Nombre</label>
+              <input type="text" formControlName="nombre" 
+                     class="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
+                     [ngClass]="{'border-red-500 focus:ring-red-500/20 focus:border-red-500': personalForm.get('nombre')?.invalid && personalForm.get('nombre')?.touched}"
+                     placeholder="Ej. Carlos">
+            </div>
+            <div class="space-y-1.5">
+              <label class="text-sm font-medium text-gray-700">Apellido</label>
+              <input type="text" formControlName="apellido" 
+                     class="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
+                     [ngClass]="{'border-red-500 focus:ring-red-500/20 focus:border-red-500': personalForm.get('apellido')?.invalid && personalForm.get('apellido')?.touched}"
+                     placeholder="Ej. Ramírez">
+            </div>
+          </div>
+
+          <div class="space-y-1.5">
+            <label class="text-sm font-medium text-gray-700">Correo Electrónico</label>
+            <input type="email" formControlName="correo" 
+                   class="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
+                   [ngClass]="{'border-red-500 focus:ring-red-500/20 focus:border-red-500': personalForm.get('correo')?.invalid && personalForm.get('correo')?.touched}"
+                   placeholder="carlos@empresa.com">
+          </div>
+
+          <div class="space-y-1.5">
+            <label class="text-sm font-medium text-gray-700">Rol del Usuario</label>
+            <select formControlName="rol" 
+                    class="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all appearance-none"
+                    [ngClass]="{'border-red-500 focus:ring-red-500/20 focus:border-red-500': personalForm.get('rol')?.invalid && personalForm.get('rol')?.touched}">
+              <option value="" disabled selected>Selecciona un rol</option>
+              <option *ngFor="let rol of roles" [value]="rol">{{rol}}</option>
+            </select>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div class="space-y-1.5">
+              <label class="text-sm font-medium text-gray-700">Usuario</label>
+              <input type="text" formControlName="usuario" 
+                     class="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
+                     [ngClass]="{'border-red-500 focus:ring-red-500/20 focus:border-red-500': personalForm.get('usuario')?.invalid && personalForm.get('usuario')?.touched}"
+                     placeholder="cramirez">
+            </div>
+            <div class="space-y-1.5">
+              <label class="text-sm font-medium text-gray-700">Contraseña</label>
+              <input type="password" formControlName="contrasena" 
+                     class="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
+                     [ngClass]="{'border-red-500 focus:ring-red-500/20 focus:border-red-500': personalForm.get('contrasena')?.invalid && personalForm.get('contrasena')?.touched}"
+                     placeholder="••••••••">
+            </div>
+          </div>
+
+          <div class="pt-4">
+            <button type="submit" [disabled]="isLoading"
+                    class="w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-xl text-sm transition-colors focus:ring-4 focus:ring-indigo-500/20 disabled:opacity-70 disabled:cursor-not-allowed">
+              <lucide-icon *ngIf="!isLoading" [img]="UserPlus" size="18"></lucide-icon>
+              <lucide-icon *ngIf="isLoading" [img]="Loader2" size="18" class="animate-spin"></lucide-icon>
+              {{ isLoading ? 'Registrando...' : 'Registrar Personal' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Users Table -->
+    <div class="xl:col-span-2">
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden h-full flex flex-col">
+        <div class="border-b border-gray-100 bg-gray-50/50 p-6 flex justify-between items-center">
+          <div class="flex items-center gap-3">
+            <div class="p-2 bg-emerald-50 text-emerald-600 rounded-lg">
+              <lucide-icon [img]="Users" size="20"></lucide-icon>
+            </div>
+            <div>
+              <h2 class="text-lg font-semibold text-gray-900">Personal Registrado</h2>
+              <p class="text-xs text-gray-500">{{personalList.length}} usuarios activos en la plataforma</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto flex-1">
+          <table class="w-full text-left text-sm whitespace-nowrap">
+            <thead class="bg-gray-50/50 text-gray-500 text-xs uppercase font-medium border-b border-gray-100">
+              <tr>
+                <th class="px-6 py-4">Usuario / Correo</th>
+                <th class="px-6 py-4">Nombre Completo</th>
+                <th class="px-6 py-4">Rol</th>
+                <th class="px-6 py-4 text-right">Acciones</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+              <tr *ngFor="let p of data" class="hover:bg-gray-50/50 transition-colors">
+                <td class="px-6 py-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-white font-semibold shadow-sm">
+                      {{p.nombre.charAt(0)}}{{p.apellido.charAt(0)}}
+                    </div>
+                    <div>
+                      <div class="font-medium text-gray-900">{{p.usuario}}</div>
+                      <div class="text-xs text-gray-500">{{p.correo}}</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-gray-900">{{p.nombre}} {{p.apellido}}</div>
+                </td>
+                <td class="px-6 py-4">
+                  <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium"
+                        [ngClass]="{
+                          'bg-purple-50 text-purple-700 border border-purple-100': p.rol === 'Administrador',
+                          'bg-blue-50 text-blue-700 border border-blue-100': p.rol === 'Gerente',
+                          'bg-emerald-50 text-emerald-700 border border-emerald-100': p.rol === 'Cajero',
+                          'bg-amber-50 text-amber-700 border border-amber-100': p.rol === 'Vendedor',
+                          'bg-gray-50 text-gray-700 border border-gray-200': p.rol === 'Soporte'
+                        }">
+                    {{p.rol}}
+                  </span>
+                </td>
+                <td class="px-6 py-4 text-right">
+                  <div class="flex items-center justify-end gap-2">
+                    <button class="p-1.5 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors">
+                      <lucide-icon [img]="Edit" size="16"></lucide-icon>
+                    </button>
+                    <button (click)="deletePersonal(p.id)" class="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                      <lucide-icon [img]="Trash2" size="16"></lucide-icon>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              
+              <!-- Empty State -->
+              <tr *ngIf="personalList.length === 0">
+                <td colspan="4" class="px-6 py-12 text-center text-gray-500">
+                  <div class="flex flex-col items-center justify-center">
+                    <div class="p-3 bg-gray-50 rounded-full mb-3 text-gray-400">
+                      <lucide-icon [img]="Users" size="24"></lucide-icon>
+                    </div>
+                    <p class="font-medium text-gray-900">No hay personal registrado</p>
+                    <p class="text-xs mt-1">Agrega tu primer miembro de personal usando el formulario.</p>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
