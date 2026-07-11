@@ -68,6 +68,8 @@ export class PersonalcomponentComponent implements OnInit {
 
       this.service.personalreg(data).subscribe({
         next: (resp: any) => {
+          console.log(resp);
+          
           this.isLoading = false;
           if(resp.success === true){
             this.getpersonal();

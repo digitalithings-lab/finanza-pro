@@ -1,151 +1,289 @@
-<div class="fade-in space-y-6">
-  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-    <div>
-      <h1 class="text-3xl font-bold text-gray-900">Cartera de Clientes</h1>
-      <p class="text-gray-500 mt-1">Gestiona y supervisa la contabilidad de tus clientes.</p>
-    </div>
-    <button (click)="toggleModal()" class="flex items-center justify-center gap-2 px-5 py-2.5 bg-gray-900 text-white rounded-xl font-semibold text-sm hover:bg-gray-800 transition-all shadow-lg hover:shadow-xl active:scale-95">
-      <lucide-icon [img]="Plus" class="w-4 h-4"></lucide-icon>
-      Nuevo Cliente
-    </button>
-  </div>
+<ng-container>
 
-  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-    <!-- Filters -->
-    <div class="p-4 border-b border-gray-50 flex flex-col sm:flex-row gap-4 items-center justify-between bg-white">
-      <div class="relative w-full sm:w-96">
-        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <lucide-icon [img]="Search" class="h-4 w-4 text-gray-400"></lucide-icon>
-        </div>
-        <input 
-          type="text" 
-          [(ngModel)]="searchTerm"
-          (ngModelChange)="applyFilter()"
-          placeholder="Buscar por nombre o email..." 
-          class="block w-full pl-10 pr-3 py-2 border border-gray-100 rounded-xl bg-gray-50/50 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:bg-white transition-all"
-        >
+  <div class="fade-in space-y-6">
+
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div>
+        <h1 class="text-3xl font-bold text-gray-900">Usuarios</h1>
+        <p class="text-gray-500 mt-1">Gestiona los usuarios del sistema.</p>
       </div>
-      <button class="flex items-center gap-2 px-4 py-2 border border-gray-100 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-50 transition-all">
-        <lucide-icon [img]="Filter" class="w-4 h-4"></lucide-icon>
-        Filtros
+
+      <button
+        *ngIf="!hasRole"
+        (click)="toggleModal()"
+        class="flex items-center justify-center gap-2 px-5 py-2.5 bg-gray-900 text-white rounded-xl font-semibold text-sm hover:bg-gray-800 transition-all shadow-lg hover:shadow-xl active:scale-95"
+      >
+        <lucide-icon [img]="Plus" class="w-4 h-4"></lucide-icon>
+        Nuevo Usuario
       </button>
     </div>
 
-    <!-- Table -->
-    <div class="overflow-x-auto">
-      <table class="w-full text-left border-collapse">
-        <thead>
-          <tr class="bg-gray-50/50 border-b border-gray-100">
-            <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Cliente</th>
-            <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Tipo</th>
-            <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Estado</th>
-            <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider text-right">Acciones</th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-gray-50">
-          <tr 
-            *ngFor="let client of filteredClients" 
-            class="hover:bg-gray-50/80 transition-colors cursor-pointer group"
-            [routerLink]="['/dashboard/clients', client.id]"
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+
+      <!-- Buscador -->
+      <div class="p-4 border-b border-gray-50 flex flex-col sm:flex-row gap-4 items-center justify-between bg-white">
+
+        <div class="relative w-full sm:w-96">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <lucide-icon [img]="Search" class="h-4 w-4 text-gray-400"></lucide-icon>
+          </div>
+          <input
+            type="text"
+            [(ngModel)]="searchTerm"
+            (ngModelChange)="applyFilter()"
+            placeholder="Buscar por nombre, usuario o correo..."
+            class="block w-full pl-10 pr-3 py-2 border border-gray-100 rounded-xl bg-gray-50/50 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:bg-white transition-all"
           >
-            <td class="px-6 py-4">
-              <div class="flex items-center gap-3">
-                <div class="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center font-bold text-gray-500 border border-gray-100">
-                  {{ client.name.charAt(0) }}
+        </div>
+
+        <button class="flex items-center gap-2 px-4 py-2 border border-gray-100 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-50 transition-all">
+          <lucide-icon [img]="Filter" class="w-4 h-4"></lucide-icon>
+          Filtros
+        </button>
+
+      </div>
+
+      <!-- Tabla -->
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+
+          <thead>
+            <tr class="bg-gray-50/50 border-b border-gray-100">
+              <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Nombre</th>
+              <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Usuario</th>
+              <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Correo</th>
+              <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Tipo</th>
+              <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider text-right">Acciones</th>
+            </tr>
+          </thead>
+
+          <tbody class="divide-y divide-gray-50">
+            <tr
+              *ngFor="let user of tabla"
+              class="hover:bg-gray-50/80 transition-colors group"
+            >
+
+              <td class="px-6 py-4">
+                <div class="flex items-center gap-3">
+                  <div class="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center font-bold text-gray-500 border border-gray-100">
+                    {{ user.nombre.charAt(0).toUpperCase() }}
+                  </div>
+                  <p class="font-bold text-gray-900">{{ user.nombre }} {{ user.apellido }}</p>
                 </div>
-                <div>
-                  <p class="font-bold text-gray-900 group-hover:text-blue-600 transition-colors">{{ client.name }}</p>
-                  <p class="text-xs text-gray-400">{{ client.email }}</p>
+              </td>
+
+              <td class="px-6 py-4 text-sm text-gray-600">{{ user.usuario }}</td>
+
+              <td class="px-6 py-4 text-sm text-gray-600">{{ user.correo }}</td>
+
+              <td class="px-6 py-4">
+                <span
+                  class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-tight"
+                  [ngClass]="user.rol_id == 1 ? 'bg-purple-50 text-purple-600' : 'bg-blue-50 text-blue-600'"
+                >
+                  {{user.tipo}}
+                </span>
+              </td>
+
+              <td class="px-6 py-4 text-right">
+                <div class="flex justify-end items-center gap-1">
+                  <button
+                    *ngIf="!hasRole"
+                    (click)="openAsignarModal(user)"
+                    class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-indigo-600 bg-indigo-50 border border-indigo-100 rounded-lg hover:bg-indigo-100 transition-all"
+                  >
+                    <lucide-icon [img]="UserPlus" class="w-3.5 h-3.5"></lucide-icon>
+                    Asignar
+                  </button>
+                  <a
+                    [routerLink]="['/dashboard/clients', user.id]"
+                    class="p-2 text-gray-400 hover:text-blue-600 rounded-lg hover:bg-blue-50 transition-all"
+                  >
+                    <lucide-icon [img]="ChevronRight" class="w-4 h-4"></lucide-icon>
+                  </a>
+                  <button
+                    (click)="deleteUser($event, user.id)"
+                    class="p-2 text-gray-400 hover:text-red-600 rounded-lg hover:bg-red-50 transition-all"
+                  >
+                    <lucide-icon [img]="Trash2" class="w-4 h-4"></lucide-icon>
+                  </button>
                 </div>
-              </div>
-            </td>
-            <td class="px-6 py-4">
-              <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-tight"
-                [ngClass]="client.type === 'Empresa' ? 'bg-purple-50 text-purple-600' : 'bg-orange-50 text-orange-600'">
-                {{ client.type }}
-              </span>
-            </td>
-            <td class="px-6 py-4">
-              <div class="flex items-center gap-1.5">
-                <div class="h-1.5 w-1.5 rounded-full" 
-                  [ngClass]="client.status === 'Activo' ? 'bg-green-500' : 'bg-yellow-500'">
-                </div>
-                <span class="text-sm font-medium text-gray-600">{{ client.status }}</span>
-              </div>
-            </td>
-            <td class="px-6 py-4 text-right">
-              <div class="flex justify-end items-center gap-2">
-                <button (click)="deleteClient($event, client.id)" class="p-2 text-gray-400 hover:text-red-600 rounded-lg hover:bg-red-50 transition-all">
-                  <lucide-icon [img]="Trash2" class="w-4 h-4"></lucide-icon>
-                </button>
-                <button class="p-2 text-gray-400 hover:text-gray-900 rounded-lg hover:bg-gray-100 transition-all">
-                  <lucide-icon [img]="MoreHorizontal" class="w-5 h-5"></lucide-icon>
-                </button>
-                <lucide-icon [img]="ChevronRight" class="w-4 h-4 text-gray-300"></lucide-icon>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              </td>
+
+            </tr>
+          </tbody>
+
+        </table>
+      </div>
     </div>
-  <!-- Modal -->
-  <div *ngIf="showModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/40 backdrop-blur-sm animate-in fade-in duration-200">
-    <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+
+  </div>
+
+  <!-- Modal: fuera del div principal para evitar problemas de stacking -->
+  <div
+    *ngIf="showModal"
+    class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/40 backdrop-blur-sm"
+  >
+
+    <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl overflow-hidden">
+
       <div class="px-8 py-6 border-b border-gray-50 flex items-center justify-between bg-gray-50/50">
-        <h3 class="text-xl font-bold text-gray-900">Nuevo Cliente</h3>
-        <button (click)="toggleModal()" class="p-2 hover:bg-white rounded-full transition-all text-gray-400 hover:text-gray-900">
+        <h3 class="text-xl font-bold text-gray-900">Nuevo Usuario</h3>
+        <button
+          (click)="toggleModal()"
+          class="p-2 hover:bg-white rounded-full transition-all text-gray-400 hover:text-gray-900"
+        >
           <lucide-icon [img]="X" class="w-5 h-5"></lucide-icon>
         </button>
       </div>
-      
+
       <div class="p-8 space-y-5">
+
         <div>
-          <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-2">Nombre Completo</label>
-          <input [(ngModel)]="newClient.name" type="text" placeholder="Ej. Juan Pérez" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
-        </div>
-        
-        <div>
-          <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-2">Correo Electrónico</label>
-          <input [(ngModel)]="newClient.email" type="email" placeholder="juan@ejemplo.com" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+          <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-2">Nombre</label>
+          <input [(ngModel)]="nombre" type="text" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-900">
         </div>
 
         <div>
-          <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-2">Tipo de Cliente</label>
-          <div class="grid grid-cols-2 gap-3">
-            <button 
-              (click)="newClient.type = 'Individual'"
-              [class.bg-gray-900]="newClient.type === 'Individual'"
-              [class.text-white]="newClient.type === 'Individual'"
-              class="py-3 px-4 rounded-xl border border-gray-100 text-sm font-semibold transition-all hover:bg-gray-50"
-            >
-              Individual
-            </button>
-            <button 
-              (click)="newClient.type = 'Empresa'"
-              [class.bg-gray-900]="newClient.type === 'Empresa'"
-              [class.text-white]="newClient.type === 'Empresa'"
-              class="py-3 px-4 rounded-xl border border-gray-100 text-sm font-semibold transition-all hover:bg-gray-50"
-            >
-              Empresa
-            </button>
-          </div>
+          <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-2">Apellido</label>
+          <input [(ngModel)]="apellido" type="text" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-900">
         </div>
+
+        <div>
+          <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-2">Correo</label>
+          <input [(ngModel)]="correo" type="email" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-900">
+        </div>
+
+        <div>
+          <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-2">Usuario</label>
+          <input [(ngModel)]="usuario" type="text" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-900">
+        </div>
+
+        <div>
+          <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-2">Contraseña</label>
+          <input [(ngModel)]="password" type="password" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-900">
+        </div>
+
+        <div>
+          <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-2">Rol</label>
+          <select [(ngModel)]="rol_id" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-900">
+            <option [ngValue]="1">natural</option>
+            <option [ngValue]="2">juridica</option>
+          </select>
+        </div>
+
       </div>
 
       <div class="px-8 py-6 bg-gray-50/50 flex gap-3">
-        <button (click)="toggleModal()" class="flex-1 py-3 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-600 hover:bg-gray-100 transition-all">
+        <button
+          (click)="toggleModal()"
+          class="flex-1 py-3 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-600 hover:bg-gray-100 transition-all"
+        >
           Cancelar
         </button>
-        <button (click)="saveClient()" class="flex-1 py-3 bg-gray-900 text-white rounded-xl text-sm font-bold hover:bg-gray-800 transition-all shadow-lg active:scale-[0.98]">
-          Guardar Cliente
+        <button
+          (click)="saveUser()"
+          class="flex-1 py-3 bg-gray-900 text-white rounded-xl text-sm font-bold hover:bg-gray-800 transition-all shadow-lg active:scale-[0.98]"
+        >
+          Guardar Usuario
         </button>
       </div>
+
     </div>
   </div>
 
-  <!-- Notification Toast -->
-  <div *ngIf="notification" class="fixed bottom-8 right-8 z-[100] px-6 py-4 bg-gray-900 text-white rounded-2xl shadow-2xl flex items-center gap-3 animate-in slide-in-from-bottom-4 duration-300">
-    <lucide-icon [img]="ChevronRight" class="w-5 h-5 text-blue-400"></lucide-icon>
-    <span class="text-sm font-semibold">{{ notification }}</span>
+  <!-- Modal: Asignar Personal -->
+  <div
+    *ngIf="showAsignarModal"
+    class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/40 backdrop-blur-sm"
+    (click)="closeAsignarModal()"
+  >
+    <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl overflow-hidden" (click)="$event.stopPropagation()">
+
+      <div class="px-8 py-6 border-b border-gray-50 flex items-center justify-between bg-gray-50/50">
+        <div>
+          <h3 class="text-xl font-bold text-gray-900">Personal asignado</h3>
+          <p class="text-xs text-gray-400 mt-0.5">{{ selectedClient?.nombre }} {{ selectedClient?.apellido }}</p>
+        </div>
+        <button (click)="closeAsignarModal()" class="p-2 hover:bg-white rounded-full transition-all text-gray-400 hover:text-gray-900">
+          <lucide-icon [img]="X" class="w-5 h-5"></lucide-icon>
+        </button>
+      </div>
+
+      <div class="p-6 min-h-[200px]">
+
+        <!-- Loading -->
+        <div *ngIf="loadingPersonal" class="flex flex-col items-center justify-center h-40 gap-3 text-gray-400">
+          <div class="w-6 h-6 border-2 border-gray-300 border-t-gray-700 rounded-full animate-spin"></div>
+          <p class="text-sm">Cargando personal...</p>
+        </div>
+
+        <!-- Sin resultados -->
+        <div *ngIf="!loadingPersonal && personalAsignado.length === 0" class="flex flex-col items-center justify-center h-40 gap-2 text-gray-300">
+          <lucide-icon [img]="UserPlus" class="w-10 h-10"></lucide-icon>
+          <p class="text-sm font-medium">Sin personal asignado</p>
+        </div>
+
+        <!-- Lista seleccionable -->
+        <ul *ngIf="!loadingPersonal && personalAsignado.length > 0" class="space-y-2">
+          <li
+            *ngFor="let p of personalAsignado"
+            (click)="selectedPersonal = p"
+            class="flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition-all"
+            [ngClass]="selectedPersonal?.id === p.id
+              ? 'border-gray-900 bg-gray-900 text-white'
+              : 'border-gray-100 hover:bg-gray-50'"
+          >
+            <div class="h-9 w-9 rounded-full flex items-center justify-center font-bold text-sm shrink-0 transition-all"
+              [ngClass]="selectedPersonal?.id === p.id ? 'bg-white text-gray-900' : 'bg-indigo-50 text-indigo-500 border border-indigo-100'">
+              {{ p.nombre?.charAt(0)?.toUpperCase() }}
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="font-semibold text-sm truncate">{{ p.nombre }} {{ p.apellido }}</p>
+              <p class="text-xs truncate opacity-60">{{ p.correo || p.user }}</p>
+            </div>
+            <span class="text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full"
+              [ngClass]="selectedPersonal?.id === p.id ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-500'">
+              {{ p.role }}
+            </span>
+          </li>
+        </ul>
+
+      </div>
+
+      <div class="px-8 py-5 bg-gray-50/50 border-t border-gray-100 flex gap-3">
+        <button (click)="closeAsignarModal()" class="flex-1 py-3 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-600 hover:bg-gray-100 transition-all">
+          Cancelar
+        </button>
+        <button
+          (click)="asignarCliente()"
+          [disabled]="!selectedPersonal || asignando"
+          class="flex-1 py-3 bg-gray-900 text-white rounded-xl text-sm font-bold hover:bg-gray-800 transition-all shadow-lg active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100 flex items-center justify-center gap-2"
+        >
+          <span *ngIf="asignando" class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+          {{ asignando ? 'Asignando...' : 'Asignar Cliente' }}
+        </button>
+      </div>
+
+    </div>
   </div>
-</div>
+
+  <!-- Toast -->
+  <div
+    *ngIf="notification"
+    class="fixed bottom-8 right-8 z-[100] px-5 py-4 rounded-2xl shadow-2xl flex items-center gap-3 transition-all"
+    [ngClass]="notificationType === 'success' ? 'bg-gray-900 text-white' : 'bg-red-500 text-white'"
+  >
+    <div class="w-8 h-8 rounded-xl flex items-center justify-center shrink-0"
+      [ngClass]="notificationType === 'success' ? 'bg-white/10' : 'bg-white/20'">
+      <lucide-icon [img]="notificationType === 'success' ? CheckCircle : X" class="w-4 h-4"></lucide-icon>
+    </div>
+    <div>
+      <p class="text-xs font-black uppercase tracking-widest opacity-60 mb-0.5">
+        {{ notificationType === 'success' ? 'Éxito' : 'Error' }}
+      </p>
+      <p class="text-sm font-semibold">{{ notification }}</p>
+    </div>
+  </div>
+
+</ng-container>

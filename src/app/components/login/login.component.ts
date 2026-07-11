@@ -36,10 +36,14 @@ export class LoginComponent implements OnInit {
   
     if (resp.success === true){
       console.log(resp);
-      this.router.navigate(['/dashboard']);
+      localStorage.removeItem('role'); // limpiar sesión anterior
       localStorage.setItem('id',resp.usuario.id)
       localStorage.setItem('nombre',resp.usuario.nombre)
-      
+      if(resp.usuario.role){
+        localStorage.setItem('role',resp.usuario.role)
+      }
+      this.router.navigate(['/dashboard']);
+
       
     }
     

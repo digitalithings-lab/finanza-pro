@@ -1,7 +1,8 @@
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-
+import { environment } from 'src/environments/environments';
 export interface Client {
   id: string;
   name: string;
@@ -9,6 +10,15 @@ export interface Client {
   type: 'Individual' | 'Empresa';
   status: 'Activo' | 'Pendiente';
   lastActivity: string;
+}
+
+export interface User {
+  id: string;
+  nombre: string;
+  apellido: string;
+  usuario: string;
+  correo: string;
+  rol_id: number;
 }
 
 export interface Document {
@@ -26,14 +36,27 @@ export interface Transaction {
   clientId: string;
   date: string;
   description: string;
-  category: 'Ingreso' | 'Gasto' | 'Activo' | 'Pasivo';
+  category: string;  // nombre de la categoría personalizada
+  tipo: 'Ingreso' | 'Gasto' | 'Activo' | 'Pasivo';  // tipo derivado de la categoría
   amount: number;
+}
+
+export interface Category {
+  id: string;
+  clientId: string;
+  nombre: string;
+  tipo: 'Ingreso' | 'Gasto' | 'Activo' | 'Pasivo';
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
+  private url = environment.url
+
+  constructor(private http: HttpClient){
+
+  }
   private clientsRaw: Client[] = [
     { id: '1', name: 'Juan Pérez', email: 'juan@example.com', type: 'Individual', status: 'Activo', lastActivity: '2024-05-10' },
     { id: '2', name: 'Tech Solutions S.A.', email: 'admin@techsolutions.com', type: 'Empresa', status: 'Activo', lastActivity: '2024-05-12' },
@@ -46,14 +69,23 @@ export class DataService {
   ];
 
   private transactionsRaw: Transaction[] = [
-    { id: 't1', clientId: '1', date: '2024-05-01', description: 'Venta de Servicios', category: 'Ingreso', amount: 1500 },
-    { id: 't2', clientId: '1', date: '2024-05-05', description: 'Pago Alquiler', category: 'Gasto', amount: 500 },
-    { id: 't3', clientId: '1', date: '2024-05-10', description: 'Compra Equipos', category: 'Activo', amount: 2000 },
+    { id: 't1', clientId: '1', date: '2024-05-01', description: 'Venta de Servicios', category: 'Venta de Servicios', tipo: 'Ingreso', amount: 1500 },
+    { id: 't2', clientId: '1', date: '2024-05-05', description: 'Pago Alquiler', category: 'Arriendo', tipo: 'Gasto', amount: 500 },
+    { id: 't3', clientId: '1', date: '2024-05-10', description: 'Compra Equipos', category: 'Equipos', tipo: 'Activo', amount: 2000 },
   ];
+
+  private usersRaw: User[] = [
+    { id: '1', nombre: 'Juan', apellido: 'Pérez', usuario: 'jperez', correo: 'juan@example.com', rol_id: 1 },
+    { id: '2', nombre: 'María', apellido: 'García', usuario: 'mgarcia', correo: 'maria@example.com', rol_id: 2 },
+  ];
+
+  private categoriesRaw: Category[] = [];
 
   private clientsSubject = new BehaviorSubject<Client[]>(this.clientsRaw);
   private documentsSubject = new BehaviorSubject<Document[]>(this.documentsRaw);
   private transactionsSubject = new BehaviorSubject<Transaction[]>(this.transactionsRaw);
+  private usersSubject = new BehaviorSubject<User[]>(this.usersRaw);
+  private categoriesSubject = new BehaviorSubject<Category[]>(this.categoriesRaw);
 
   getClients(): Observable<Client[]> {
     return this.clientsSubject.asObservable();
@@ -78,9 +110,106 @@ export class DataService {
   }
 
   // Management Methods
-  addClient(client: Client) {
-    this.clientsRaw = [...this.clientsRaw, client];
-    this.clientsSubject.next(this.clientsRaw);
+  addClient(client:any) {
+    return this.http.post<any>(
+      `${this.url}clientes`,
+      client
+    );  }
+
+
+
+    getclients(data:any){
+      return this.http.post<any>(
+        `${this.url}getclientes`,
+        data
+      );  }
+
+
+      getclientbyid(data:any){
+        return this.http.post<any>(
+          `${this.url}getclientebyid`,
+          data
+        );
+      }
+
+      archivos (data:any){
+        return this.http.post<any>(this.url + `archivosclients`, data);
+    
+      }
+
+
+      descargararchivo (data:any){
+        return this.http.post(
+          this.url + 'descargar',
+          data,
+          {
+            responseType: 'blob'
+          }
+        )
+    
+      }
+
+
+
+      insertarcategoria(data:any){
+        return this.http.post<any>(
+          this.url + 'insertcatego',
+          data
+        )
+      }
+
+
+
+      insertarmovimiento(data: any) {
+        return this.http.post<any>(this.url + 'insertarmovimiento', data);
+      }
+
+      getmovimientos(data: any) {
+        return this.http.post<any>(this.url + 'getmovimientos', data);
+      }
+
+      actualizarestado (data:any){
+        return this.http.post<any>(
+          this.url + 'actualizar',
+          data,
+         
+        )
+    
+      }
+      getpersonal(data:any){
+        return this.http.post<any>(this.url+`getpersonal`,data);
+    
+      }
+    
+      gettype (data:any){
+        return this.http.post<any>(
+          this.url + 'getype',
+          data,
+        )
+      }
+
+      getPersonalAsignado(data: any) {
+        return this.http.post<any>(this.url + 'getpersonalasignado', data);
+      }
+
+      asignarcliente(data: any) {
+        return this.http.post<any>(this.url + 'asignacion', data);
+      }
+
+  getCategoriesByClient(clientId: string): Observable<Category[]> {
+    return this.categoriesSubject.pipe(
+      map(cats => cats.filter(c => c.clientId === clientId))
+    );
+  }
+
+  addCategory(category: Category) {
+    this.categoriesRaw = [...this.categoriesRaw, category];
+    this.categoriesSubject.next(this.categoriesRaw);
+  }
+
+  deleteCategory(id: string) {
+    this.categoriesRaw = this.categoriesRaw.filter(c => c.id !== id);
+    this.categoriesSubject.next(this.categoriesRaw);
   }
 
   deleteClient(id: string) {
@@ -106,6 +235,20 @@ export class DataService {
   deleteDocument(id: string) {
     this.documentsRaw = this.documentsRaw.filter(d => d.id !== id);
     this.documentsSubject.next(this.documentsRaw);
+  }
+
+  getUsers(): Observable<User[]> {
+    return this.usersSubject.asObservable();
+  }
+
+  addUser(user: User) {
+    this.usersRaw = [...this.usersRaw, user];
+    this.usersSubject.next(this.usersRaw);
+  }
+
+  deleteUserById(id: string) {
+    this.usersRaw = this.usersRaw.filter(u => u.id !== id);
+    this.usersSubject.next(this.usersRaw);
   }
 
 

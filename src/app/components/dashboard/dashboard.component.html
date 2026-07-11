@@ -45,8 +45,9 @@
         <lucide-icon [img]="FileText" class="w-5 h-5 group-hover:scale-110 transition-transform"></lucide-icon>
         <span class="font-medium whitespace-nowrap transition-opacity duration-200" [class.hidden]="!isSidebarOpen">Reportes</span>
       </a>
-      <a 
-      routerLink="/dashboard/personal" 
+      <a
+      *ngIf="!hasRole"
+      routerLink="/dashboard/personal"
       routerLinkActive="bg-gray-50 text-gray-900"
       class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-500 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 group"
     >

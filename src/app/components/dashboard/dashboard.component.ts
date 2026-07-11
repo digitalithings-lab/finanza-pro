@@ -33,6 +33,10 @@ export class DashboardComponent {
 
   constructor(public authService: AuthService) {}
 
+  get hasRole(): boolean {
+    return !!localStorage.getItem('role');
+  }
+
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
