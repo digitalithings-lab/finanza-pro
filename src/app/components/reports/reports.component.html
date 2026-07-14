@@ -1,44 +1,50 @@
 <div class="fade-in space-y-6">
   <div>
-    <h1 class="text-3xl font-bold text-gray-900">Reportes Globales</h1>
-    <p class="text-gray-500 mt-1">Accede a todos los estados financieros generados en la plataforma.</p>
+    <h1 class="text-3xl font-bold text-gray-900">Reportes</h1>
+    <p class="text-gray-500 mt-1">Exporta los estados financieros de un cliente en PDF o Excel.</p>
   </div>
 
-  <div class="grid grid-cols-1 gap-4">
-    <div *ngFor="let report of reports" class="bg-white p-6 rounded-2xl border border-gray-100 flex items-center justify-between hover:shadow-md transition-all group">
+  <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-wrap items-end gap-4">
+    <div class="flex-1 min-w-[200px]">
+      <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Cliente</label>
+      <select [(ngModel)]="selectedClientId" class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+        <option *ngFor="let c of clients" [ngValue]="c.id">{{ c.nombre }} {{ c.apellido }}</option>
+      </select>
+      <p *ngIf="clients.length === 0" class="text-xs text-gray-400 italic mt-1">No hay clientes asignados.</p>
+    </div>
+    <div>
+      <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Desde</label>
+      <input [(ngModel)]="fechaInicio" type="date" class="px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+    </div>
+    <div>
+      <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Hasta</label>
+      <input [(ngModel)]="fechaFin" type="date" class="px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div *ngFor="let card of reportCards" class="bg-white p-6 rounded-2xl border border-gray-100 flex items-center justify-between hover:shadow-md transition-all group">
       <div class="flex items-center gap-4">
         <div class="h-12 w-12 bg-gray-50 rounded-xl flex items-center justify-center group-hover:bg-gray-900 transition-colors">
           <lucide-icon [img]="FileText" class="w-6 h-6 text-gray-400 group-hover:text-white transition-colors"></lucide-icon>
         </div>
         <div>
-          <p class="font-bold text-gray-900">{{ report.name }}</p>
-          <p class="text-xs text-gray-400 uppercase tracking-widest font-bold mt-1">{{ report.type }} • {{ report.date }}</p>
+          <p class="font-bold text-gray-900">{{ card.name }}</p>
+          <p class="text-xs text-gray-400 uppercase tracking-widest font-bold mt-1" *ngIf="card.needsDateRange">{{ fechaInicio }} a {{ fechaFin }}</p>
         </div>
       </div>
-      
+
       <div class="flex items-center gap-2">
-        <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase bg-blue-50 text-blue-600 mr-4">
-          {{ report.status }}
-        </span>
-        <button (click)="viewReport(report)" class="p-2 text-gray-400 hover:text-gray-900 rounded-lg hover:bg-gray-50">
-          <lucide-icon [img]="Eye" class="w-5 h-5"></lucide-icon>
+        <button (click)="exportPDF(card)" class="px-3 py-2 text-xs font-bold text-gray-600 border border-gray-100 rounded-xl hover:bg-gray-50 transition-all flex items-center gap-1.5">
+          <lucide-icon [img]="Download" class="w-3.5 h-3.5"></lucide-icon>
+          PDF
         </button>
-        <button (click)="downloadReport(report)" class="p-2 text-gray-400 hover:text-gray-900 rounded-lg hover:bg-gray-50">
-          <lucide-icon [img]="Download" class="w-5 h-5"></lucide-icon>
+        <button (click)="exportExcel(card)" class="px-3 py-2 text-xs font-bold text-white bg-gray-900 rounded-xl hover:bg-gray-800 transition-all flex items-center gap-1.5">
+          <lucide-icon [img]="Download" class="w-3.5 h-3.5"></lucide-icon>
+          Excel
         </button>
       </div>
     </div>
-  </div>
-
-  <div class="bg-gray-50 p-12 rounded-2xl border-2 border-dashed border-gray-100 flex flex-col items-center text-center">
-    <div class="h-16 w-16 bg-white rounded-2xl shadow-sm flex items-center justify-center mb-4">
-      <lucide-icon [img]="Clock" class="w-8 h-8 text-gray-200"></lucide-icon>
-    </div>
-    <h3 class="font-bold text-gray-900 text-lg">Programar Reporte Automático</h3>
-    <p class="text-gray-400 text-sm max-w-sm mt-2">Configura el sistema para generar balances generales y estados de cuenta automáticamente cada fin de mes.</p>
-    <button (click)="configureAutomatedReport()" class="mt-6 px-6 py-2.5 bg-gray-900 text-white rounded-xl text-sm font-bold hover:bg-gray-800 transition-all">
-      Configurar ahora
-    </button>
   </div>
 
   <!-- Notification Toast -->

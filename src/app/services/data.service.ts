@@ -48,6 +48,57 @@ export interface Category {
   tipo: 'Ingreso' | 'Gasto' | 'Activo' | 'Pasivo';
 }
 
+export interface Invoice {
+  id: string;
+  idcliente: string;
+  idcreador: string;
+  cliente_final: string;
+  concepto: string;
+  fecha_emision: string;
+  fecha_vencimiento: string;
+  subtotal: number;
+  iva_porcentaje: number;
+  iva_monto: number;
+  total: number;
+  estado: 'Pendiente' | 'Pagada' | 'Vencida' | 'Anulada';
+  fecha_pago: string | null;
+}
+
+export interface Employee {
+  id: string;
+  idcliente: string;
+  idcreador: string;
+  nombre: string;
+  apellido: string;
+  cargo: string;
+  salario_base: number;
+  fecha_ingreso: string;
+  estado: 'Activo' | 'Inactivo';
+}
+
+export interface PayrollPayment {
+  id: string;
+  idempleado: string;
+  idcliente: string;
+  idcreador: string;
+  nombre?: string;
+  apellido?: string;
+  periodo_inicio: string;
+  periodo_fin: string;
+  salario_bruto: number;
+  deducciones: number;
+  salario_neto: number;
+  fecha_pago: string;
+  idmovimiento: string | null;
+}
+
+export interface TaxConfig {
+  idcliente: string;
+  idcreador: string;
+  iva_porcentaje: number;
+  retencion_porcentaje: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -194,6 +245,94 @@ export class DataService {
 
       asignarcliente(data: any) {
         return this.http.post<any>(this.url + 'asignacion', data);
+      }
+
+      // Facturación / Cuentas por Cobrar
+      crearFactura(data: any) {
+        return this.http.post<any>(this.url + 'facturas', data);
+      }
+
+      getFacturas(data: any) {
+        return this.http.post<any>(this.url + 'getfacturas', data);
+      }
+
+      marcarFacturaPagada(data: any) {
+        return this.http.post<any>(this.url + 'facturas/marcarpagada', data);
+      }
+
+      anularFactura(data: any) {
+        return this.http.post<any>(this.url + 'facturas/anular', data);
+      }
+
+      exportFacturaPDF(data: any) {
+        return this.http.post(this.url + 'facturas/pdf', data, { responseType: 'blob' });
+      }
+
+      // Nómina
+      crearEmpleado(data: any) {
+        return this.http.post<any>(this.url + 'empleados', data);
+      }
+
+      getEmpleados(data: any) {
+        return this.http.post<any>(this.url + 'getempleados', data);
+      }
+
+      cambiarEstadoEmpleado(data: any) {
+        return this.http.post<any>(this.url + 'empleados/estado', data);
+      }
+
+      registrarPagoNomina(data: any) {
+        return this.http.post<any>(this.url + 'nomina/pagos', data);
+      }
+
+      getPagosNomina(data: any) {
+        return this.http.post<any>(this.url + 'nomina/getpagos', data);
+      }
+
+      // Impuestos
+      guardarConfigImpuestos(data: any) {
+        return this.http.post<any>(this.url + 'impuestos/config', data);
+      }
+
+      getConfigImpuestos(data: any) {
+        return this.http.post<any>(this.url + 'impuestos/getconfig', data);
+      }
+
+      calcularImpuestos(data: any) {
+        return this.http.post<any>(this.url + 'impuestos/calcular', data);
+      }
+
+      // Exportación PDF/Excel
+      exportEstadoResultadosPDF(data: any) {
+        return this.http.post(this.url + 'export/estadoresultados/pdf', data, { responseType: 'blob' });
+      }
+
+      exportEstadoResultadosExcel(data: any) {
+        return this.http.post(this.url + 'export/estadoresultados/excel', data, { responseType: 'blob' });
+      }
+
+      exportBalancePDF(data: any) {
+        return this.http.post(this.url + 'export/balance/pdf', data, { responseType: 'blob' });
+      }
+
+      exportBalanceExcel(data: any) {
+        return this.http.post(this.url + 'export/balance/excel', data, { responseType: 'blob' });
+      }
+
+      exportFlujoCajaPDF(data: any) {
+        return this.http.post(this.url + 'export/flujocaja/pdf', data, { responseType: 'blob' });
+      }
+
+      exportFlujoCajaExcel(data: any) {
+        return this.http.post(this.url + 'export/flujocaja/excel', data, { responseType: 'blob' });
+      }
+
+      exportFacturasPDF(data: any) {
+        return this.http.post(this.url + 'export/facturas/pdf', data, { responseType: 'blob' });
+      }
+
+      exportFacturasExcel(data: any) {
+        return this.http.post(this.url + 'export/facturas/excel', data, { responseType: 'blob' });
       }
 
   getCategoriesByClient(clientId: string): Observable<Category[]> {

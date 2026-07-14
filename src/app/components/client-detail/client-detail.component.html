@@ -35,6 +35,7 @@
     </button>
     <button
       (click)="activeTab = 'reports'"
+      (click)="onReportsTab()"
       [class.border-gray-900]="activeTab === 'reports'"
       [class.text-gray-900]="activeTab === 'reports'"
       class="px-6 py-3 text-sm font-semibold text-gray-400 border-b-2 border-transparent transition-all hover:text-gray-600"
@@ -49,6 +50,42 @@
       class="px-6 py-3 text-sm font-semibold text-gray-400 border-b-2 border-transparent transition-all hover:text-gray-600"
     >
       Categorías
+    </button>
+    <button
+      (click)="activeTab = 'invoices'"
+      (click)="onInvoicesTab()"
+      [class.border-gray-900]="activeTab === 'invoices'"
+      [class.text-gray-900]="activeTab === 'invoices'"
+      class="px-6 py-3 text-sm font-semibold text-gray-400 border-b-2 border-transparent transition-all hover:text-gray-600"
+    >
+      Facturación
+    </button>
+    <button
+      (click)="activeTab = 'payroll'"
+      (click)="onPayrollTab()"
+      [class.border-gray-900]="activeTab === 'payroll'"
+      [class.text-gray-900]="activeTab === 'payroll'"
+      class="px-6 py-3 text-sm font-semibold text-gray-400 border-b-2 border-transparent transition-all hover:text-gray-600"
+    >
+      Nómina
+    </button>
+    <button
+      (click)="activeTab = 'taxes'"
+      (click)="onTaxesTab()"
+      [class.border-gray-900]="activeTab === 'taxes'"
+      [class.text-gray-900]="activeTab === 'taxes'"
+      class="px-6 py-3 text-sm font-semibold text-gray-400 border-b-2 border-transparent transition-all hover:text-gray-600"
+    >
+      Impuestos
+    </button>
+    <button
+      (click)="activeTab = 'cashflow'"
+      (click)="onCashflowTab()"
+      [class.border-gray-900]="activeTab === 'cashflow'"
+      [class.text-gray-900]="activeTab === 'cashflow'"
+      class="px-6 py-3 text-sm font-semibold text-gray-400 border-b-2 border-transparent transition-all hover:text-gray-600"
+    >
+      Flujo de Caja
     </button>
   </div>
 
@@ -359,11 +396,11 @@
             <div class="space-y-4">
               <div class="flex justify-between text-sm">
                 <span class="text-gray-600 font-medium">Caja y Bancos</span>
-                <span class="font-bold text-gray-900">${{ totalBalance > 0 ? (totalBalance * 0.4 | number) : 0 }}</span>
+                <span class="font-bold text-gray-900">${{ cajaYBancos | number }}</span>
               </div>
               <div class="flex justify-between text-sm">
                 <span class="text-gray-600 font-medium">Cuentas por Cobrar</span>
-                <span class="font-bold text-gray-900">${{ totalBalance > 0 ? (totalBalance * 0.3 | number) : 0 }}</span>
+                <span class="font-bold text-gray-900">${{ totalPorCobrar | number }}</span>
               </div>
               <div class="flex justify-between text-sm">
                 <span class="text-gray-600 font-medium">Equipos y Mobiliario</span>
@@ -371,7 +408,7 @@
               </div>
               <div class="pt-4 border-t border-gray-50 flex justify-between">
                 <span class="font-black text-gray-900 uppercase text-[11px]">Total Activos</span>
-                <span class="font-black text-gray-900">${{ (totalBalance > 0 ? totalBalance * 0.7 : 0) + totalAssets | number }}</span>
+                <span class="font-black text-gray-900">${{ totalActivosBalance | number }}</span>
               </div>
             </div>
           </div>
@@ -386,12 +423,12 @@
                   <span class="font-bold text-gray-900">${{ totalLiabilities | number }}</span>
                 </div>
                 <div class="flex justify-between text-sm">
-                  <span class="text-gray-600 font-medium">Otras Obligaciones</span>
-                  <span class="font-bold text-gray-900">$0</span>
+                  <span class="text-gray-600 font-medium">Impuestos por Pagar</span>
+                  <span class="font-bold text-gray-900">${{ impuestosPorPagarBalance | number }}</span>
                 </div>
                 <div class="pt-4 border-t border-gray-50 flex justify-between">
                   <span class="font-black text-gray-900 uppercase text-[11px]">Total Pasivos</span>
-                  <span class="font-black text-gray-900">${{ totalLiabilities | number }}</span>
+                  <span class="font-black text-gray-900">${{ totalPasivosBalance | number }}</span>
                 </div>
               </div>
             </div>
@@ -400,24 +437,27 @@
               <h5 class="text-xs font-black text-gray-400 uppercase tracking-widest border-b border-gray-100 pb-2">Patrimonio</h5>
               <div class="space-y-4">
                 <div class="flex justify-between text-sm">
-                  <span class="text-gray-600 font-medium">Capital Social</span>
-                  <span class="font-bold text-gray-900">$10,000</span>
-                </div>
-                <div class="flex justify-between text-sm">
                   <span class="text-gray-600 font-medium">Resultados Acumulados</span>
-                  <span class="font-bold text-gray-900">${{ totalBalance | number }}</span>
+                  <span class="font-bold text-gray-900">${{ utilidadNeta | number }}</span>
+                </div>
+                <div class="pt-4 border-t border-gray-50 flex justify-between">
+                  <span class="font-black text-gray-900 uppercase text-[11px]">Total Patrimonio</span>
+                  <span class="font-black text-gray-900">${{ patrimonioBalance | number }}</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <p class="text-[10px] text-gray-400 italic relative">
+          Cuentas por Cobrar viene de Facturación, Impuestos por Pagar del último cálculo en el tab Impuestos, y Caja y Bancos del saldo acumulado en Flujo de Caja.
+        </p>
 
         <div class="pt-10 border-t border-gray-100 flex items-center justify-between">
           <div class="flex items-center gap-2">
             <lucide-icon [img]="CheckCircle" class="w-4 h-4 text-green-500"></lucide-icon>
             <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Documento Verificado por Sistema</span>
           </div>
-          <button class="px-6 py-2.5 bg-gray-50 hover:bg-gray-100 text-gray-900 rounded-xl text-xs font-bold transition-all flex items-center gap-2">
+          <button (click)="descargarBalancePDF()" class="px-6 py-2.5 bg-gray-50 hover:bg-gray-100 text-gray-900 rounded-xl text-xs font-bold transition-all flex items-center gap-2">
             <lucide-icon [img]="Download" class="w-4 h-4"></lucide-icon>
             Descargar PDF
           </button>
@@ -544,6 +584,497 @@
           </div>
         </div>
 
+      </div>
+    </div>
+
+    <!-- Tab Facturación + Cuentas por Cobrar -->
+    <div *ngSwitchCase="'invoices'" class="space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+        <!-- Formulario -->
+        <div class="lg:col-span-1 space-y-4">
+          <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-3">
+            <h3 class="text-lg font-bold flex items-center gap-2">
+              <lucide-icon [img]="Receipt" class="w-5 h-5 text-gray-400"></lucide-icon>
+              Nueva Factura
+            </h3>
+            <div>
+              <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Cliente Final</label>
+              <input [(ngModel)]="newInvoice.cliente_final" type="text" placeholder="Ej. Comercial ABC"
+                class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+            </div>
+            <div>
+              <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Concepto</label>
+              <input [(ngModel)]="newInvoice.concepto" type="text" placeholder="Ej. Servicios de consultoría"
+                class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Emisión</label>
+                <input [(ngModel)]="newInvoice.fecha_emision" type="date"
+                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+              </div>
+              <div>
+                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Vencimiento</label>
+                <input [(ngModel)]="newInvoice.fecha_vencimiento" type="date"
+                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Subtotal ($)</label>
+                <input [(ngModel)]="newInvoice.subtotal" type="number" min="0"
+                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+              </div>
+              <div>
+                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">% IVA</label>
+                <input [(ngModel)]="newInvoice.iva_porcentaje" type="number" min="0"
+                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+              </div>
+            </div>
+            <div class="flex items-center justify-between px-3 py-2 bg-gray-50 rounded-xl text-xs">
+              <span class="text-gray-400 font-semibold">IVA: ${{ newInvoiceIvaMonto | number }}</span>
+              <span class="font-black text-gray-900">Total: ${{ newInvoiceTotal | number }}</span>
+            </div>
+            <button (click)="crearFactura()"
+              [disabled]="!newInvoice.cliente_final || !newInvoice.concepto || !newInvoice.fecha_vencimiento || !newInvoice.subtotal"
+              class="w-full py-3 bg-gray-900 text-white rounded-xl text-sm font-bold hover:bg-gray-800 transition-all active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed">
+              Crear Factura
+            </button>
+          </div>
+
+          <!-- Resumen -->
+          <div class="bg-gray-900 text-white p-6 rounded-2xl shadow-xl space-y-3">
+            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">Facturación</p>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <p class="text-[10px] text-gray-400 font-bold uppercase">Facturado</p>
+                <p class="font-bold text-white">${{ totalFacturado | number }}</p>
+              </div>
+              <div>
+                <p class="text-[10px] text-gray-400 font-bold uppercase">Cobrado</p>
+                <p class="font-bold text-green-400">${{ totalCobrado | number }}</p>
+              </div>
+              <div>
+                <p class="text-[10px] text-gray-400 font-bold uppercase">Pendiente</p>
+                <p class="font-bold text-amber-400">${{ totalPendiente | number }}</p>
+              </div>
+              <div>
+                <p class="text-[10px] text-gray-400 font-bold uppercase">Vencido</p>
+                <p class="font-bold text-red-400">${{ totalVencido | number }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabla + Cuentas por Cobrar -->
+        <div class="lg:col-span-2 space-y-4">
+
+          <!-- Cuentas por Cobrar / Aging -->
+          <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4">
+            <div class="flex items-center justify-between mb-3">
+              <h4 class="font-bold text-gray-900 text-sm">Cuentas por Cobrar</h4>
+              <button (click)="showAgingView = !showAgingView" class="text-xs font-semibold text-gray-400 hover:text-gray-900">
+                {{ showAgingView ? 'Ocultar' : 'Ver detalle de antigüedad' }}
+              </button>
+            </div>
+            <div *ngIf="showAgingView" class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-2">
+              <div class="bg-gray-50 rounded-xl p-3 text-center">
+                <p class="text-[10px] font-bold text-gray-400 uppercase">0-30 días</p>
+                <p class="font-black text-gray-900">${{ agingBuckets.b0_30 | number }}</p>
+              </div>
+              <div class="bg-amber-50 rounded-xl p-3 text-center">
+                <p class="text-[10px] font-bold text-amber-600 uppercase">31-60 días</p>
+                <p class="font-black text-amber-700">${{ agingBuckets.b31_60 | number }}</p>
+              </div>
+              <div class="bg-orange-50 rounded-xl p-3 text-center">
+                <p class="text-[10px] font-bold text-orange-600 uppercase">61-90 días</p>
+                <p class="font-black text-orange-700">${{ agingBuckets.b61_90 | number }}</p>
+              </div>
+              <div class="bg-red-50 rounded-xl p-3 text-center">
+                <p class="text-[10px] font-bold text-red-600 uppercase">+90 días</p>
+                <p class="font-black text-red-700">${{ agingBuckets.b90mas | number }}</p>
+              </div>
+            </div>
+            <div class="flex items-center justify-between pt-2 border-t border-gray-50">
+              <span class="text-xs font-bold text-gray-400 uppercase">Total por Cobrar</span>
+              <span class="text-lg font-black text-gray-900">${{ totalPorCobrar | number }}</span>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-50 bg-gray-50/30">
+              <h3 class="font-bold text-gray-900">Facturas</h3>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-sm">
+                <thead>
+                  <tr class="bg-gray-50/50 text-gray-400 font-bold border-b border-gray-100">
+                    <th class="px-4 py-3 uppercase tracking-wider text-[10px]">Cliente Final</th>
+                    <th class="px-4 py-3 uppercase tracking-wider text-[10px]">Concepto</th>
+                    <th class="px-4 py-3 uppercase tracking-wider text-[10px]">Emisión</th>
+                    <th class="px-4 py-3 uppercase tracking-wider text-[10px]">Vence</th>
+                    <th class="px-4 py-3 uppercase tracking-wider text-[10px] text-right">Total</th>
+                    <th class="px-4 py-3 uppercase tracking-wider text-[10px]">Estado</th>
+                    <th class="px-4 py-3 uppercase tracking-wider text-[10px] text-right">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-50">
+                  <tr *ngFor="let f of invoices" class="hover:bg-gray-50 transition-colors">
+                    <td class="px-4 py-3 font-semibold text-gray-900">{{ f.cliente_final }}</td>
+                    <td class="px-4 py-3 text-gray-600">{{ f.concepto }}</td>
+                    <td class="px-4 py-3 text-gray-400 text-xs">{{ f.fecha_emision | date }}</td>
+                    <td class="px-4 py-3 text-gray-400 text-xs">{{ f.fecha_vencimiento | date }}</td>
+                    <td class="px-4 py-3 text-right font-bold">${{ f.total | number }}</td>
+                    <td class="px-4 py-3">
+                      <span class="px-2 py-0.5 rounded text-[10px] font-bold"
+                        [ngClass]="{
+                          'bg-green-50 text-green-600': f.estado === 'Pagada',
+                          'bg-amber-50 text-amber-600': f.estado === 'Pendiente',
+                          'bg-red-50 text-red-600': f.estado === 'Vencida',
+                          'bg-gray-100 text-gray-500': f.estado === 'Anulada'
+                        }">{{ f.estado }}</span>
+                    </td>
+                    <td class="px-4 py-3 text-right whitespace-nowrap">
+                      <button (click)="descargarFacturaPDF(f)"
+                        class="text-xs font-semibold text-gray-500 hover:text-gray-900 mr-3">PDF</button>
+                      <button *ngIf="f.estado === 'Pendiente' || f.estado === 'Vencida'" (click)="marcarFacturaPagada(f)"
+                        class="text-xs font-semibold text-green-600 hover:text-green-800 mr-3">Marcar Pagada</button>
+                      <button *ngIf="f.estado !== 'Anulada'" (click)="anularFactura(f)"
+                        class="text-xs font-semibold text-gray-400 hover:text-red-500">Anular</button>
+                    </td>
+                  </tr>
+                  <tr *ngIf="invoices.length === 0">
+                    <td colspan="7" class="px-6 py-12 text-center text-gray-400 italic">No hay facturas registradas.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab Nómina -->
+    <div *ngSwitchCase="'payroll'" class="space-y-6">
+      <div class="flex gap-2">
+        <button (click)="payrollSubView = 'empleados'"
+          [class.bg-gray-900]="payrollSubView === 'empleados'" [class.text-white]="payrollSubView === 'empleados'"
+          class="px-4 py-2 rounded-xl text-sm font-semibold bg-gray-50 text-gray-500 transition-all">Empleados</button>
+        <button (click)="payrollSubView = 'pagos'"
+          [class.bg-gray-900]="payrollSubView === 'pagos'" [class.text-white]="payrollSubView === 'pagos'"
+          class="px-4 py-2 rounded-xl text-sm font-semibold bg-gray-50 text-gray-500 transition-all">Pagos</button>
+      </div>
+
+      <!-- Sub-vista Empleados -->
+      <div *ngIf="payrollSubView === 'empleados'" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-1">
+          <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-3">
+            <h3 class="text-lg font-bold flex items-center gap-2">
+              <lucide-icon [img]="Users" class="w-5 h-5 text-gray-400"></lucide-icon>
+              Nuevo Empleado
+            </h3>
+            <div class="grid grid-cols-2 gap-2">
+              <input [(ngModel)]="newEmployee.nombre" type="text" placeholder="Nombre"
+                class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+              <input [(ngModel)]="newEmployee.apellido" type="text" placeholder="Apellido"
+                class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+            </div>
+            <input [(ngModel)]="newEmployee.cargo" type="text" placeholder="Cargo"
+              class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+            <div class="grid grid-cols-2 gap-2">
+              <input [(ngModel)]="newEmployee.salario_base" type="number" min="0" placeholder="Salario Base"
+                class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+              <input [(ngModel)]="newEmployee.fecha_ingreso" type="date"
+                class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+            </div>
+            <button (click)="crearEmpleado()"
+              [disabled]="!newEmployee.nombre || !newEmployee.apellido || !newEmployee.salario_base"
+              class="w-full py-3 bg-gray-900 text-white rounded-xl text-sm font-bold hover:bg-gray-800 transition-all active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed">
+              Agregar Empleado
+            </button>
+          </div>
+        </div>
+        <div class="lg:col-span-2">
+          <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-50 bg-gray-50/30">
+              <h3 class="font-bold text-gray-900">Empleados</h3>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-sm">
+                <thead>
+                  <tr class="bg-gray-50/50 text-gray-400 font-bold border-b border-gray-100">
+                    <th class="px-4 py-3 uppercase tracking-wider text-[10px]">Nombre</th>
+                    <th class="px-4 py-3 uppercase tracking-wider text-[10px]">Cargo</th>
+                    <th class="px-4 py-3 uppercase tracking-wider text-[10px] text-right">Salario Base</th>
+                    <th class="px-4 py-3 uppercase tracking-wider text-[10px]">Estado</th>
+                    <th class="px-4 py-3 uppercase tracking-wider text-[10px] text-right">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-50">
+                  <tr *ngFor="let e of employees" class="hover:bg-gray-50 transition-colors">
+                    <td class="px-4 py-3 font-semibold text-gray-900">{{ e.nombre }} {{ e.apellido }}</td>
+                    <td class="px-4 py-3 text-gray-600">{{ e.cargo }}</td>
+                    <td class="px-4 py-3 text-right font-bold">${{ e.salario_base | number }}</td>
+                    <td class="px-4 py-3">
+                      <span class="px-2 py-0.5 rounded text-[10px] font-bold"
+                        [ngClass]="e.estado === 'Activo' ? 'bg-green-50 text-green-600' : 'bg-gray-100 text-gray-500'">{{ e.estado }}</span>
+                    </td>
+                    <td class="px-4 py-3 text-right">
+                      <button (click)="cambiarEstadoEmpleado(e)" class="text-xs font-semibold text-gray-400 hover:text-gray-900">
+                        {{ e.estado === 'Activo' ? 'Desactivar' : 'Activar' }}
+                      </button>
+                    </td>
+                  </tr>
+                  <tr *ngIf="employees.length === 0">
+                    <td colspan="5" class="px-6 py-12 text-center text-gray-400 italic">No hay empleados registrados.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sub-vista Pagos -->
+      <div *ngIf="payrollSubView === 'pagos'" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-1 space-y-4">
+          <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-3">
+            <h3 class="text-lg font-bold flex items-center gap-2">
+              <lucide-icon [img]="Receipt" class="w-5 h-5 text-gray-400"></lucide-icon>
+              Registrar Pago
+            </h3>
+            <div>
+              <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Empleado</label>
+              <select [(ngModel)]="newPayrollPayment.idempleado" (ngModelChange)="onEmployeeSelectedForPayroll()"
+                class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+                <option [ngValue]="null" disabled>Seleccionar empleado...</option>
+                <option *ngFor="let e of employees" [ngValue]="e.id">{{ e.nombre }} {{ e.apellido }}</option>
+              </select>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Periodo Inicio</label>
+                <input [(ngModel)]="newPayrollPayment.periodo_inicio" type="date"
+                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+              </div>
+              <div>
+                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Periodo Fin</label>
+                <input [(ngModel)]="newPayrollPayment.periodo_fin" type="date"
+                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Salario Bruto</label>
+                <input [(ngModel)]="newPayrollPayment.salario_bruto" type="number" min="0"
+                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+              </div>
+              <div>
+                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Deducciones</label>
+                <input [(ngModel)]="newPayrollPayment.deducciones" type="number" min="0"
+                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+              </div>
+            </div>
+            <div>
+              <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Fecha de Pago</label>
+              <input [(ngModel)]="newPayrollPayment.fecha_pago" type="date"
+                class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+            </div>
+            <label class="flex items-center gap-2 text-xs font-semibold text-gray-600">
+              <input [(ngModel)]="newPayrollPayment.reflejarEnContabilidad" type="checkbox" class="rounded">
+              Reflejar en contabilidad (como Gasto)
+            </label>
+            <button (click)="registrarPagoNomina()"
+              [disabled]="!newPayrollPayment.idempleado || !newPayrollPayment.periodo_inicio || !newPayrollPayment.periodo_fin || !newPayrollPayment.salario_bruto"
+              class="w-full py-3 bg-gray-900 text-white rounded-xl text-sm font-bold hover:bg-gray-800 transition-all active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed">
+              Registrar Pago
+            </button>
+          </div>
+
+          <div class="bg-gray-900 text-white p-6 rounded-2xl shadow-xl space-y-2">
+            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">Total Nómina Pagada</p>
+            <h2 class="text-3xl font-bold">${{ totalNominaPagada | number }}</h2>
+          </div>
+        </div>
+
+        <div class="lg:col-span-2">
+          <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-50 bg-gray-50/30">
+              <h3 class="font-bold text-gray-900">Historial de Pagos</h3>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-sm">
+                <thead>
+                  <tr class="bg-gray-50/50 text-gray-400 font-bold border-b border-gray-100">
+                    <th class="px-4 py-3 uppercase tracking-wider text-[10px]">Empleado</th>
+                    <th class="px-4 py-3 uppercase tracking-wider text-[10px]">Periodo</th>
+                    <th class="px-4 py-3 uppercase tracking-wider text-[10px] text-right">Bruto</th>
+                    <th class="px-4 py-3 uppercase tracking-wider text-[10px] text-right">Deducciones</th>
+                    <th class="px-4 py-3 uppercase tracking-wider text-[10px] text-right">Neto</th>
+                    <th class="px-4 py-3 uppercase tracking-wider text-[10px]">Fecha Pago</th>
+                    <th class="px-4 py-3 uppercase tracking-wider text-[10px]">Contabilizado</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-50">
+                  <tr *ngFor="let p of payrollPayments" class="hover:bg-gray-50 transition-colors">
+                    <td class="px-4 py-3 font-semibold text-gray-900">{{ p.nombre }} {{ p.apellido }}</td>
+                    <td class="px-4 py-3 text-gray-400 text-xs">{{ p.periodo_inicio | date }} - {{ p.periodo_fin | date }}</td>
+                    <td class="px-4 py-3 text-right">${{ p.salario_bruto | number }}</td>
+                    <td class="px-4 py-3 text-right text-red-500">-${{ p.deducciones | number }}</td>
+                    <td class="px-4 py-3 text-right font-bold">${{ p.salario_neto | number }}</td>
+                    <td class="px-4 py-3 text-gray-400 text-xs">{{ p.fecha_pago | date }}</td>
+                    <td class="px-4 py-3">
+                      <lucide-icon *ngIf="p.idmovimiento" [img]="CheckCircle" class="w-4 h-4 text-green-500"></lucide-icon>
+                    </td>
+                  </tr>
+                  <tr *ngIf="payrollPayments.length === 0">
+                    <td colspan="7" class="px-6 py-12 text-center text-gray-400 italic">No hay pagos de nómina registrados.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab Impuestos -->
+    <div *ngSwitchCase="'taxes'" class="space-y-8">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-1 space-y-4">
+          <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-3">
+            <h3 class="text-lg font-bold flex items-center gap-2">
+              <lucide-icon [img]="Percent" class="w-5 h-5 text-gray-400"></lucide-icon>
+              Configuración
+            </h3>
+            <div>
+              <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">% IVA</label>
+              <input [(ngModel)]="taxConfigForm.iva_porcentaje" type="number" min="0"
+                class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+            </div>
+            <div>
+              <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">% Retención</label>
+              <input [(ngModel)]="taxConfigForm.retencion_porcentaje" type="number" min="0"
+                class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+            </div>
+            <button (click)="guardarConfigImpuestos()"
+              class="w-full py-3 bg-gray-900 text-white rounded-xl text-sm font-bold hover:bg-gray-800 transition-all active:scale-[0.98]">
+              Guardar Configuración
+            </button>
+          </div>
+
+          <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-3">
+            <h3 class="text-sm font-bold text-gray-900">Periodo a Calcular</h3>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Desde</label>
+                <input [(ngModel)]="taxPeriod.fecha_inicio" type="date"
+                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+              </div>
+              <div>
+                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Hasta</label>
+                <input [(ngModel)]="taxPeriod.fecha_fin" type="date"
+                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+              </div>
+            </div>
+            <button (click)="calcularImpuestos()"
+              class="w-full py-3 bg-gray-900 text-white rounded-xl text-sm font-bold hover:bg-gray-800 transition-all active:scale-[0.98]">
+              Calcular
+            </button>
+          </div>
+        </div>
+
+        <div class="lg:col-span-2">
+          <div *ngIf="taxResult" class="bg-gray-900 text-white p-8 rounded-2xl shadow-xl space-y-6">
+            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">
+              Resultado — {{ taxPeriod.fecha_inicio | date }} a {{ taxPeriod.fecha_fin | date }}
+            </p>
+            <div class="grid grid-cols-3 gap-4 border-b border-white/10 pb-6">
+              <div>
+                <p class="text-[10px] text-gray-400 font-bold uppercase">IVA Cobrado</p>
+                <p class="font-bold text-lg">${{ taxResult.iva_cobrado | number }}</p>
+              </div>
+              <div>
+                <p class="text-[10px] text-gray-400 font-bold uppercase">IVA Pagado</p>
+                <p class="font-bold text-lg">${{ taxResult.iva_pagado | number }}</p>
+              </div>
+              <div>
+                <p class="text-[10px] text-gray-400 font-bold uppercase">Retención</p>
+                <p class="font-bold text-lg">${{ taxResult.retencion | number }}</p>
+              </div>
+            </div>
+            <div>
+              <p class="text-[10px] font-bold uppercase tracking-widest" [ngClass]="taxResult.saldo_a_favor ? 'text-green-400' : 'text-red-400'">
+                {{ taxResult.saldo_a_favor ? 'Saldo a Favor' : 'Total a Pagar' }}
+              </p>
+              <h2 class="text-4xl font-black" [ngClass]="taxResult.saldo_a_favor ? 'text-green-400' : 'text-red-400'">
+                ${{ (taxResult.saldo_a_favor ? -taxResult.total_a_pagar : taxResult.total_a_pagar) | number }}
+              </h2>
+            </div>
+          </div>
+          <div *ngIf="!taxResult" class="bg-white rounded-2xl border border-gray-100 shadow-sm p-12 text-center text-gray-400 italic">
+            Selecciona un periodo y presiona "Calcular" para ver el resultado.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab Flujo de Caja -->
+    <div *ngSwitchCase="'cashflow'" class="space-y-6">
+      <div class="bg-gray-900 text-white p-6 rounded-2xl shadow-xl">
+        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">Saldo Acumulado Total</p>
+        <h2 class="text-4xl font-bold" [ngClass]="saldoAcumuladoTotal >= 0 ? 'text-white' : 'text-red-400'">
+          {{ saldoAcumuladoTotal >= 0 ? '+' : '' }}${{ saldoAcumuladoTotal | number }}
+        </h2>
+      </div>
+
+      <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-50 bg-gray-50/30 flex items-center gap-2">
+          <lucide-icon [img]="TrendingUp" class="w-4 h-4 text-gray-400"></lucide-icon>
+          <h3 class="font-bold text-gray-900">Flujo de Caja Mensual</h3>
+        </div>
+
+        <div class="p-6 space-y-2">
+          <div *ngFor="let f of cashFlowByMonth" class="flex items-center gap-3">
+            <span class="w-16 text-xs font-bold text-gray-400 shrink-0">{{ f.mes }}</span>
+            <div class="flex-1 h-6 bg-gray-50 rounded-full overflow-hidden relative">
+              <div class="h-full rounded-full transition-all"
+                [ngClass]="f.saldoAcumulado >= 0 ? 'bg-green-400' : 'bg-red-400'"
+                [style.width.%]="(Math.abs(f.saldoAcumulado) / maxAbsCashFlow) * 100">
+              </div>
+            </div>
+            <span class="w-28 text-right text-xs font-bold shrink-0" [ngClass]="f.saldoAcumulado >= 0 ? 'text-green-600' : 'text-red-600'">
+              ${{ f.saldoAcumulado | number }}
+            </span>
+          </div>
+          <div *ngIf="cashFlowByMonth.length === 0" class="text-center text-gray-400 italic py-8">
+            No hay suficientes movimientos para calcular el flujo de caja.
+          </div>
+        </div>
+
+        <div class="overflow-x-auto border-t border-gray-100">
+          <table class="w-full text-left text-sm">
+            <thead>
+              <tr class="bg-gray-50/50 text-gray-400 font-bold border-b border-gray-100">
+                <th class="px-6 py-3 uppercase tracking-wider text-[10px]">Mes</th>
+                <th class="px-6 py-3 uppercase tracking-wider text-[10px] text-right">Entradas</th>
+                <th class="px-6 py-3 uppercase tracking-wider text-[10px] text-right">Salidas</th>
+                <th class="px-6 py-3 uppercase tracking-wider text-[10px] text-right">Saldo Mes</th>
+                <th class="px-6 py-3 uppercase tracking-wider text-[10px] text-right">Saldo Acumulado</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-50">
+              <tr *ngFor="let f of cashFlowByMonth" class="hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4 font-semibold text-gray-900">{{ f.mes }}</td>
+                <td class="px-6 py-4 text-right text-green-600 font-bold">${{ f.entradas | number }}</td>
+                <td class="px-6 py-4 text-right text-red-600 font-bold">${{ f.salidas | number }}</td>
+                <td class="px-6 py-4 text-right font-bold" [ngClass]="f.saldoMes >= 0 ? 'text-green-600' : 'text-red-600'">${{ f.saldoMes | number }}</td>
+                <td class="px-6 py-4 text-right font-black" [ngClass]="f.saldoAcumulado >= 0 ? 'text-gray-900' : 'text-red-600'">${{ f.saldoAcumulado | number }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
