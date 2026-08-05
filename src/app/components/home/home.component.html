@@ -1,7 +1,7 @@
 <div class="fade-in space-y-8">
   <div>
     <h1 class="text-3xl font-bold text-gray-900">Resumen General</h1>
-    <p class="text-gray-500 mt-1">Bienvenido de nuevo, aquí tienes el estado actual de tu cartera.</p>
+    <p class="text-gray-500 mt-1">Bienvenido de nuevo, {{ nombreUsuario }}. Aquí tienes el estado de tus clientes.</p>
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -11,41 +11,41 @@
         <lucide-icon [img]="Users" class="w-6 h-6"></lucide-icon>
       </div>
       <div>
-        <p class="text-sm font-medium text-gray-400 uppercase tracking-wider">Clientes</p>
-        <p class="text-2xl font-bold">{{ clientsCount }}</p>
-      </div>
-    </div>
-
-    <!-- Stat Card -->
-    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-5 hover:shadow-md transition-shadow">
-      <div class="h-12 w-12 bg-green-50 rounded-xl flex items-center justify-center text-green-600">
-        <lucide-icon [img]="DollarSign" class="w-6 h-6"></lucide-icon>
-      </div>
-      <div>
-        <p class="text-sm font-medium text-gray-400 uppercase tracking-wider">Balance Total</p>
-        <p class="text-2xl font-bold">${{ totalBalance | number }}</p>
-      </div>
-    </div>
-
-    <!-- Stat Card -->
-    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-5 hover:shadow-md transition-shadow">
-      <div class="h-12 w-12 bg-orange-50 rounded-xl flex items-center justify-center text-orange-600">
-        <lucide-icon [img]="AlertCircle" class="w-6 h-6"></lucide-icon>
-      </div>
-      <div>
-        <p class="text-sm font-medium text-gray-400 uppercase tracking-wider">Docs. Pendientes</p>
-        <p class="text-2xl font-bold">{{ pendingDocs }}</p>
+        <p class="text-sm font-medium text-gray-400 uppercase tracking-wider">Mis Clientes</p>
+        <p class="text-2xl font-bold">{{ loadingClientes ? '...' : clientsCount }}</p>
       </div>
     </div>
 
     <!-- Stat Card -->
     <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-5 hover:shadow-md transition-shadow">
       <div class="h-12 w-12 bg-purple-50 rounded-xl flex items-center justify-center text-purple-600">
-        <lucide-icon [img]="TrendingUp" class="w-6 h-6"></lucide-icon>
+        <lucide-icon [img]="User" class="w-6 h-6"></lucide-icon>
       </div>
       <div>
-        <p class="text-sm font-medium text-gray-400 uppercase tracking-wider">Crecimiento</p>
-        <p class="text-2xl font-bold">+12.5%</p>
+        <p class="text-sm font-medium text-gray-400 uppercase tracking-wider">Persona Natural</p>
+        <p class="text-2xl font-bold">{{ loadingClientes ? '...' : naturalCount }}</p>
+      </div>
+    </div>
+
+    <!-- Stat Card -->
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-5 hover:shadow-md transition-shadow">
+      <div class="h-12 w-12 bg-orange-50 rounded-xl flex items-center justify-center text-orange-600">
+        <lucide-icon [img]="Building2" class="w-6 h-6"></lucide-icon>
+      </div>
+      <div>
+        <p class="text-sm font-medium text-gray-400 uppercase tracking-wider">Persona Jurídica</p>
+        <p class="text-2xl font-bold">{{ loadingClientes ? '...' : juridicaCount }}</p>
+      </div>
+    </div>
+
+    <!-- Stat Card -->
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-5 hover:shadow-md transition-shadow">
+      <div class="h-12 w-12 bg-green-50 rounded-xl flex items-center justify-center text-green-600">
+        <lucide-icon [img]="UserCog" class="w-6 h-6"></lucide-icon>
+      </div>
+      <div>
+        <p class="text-sm font-medium text-gray-400 uppercase tracking-wider">Personal Asignado</p>
+        <p class="text-2xl font-bold">{{ loadingPersonal ? '...' : personalCount }}</p>
       </div>
     </div>
   </div>
@@ -54,33 +54,25 @@
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
     <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 min-h-[400px]">
       <div class="flex items-center justify-between mb-6">
-        <h3 class="text-lg font-bold">Actividad Reciente</h3>
-        <button (click)="quickAction('Ver Actividad')" class="text-sm font-semibold text-blue-600 hover:underline">Ver todo</button>
+        <h3 class="text-lg font-bold">Clientes Recientes</h3>
       </div>
-      
-      <div class="space-y-6">
-        <div class="flex gap-4">
-          <div class="w-2 bg-blue-400 rounded-full h-auto"></div>
+
+      <div *ngIf="loadingClientes" class="flex items-center justify-center h-40 text-gray-400 text-sm">
+        Cargando clientes...
+      </div>
+
+      <div *ngIf="!loadingClientes && clientesRecientes.length === 0" class="flex flex-col items-center justify-center h-40 gap-2 text-gray-300">
+        <lucide-icon [img]="Users" class="w-10 h-10"></lucide-icon>
+        <p class="text-sm font-medium">No hay clientes registrados aún.</p>
+      </div>
+
+      <div class="space-y-6" *ngIf="!loadingClientes && clientesRecientes.length > 0">
+        <div class="flex gap-4" *ngFor="let c of clientesRecientes">
+          <div class="w-2 rounded-full h-auto" [ngClass]="c.tipo === 'natural' ? 'bg-purple-400' : 'bg-orange-400'"></div>
           <div>
-            <p class="text-sm font-semibold">Carga de Documento</p>
-            <p class="text-xs text-gray-400">Juan Pérez subió 'Factura_Mayo.pdf'</p>
-            <p class="text-[10px] text-gray-300 mt-1 uppercase">Hace 2 horas</p>
-          </div>
-        </div>
-        <div class="flex gap-4">
-          <div class="w-2 bg-green-400 rounded-full h-auto"></div>
-          <div>
-            <p class="text-sm font-semibold">Balance Generado</p>
-            <p class="text-xs text-gray-400">Balance trimestral completado para Tech Solutions S.A.</p>
-            <p class="text-[10px] text-gray-300 mt-1 uppercase">Hace 5 horas</p>
-          </div>
-        </div>
-        <div class="flex gap-4">
-          <div class="w-2 bg-orange-400 rounded-full h-auto"></div>
-          <div>
-            <p class="text-sm font-semibold">Nuevo Cliente</p>
-            <p class="text-xs text-gray-400">María García se ha unido a la plataforma.</p>
-            <p class="text-[10px] text-gray-300 mt-1 uppercase">Ayer</p>
+            <p class="text-sm font-semibold">{{ c.nombre }} {{ c.apellido }}</p>
+            <p class="text-xs text-gray-400">{{ c.correo || c.usuario }}</p>
+            <p class="text-[10px] text-gray-300 mt-1 uppercase">{{ c.tipo === 'natural' ? 'Persona Natural' : 'Persona Jurídica' }}</p>
           </div>
         </div>
       </div>
@@ -88,15 +80,15 @@
 
     <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center justify-center text-center">
       <div class="h-20 w-20 bg-gray-50 rounded-full flex items-center justify-center mb-4">
-        <lucide-icon [img]="TrendingUp" class="w-10 h-10 text-gray-300"></lucide-icon>
+        <lucide-icon [img]="Users" class="w-10 h-10 text-gray-300"></lucide-icon>
       </div>
       <h3 class="text-lg font-bold">Analíticas Detalladas</h3>
-      <p class="text-gray-400 text-sm mt-2 max-w-xs">
-        Las gráficas de rendimiento se activarán cuando haya más de 10 clientes registrados.
+      <p class="text-gray-400 text-sm mt-2 max-w-xs" *ngIf="faltantesParaAnaliticas > 0">
+        Te faltan {{ faltantesParaAnaliticas }} clientes para desbloquear las gráficas de rendimiento avanzadas.
       </p>
-      <button (click)="quickAction('Analíticas')" class="mt-6 px-6 py-2 bg-gray-900 text-white rounded-xl font-medium text-sm hover:bg-gray-800 transition-all">
-        Saber más
-      </button>
+      <p class="text-gray-400 text-sm mt-2 max-w-xs" *ngIf="faltantesParaAnaliticas === 0">
+        Ya tienes suficientes clientes para ver analíticas avanzadas.
+      </p>
     </div>
   </div>
 </div>

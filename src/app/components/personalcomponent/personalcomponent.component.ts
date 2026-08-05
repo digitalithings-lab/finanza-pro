@@ -22,7 +22,6 @@ interface Personal {
 })
 export class PersonalcomponentComponent implements OnInit {
   personalForm: FormGroup;
-  personalList: Personal[] = [];
   isLoading = false;
   
   // Lucide icons
@@ -91,9 +90,9 @@ export class PersonalcomponentComponent implements OnInit {
   }
 
   deletePersonal(id: number) {
-    this.personalList = this.personalList.filter(p => p.id !== id);
+    this.data = this.data.filter((p: Personal) => p.id !== id);
   }
-  public data:any
+  public data: Personal[] = [];
 
   getpersonal(){
 
@@ -106,8 +105,9 @@ export class PersonalcomponentComponent implements OnInit {
 
     this.service.getpersonal(data).subscribe((resp=>{
       console.log(resp);
-      this.data=resp.data
-      
+      if (resp.success === true) {
+        this.data = resp.data;
+      }
     }))
 
   }

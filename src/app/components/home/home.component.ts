@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LucideAngularModule, Users, DollarSign, TrendingUp, CircleAlert } from 'lucide-angular';
-import { DataService, Client } from '../../services/data.service';
+import { LucideAngularModule, Users, Building2, User, UserCog } from 'lucide-angular';
+import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-home',
@@ -11,24 +11,66 @@ import { DataService, Client } from '../../services/data.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  loadingClientes = true;
+  loadingPersonal = true;
+
   clientsCount = 0;
-  pendingDocs = 5; // Mock
-  totalBalance = 45200; // Mock
+  naturalCount = 0;
+  juridicaCount = 0;
+  personalCount = 0;
+  clientesRecientes: any[] = [];
 
   readonly Users = Users;
-  readonly DollarSign = DollarSign;
-  readonly TrendingUp = TrendingUp;
-  readonly AlertCircle = CircleAlert;
+  readonly Building2 = Building2;
+  readonly User = User;
+  readonly UserCog = UserCog;
+
+  get nombreUsuario(): string {
+    return localStorage.getItem('nombre') || 'Usuario';
+  }
+
+  get faltantesParaAnaliticas(): number {
+    return Math.max(0, 10 - this.clientsCount);
+  }
 
   constructor(private dataService: DataService) {}
 
   ngOnInit() {
-    this.dataService.getClients().subscribe(clients => {
-      this.clientsCount = clients.length;
+    this.cargarClientes();
+    this.cargarPersonal();
+  }
+
+  cargarClientes() {
+    const data = { id: localStorage.getItem('id') };
+    this.dataService.getclients(data).subscribe({
+      next: (resp) => {
+        this.loadingClientes = false;
+        if (resp.success === true) {
+          const clientes = resp.data || [];
+          this.clientsCount = clientes.length;
+          this.naturalCount = clientes.filter((c: any) => c.tipo === 'natural').length;
+          this.juridicaCount = clientes.filter((c: any) => c.tipo === 'juridica').length;
+          this.clientesRecientes = clientes.slice(-5).reverse();
+        }
+      },
+      error: () => {
+        this.loadingClientes = false;
+      }
     });
   }
 
-  quickAction(action: string) {
-    alert(`Acción: ${action}. Esta funcionalidad estará disponible en la próxima actualización.`);
+  cargarPersonal() {
+    const data = { id: localStorage.getItem('id') };
+    this.dataService.getpersonal(data).subscribe({
+      next: (resp) => {
+        this.loadingPersonal = false;
+        if (resp.success === true) {
+          this.personalCount = (resp.data || []).length;
+        }
+      },
+      error: () => {
+        this.loadingPersonal = false;
+      }
+    });
   }
 }

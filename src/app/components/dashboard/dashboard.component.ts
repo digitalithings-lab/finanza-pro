@@ -2,15 +2,16 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { 
-  LucideAngularModule, 
-  LayoutDashboard, 
-  Users, 
-  FileText, 
-  LogOut, 
-  Menu, 
+import {
+  LucideAngularModule,
+  LayoutDashboard,
+  Users,
+  FileText,
+  LogOut,
+  Menu,
   X,
-  ChartPie
+  ChartPie,
+  UserCog
 } from 'lucide-angular';
 
 @Component({
@@ -30,11 +31,20 @@ export class DashboardComponent {
   readonly Menu = Menu;
   readonly X = X;
   readonly PieChart = ChartPie;
+  readonly UserCog = UserCog;
 
   constructor(public authService: AuthService) {}
 
   get hasRole(): boolean {
     return !!localStorage.getItem('role');
+  }
+
+  get nombreUsuario(): string {
+    return localStorage.getItem('nombre') || 'Usuario';
+  }
+
+  get rolUsuario(): string {
+    return localStorage.getItem('role') || 'Administrador';
   }
 
   toggleSidebar() {

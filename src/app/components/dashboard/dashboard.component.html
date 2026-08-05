@@ -54,6 +54,16 @@
       <lucide-icon [img]="FileText" class="w-5 h-5 group-hover:scale-110 transition-transform"></lucide-icon>
       <span class="font-medium whitespace-nowrap transition-opacity duration-200" [class.hidden]="!isSidebarOpen">Personal</span>
     </a>
+
+    <a
+      *ngIf="!hasRole"
+      routerLink="/dashboard/usuarios"
+      routerLinkActive="bg-gray-50 text-gray-900"
+      class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-500 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 group"
+    >
+      <lucide-icon [img]="UserCog" class="w-5 h-5 group-hover:scale-110 transition-transform"></lucide-icon>
+      <span class="font-medium whitespace-nowrap transition-opacity duration-200" [class.hidden]="!isSidebarOpen">Usuarios</span>
+    </a>
     </nav>
 
     <div class="p-4 border-t border-gray-50">
@@ -78,11 +88,11 @@
 
       <div class="flex items-center gap-4">
         <div class="text-right hidden sm:block">
-          <p class="text-sm font-semibold">Administrador</p>
-          <p class="text-xs text-gray-400 uppercase tracking-tighter">Contable Senior</p>
+          <p class="text-sm font-semibold">{{ nombreUsuario }}</p>
+          <p class="text-xs text-gray-400 uppercase tracking-tighter">{{ rolUsuario }}</p>
         </div>
         <div class="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center border border-gray-200 overflow-hidden">
-          <img src="https://ui-avatars.com/api/?name=Admin&background=0D1117&color=fff" alt="User Avatar">
+          <img [src]="'https://ui-avatars.com/api/?name=' + nombreUsuario + '&background=0D1117&color=fff'" alt="User Avatar">
         </div>
       </div>
     </header>

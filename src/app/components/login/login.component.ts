@@ -25,30 +25,34 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin() {
+    this.error = '';
     const data={
       user:this.username,
       password:this.password
     }
     console.log(data);
-    
-   this.authService.login(data).subscribe((resp=>{
-  console.log(resp);
-  
-    if (resp.success === true){
+
+   this.authService.login(data).subscribe({
+    next: (resp) => {
       console.log(resp);
-      localStorage.removeItem('role'); // limpiar sesión anterior
-      localStorage.setItem('id', resp.usuario.id);  
-      localStorage.setItem('idcreador', resp.usuario.idcreador);  
 
-      localStorage.setItem('nombre',resp.usuario.nombre)
-      if(resp.usuario.role){
-        localStorage.setItem('role',resp.usuario.role)
+      if (resp.success === true){
+        localStorage.removeItem('role'); // limpiar sesión anterior
+        localStorage.setItem('id', resp.usuario.id);
+        localStorage.setItem('idcreador', resp.usuario.idcreador);
+
+        localStorage.setItem('nombre',resp.usuario.nombre)
+        if(resp.usuario.role){
+          localStorage.setItem('role',resp.usuario.role)
+        }
+        this.router.navigate(['/dashboard']);
+      } else {
+        this.error = 'Usuario o contraseña incorrectos';
       }
-      this.router.navigate(['/dashboard']);
-
-      
+    },
+    error: () => {
+      this.error = 'Usuario o contraseña incorrectos';
     }
-    
-   }))
+   });
   }
 }

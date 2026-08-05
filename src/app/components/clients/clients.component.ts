@@ -116,19 +116,21 @@ public rol:any
     console.log(data);
     
 
-    this.dataService.addClient(data).subscribe((resp=>{
-      console.log(resp);
-      if(resp.succes === true){
-        this.toggleModal();
-        this.showNotification('Usuario creado correctamente');
-      }else{
-        this.showNotification('Error al crear un usuario');
-
+    this.dataService.addClient(data).subscribe({
+      next: (resp) => {
+        console.log(resp);
+        if (resp.success === true) {
+          this.toggleModal();
+          this.showNotification('Cliente creado correctamente', 'success');
+          this.getusers();
+        } else {
+          this.showNotification('Error al crear un usuario', 'error');
+        }
+      },
+      error: () => {
+        this.showNotification('Error de conexión al crear el usuario', 'error');
       }
-      
-    }))
-   
-   
+    });
   }
 public data:any
 

@@ -229,7 +229,15 @@ export class DataService {
       }
       getpersonal(data:any){
         return this.http.post<any>(this.url+`getpersonal`,data);
-    
+
+      }
+
+      addUsuario(data:any){
+        return this.http.post<any>(this.url + 'usuarios', data);
+      }
+
+      getUsuarios(data:any){
+        return this.http.post<any>(this.url + 'getusuarios', data);
       }
     
       gettype (data:any){
