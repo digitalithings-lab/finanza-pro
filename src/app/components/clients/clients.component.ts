@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { LucideAngularModule, Search, Filter, Plus, ChevronRight, Trash2, X, UserPlus, CheckCircle } from 'lucide-angular';
-import { DataService, User } from '../../services/data.service';
+import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-clients',
@@ -13,17 +13,15 @@ import { DataService, User } from '../../services/data.service';
   styleUrls: ['./clients.component.css']
 })
 export class ClientsComponent implements OnInit {
-  users: User[] = [];
-  filteredUsers: User[] = [];
-
   searchTerm = '';
+  filterTipo: 'todos' | 'natural' | 'juridica' = 'todos';
+
   nombre = '';
   apellido = '';
   correo = '';
   usuario = '';
   password = '';
   rol_id = 2;
-public users2:any
   showModal = false;
   notification: string | null = null;
 
@@ -55,18 +53,24 @@ public users2:any
   this.getpersonal()
   }
 
-  applyFilter() {
-    if (!this.searchTerm) {
-      this.filteredUsers = this.users;
-    } else {
+  get filteredTabla(): any[] {
+    let result: any[] = this.tabla || [];
+
+    if (this.filterTipo !== 'todos') {
+      result = result.filter((u: any) => u.tipo === this.filterTipo);
+    }
+
+    if (this.searchTerm) {
       const term = this.searchTerm.toLowerCase();
-      this.filteredUsers = this.users.filter(u =>
-        u.nombre.toLowerCase().includes(term) ||
-        u.apellido.toLowerCase().includes(term) ||
-        u.usuario.toLowerCase().includes(term) ||
-        u.correo.toLowerCase().includes(term)
+      result = result.filter((u: any) =>
+        u.nombre?.toLowerCase().includes(term) ||
+        u.apellido?.toLowerCase().includes(term) ||
+        u.usuario?.toLowerCase().includes(term) ||
+        u.correo?.toLowerCase().includes(term)
       );
     }
+
+    return result;
   }
 
   toggleModal() {

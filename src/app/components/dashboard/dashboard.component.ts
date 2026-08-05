@@ -10,7 +10,6 @@ import {
   LogOut,
   Menu,
   X,
-  ChartPie,
   UserCog
 } from 'lucide-angular';
 
@@ -30,7 +29,6 @@ export class DashboardComponent {
   readonly LogOut = LogOut;
   readonly Menu = Menu;
   readonly X = X;
-  readonly PieChart = ChartPie;
   readonly UserCog = UserCog;
 
   constructor(public authService: AuthService) {}

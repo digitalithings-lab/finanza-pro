@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { LucideAngularModule, LogIn, Lock, User } from 'lucide-angular';
+import { LucideAngularModule, Lock, User } from 'lucide-angular';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +16,6 @@ export class LoginComponent implements OnInit {
   username = '';
   password = '';
   error = '';
-  readonly LogIn = LogIn;
   readonly Lock = Lock;
   readonly User = User;
 

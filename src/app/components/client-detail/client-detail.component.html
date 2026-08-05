@@ -1,11 +1,11 @@
 <div class="fade-in space-y-6 pb-12" *ngIf="datos">
   <!-- Header -->
   <div class="flex items-center gap-4 mb-2">
-    <a routerLink="/dashboard/clients" class="p-2 hover:bg-white rounded-xl text-gray-400 hover:text-gray-900 transition-all border border-transparent hover:border-gray-100">
+    <a routerLink="/dashboard/clients" class="p-2 hover:bg-white rounded-xl text-gray-400 hover:text-navy-800 transition-all border border-transparent hover:border-gray-100">
       <lucide-icon [img]="ArrowLeft" class="w-5 h-5"></lucide-icon>
     </a>
     <div>
-      <h1 class="text-2xl font-bold text-gray-900">{{ datos.nombre }} {{datos.apellido}}</h1>
+      <h1 class="text-2xl font-bold text-navy-800">{{ datos.nombre }} {{datos.apellido}}</h1>
       <p class="text-sm text-gray-500">{{ datos.correo }} • <span class="font-semibold">{{ datos.tipo }}</span></p>
     </div>
     <div class="ml-auto flex items-center gap-2">
@@ -18,8 +18,8 @@
   <div class="flex gap-2 border-b border-gray-100 pb-px">
     <button 
       (click)="activeTab = 'docs'"
-      [class.border-gray-900]="activeTab === 'docs'"
-      [class.text-gray-900]="activeTab === 'docs'"
+      [class.border-navy-800]="activeTab === 'docs'"
+      [class.text-navy-800]="activeTab === 'docs'"
       class="px-6 py-3 text-sm font-semibold text-gray-400 border-b-2 border-transparent transition-all hover:text-gray-600"
     >
       Documentos
@@ -27,8 +27,8 @@
     <button 
       (click)="activeTab = 'accounting'"
       (click)="getmovimientos()"
-      [class.border-gray-900]="activeTab === 'accounting'"
-      [class.text-gray-900]="activeTab === 'accounting'"
+      [class.border-navy-800]="activeTab === 'accounting'"
+      [class.text-navy-800]="activeTab === 'accounting'"
       class="px-6 py-3 text-sm font-semibold text-gray-400 border-b-2 border-transparent transition-all hover:text-gray-600"
     >
       Contabilidad
@@ -36,8 +36,8 @@
     <button
       (click)="activeTab = 'reports'"
       (click)="onReportsTab()"
-      [class.border-gray-900]="activeTab === 'reports'"
-      [class.text-gray-900]="activeTab === 'reports'"
+      [class.border-navy-800]="activeTab === 'reports'"
+      [class.text-navy-800]="activeTab === 'reports'"
       class="px-6 py-3 text-sm font-semibold text-gray-400 border-b-2 border-transparent transition-all hover:text-gray-600"
     >
       Estados Financieros
@@ -45,8 +45,8 @@
     <button
       (click)="activeTab = 'categories'"
       (click)="getCategoriesByTipo()"
-      [class.border-gray-900]="activeTab === 'categories'"
-      [class.text-gray-900]="activeTab === 'categories'"
+      [class.border-navy-800]="activeTab === 'categories'"
+      [class.text-navy-800]="activeTab === 'categories'"
       class="px-6 py-3 text-sm font-semibold text-gray-400 border-b-2 border-transparent transition-all hover:text-gray-600"
     >
       Categorías
@@ -54,8 +54,8 @@
     <button
       (click)="activeTab = 'invoices'"
       (click)="onInvoicesTab()"
-      [class.border-gray-900]="activeTab === 'invoices'"
-      [class.text-gray-900]="activeTab === 'invoices'"
+      [class.border-navy-800]="activeTab === 'invoices'"
+      [class.text-navy-800]="activeTab === 'invoices'"
       class="px-6 py-3 text-sm font-semibold text-gray-400 border-b-2 border-transparent transition-all hover:text-gray-600"
     >
       Facturación
@@ -63,8 +63,8 @@
     <button
       (click)="activeTab = 'payroll'"
       (click)="onPayrollTab()"
-      [class.border-gray-900]="activeTab === 'payroll'"
-      [class.text-gray-900]="activeTab === 'payroll'"
+      [class.border-navy-800]="activeTab === 'payroll'"
+      [class.text-navy-800]="activeTab === 'payroll'"
       class="px-6 py-3 text-sm font-semibold text-gray-400 border-b-2 border-transparent transition-all hover:text-gray-600"
     >
       Nómina
@@ -72,8 +72,8 @@
     <button
       (click)="activeTab = 'taxes'"
       (click)="onTaxesTab()"
-      [class.border-gray-900]="activeTab === 'taxes'"
-      [class.text-gray-900]="activeTab === 'taxes'"
+      [class.border-navy-800]="activeTab === 'taxes'"
+      [class.text-navy-800]="activeTab === 'taxes'"
       class="px-6 py-3 text-sm font-semibold text-gray-400 border-b-2 border-transparent transition-all hover:text-gray-600"
     >
       Impuestos
@@ -81,8 +81,8 @@
     <button
       (click)="activeTab = 'cashflow'"
       (click)="onCashflowTab()"
-      [class.border-gray-900]="activeTab === 'cashflow'"
-      [class.text-gray-900]="activeTab === 'cashflow'"
+      [class.border-navy-800]="activeTab === 'cashflow'"
+      [class.text-navy-800]="activeTab === 'cashflow'"
       class="px-6 py-3 text-sm font-semibold text-gray-400 border-b-2 border-transparent transition-all hover:text-gray-600"
     >
       Flujo de Caja
@@ -109,11 +109,11 @@
             <lucide-icon [img]="File" class="w-6 h-6 text-red-500"></lucide-icon>
           </div>
           <div class="flex-1 min-w-0">
-            <p class="font-bold text-gray-900 truncate">{{ doc.nombre }}</p>
+            <p class="font-bold text-navy-800 truncate">{{ doc.nombre }}</p>
             <p class="text-[10px] text-gray-400 uppercase font-semibold tracking-wider mt-1">{{ doc.uploadDate }} • {{ doc.size }}</p>
           </div>
           <div class="flex flex-col gap-1">
-            <button (click)="descargar(doc)" class="p-2 text-gray-300 hover:text-gray-900 rounded-lg group-hover:bg-gray-50">
+            <button (click)="descargar(doc)" class="p-2 text-gray-300 hover:text-navy-800 rounded-lg group-hover:bg-gray-50">
               <lucide-icon [img]="Download" class="w-4 h-4"></lucide-icon>
             </button>
             <button (click)="deleteDocument(doc.id)" class="p-2 text-gray-300 hover:text-red-500 rounded-lg group-hover:bg-gray-50">
@@ -149,7 +149,7 @@
             <div *ngIf="datas && datas.length > 0" class="space-y-3">
               <div>
                 <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Categoría</label>
-                <select [(ngModel)]="newCategorySelected" class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+                <select [(ngModel)]="newCategorySelected" class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
                   <option [ngValue]="null" disabled>Seleccionar categoría...</option>
                   <option *ngFor="let cat of datas" [ngValue]="cat">{{ cat.nombre }} ({{ cat.tipo }})</option>
                 </select>
@@ -157,12 +157,12 @@
               <div>
                 <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Descripción</label>
                 <input [(ngModel)]="newDescription" type="text" placeholder="Ej. Pago Proveedor X"
-                  class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+                  class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
               </div>
               <div>
                 <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Monto ($)</label>
                 <input [(ngModel)]="newAmount" type="number" min="0"
-                  class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+                  class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
               </div>
 
               <div *ngIf="newCategorySelected" class="flex items-center gap-2 px-3 py-2 rounded-xl"
@@ -192,14 +192,14 @@
 
               <button (click)="addEntry()"
                 [disabled]="!newCategorySelected || !newDescription || !newAmount"
-                class="w-full py-3 bg-gray-900 text-white rounded-xl text-sm font-bold hover:bg-gray-800 transition-all active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed">
+                class="w-full py-3 bg-navy-800 text-white rounded-xl text-sm font-bold hover:bg-navy-900 transition-all active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed">
                 Registrar Movimiento
               </button>
             </div>
           </div>
 
           <!-- Resumen rápido -->
-          <div class="bg-gray-900 text-white p-6 rounded-2xl shadow-xl space-y-3">
+          <div class="bg-navy-800 text-white p-6 rounded-2xl shadow-xl space-y-3">
             <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">Utilidad del Período</p>
             <h2 class="text-4xl font-bold" [ngClass]="utilidadNeta >= 0 ? 'text-white' : 'text-red-400'">
               {{ utilidadNeta >= 0 ? '+' : '' }}${{ utilidadNeta | number }}
@@ -229,7 +229,7 @@
         <div class="lg:col-span-2">
           <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
             <div class="px-6 py-4 border-b border-gray-50 bg-gray-50/30">
-              <h3 class="font-bold text-gray-900">Libro Diario — Movimientos</h3>
+              <h3 class="font-bold text-navy-800">Libro Diario — Movimientos</h3>
             </div>
             <div class="overflow-x-auto">
               <table class="w-full text-left text-sm">
@@ -245,7 +245,7 @@
                 <tbody class="divide-y divide-gray-50">
                   <tr *ngFor="let t of transactions" class="hover:bg-gray-50 transition-colors">
                     <td class="px-6 py-4 text-gray-400 text-xs">{{ t.date | date }}</td>
-                    <td class="px-6 py-4 font-semibold text-gray-900">{{ t.description }}</td>
+                    <td class="px-6 py-4 font-semibold text-navy-800">{{ t.description }}</td>
                     <td class="px-6 py-4 text-gray-600">{{ t.category }}</td>
                     <td class="px-6 py-4">
                       <span class="px-2 py-0.5 rounded text-[10px] font-bold"
@@ -284,7 +284,7 @@
       <div *ngIf="transactions.length > 0" class="bg-white rounded-[1.5rem] border border-gray-100 shadow-sm overflow-hidden">
         <div class="px-8 py-5 border-b border-gray-100 flex items-center justify-between">
           <div>
-            <h3 class="text-lg font-black text-gray-900 tracking-tight">Estado de Resultados</h3>
+            <h3 class="text-lg font-black text-navy-800 tracking-tight">Estado de Resultados</h3>
             <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">Al {{ today | date:'mediumDate' }}</p>
           </div>
           <span class="px-3 py-1 rounded-full text-xs font-bold"
@@ -303,12 +303,12 @@
             <div class="space-y-2">
               <div *ngFor="let item of estadoIngresos" class="flex items-center justify-between text-sm">
                 <span class="text-gray-600 font-medium">{{ item.nombre }}</span>
-                <span class="font-bold text-gray-900">${{ item.total | number }}</span>
+                <span class="font-bold text-navy-800">${{ item.total | number }}</span>
               </div>
               <div *ngIf="estadoIngresos.length === 0" class="text-sm text-gray-400 italic">Sin movimientos de ingresos.</div>
             </div>
             <div class="pt-3 border-t border-gray-100 flex items-center justify-between">
-              <span class="text-xs font-black text-gray-900 uppercase tracking-wider">Total Ingresos</span>
+              <span class="text-xs font-black text-navy-800 uppercase tracking-wider">Total Ingresos</span>
               <span class="text-lg font-black text-green-600">${{ totalIngresos | number }}</span>
             </div>
           </div>
@@ -321,12 +321,12 @@
             <div class="space-y-2">
               <div *ngFor="let item of estadoGastos" class="flex items-center justify-between text-sm">
                 <span class="text-gray-600 font-medium">{{ item.nombre }}</span>
-                <span class="font-bold text-gray-900">(${{ item.total | number }})</span>
+                <span class="font-bold text-navy-800">(${{ item.total | number }})</span>
               </div>
               <div *ngIf="estadoGastos.length === 0" class="text-sm text-gray-400 italic">Sin movimientos de gastos.</div>
             </div>
             <div class="pt-3 border-t border-gray-100 flex items-center justify-between">
-              <span class="text-xs font-black text-gray-900 uppercase tracking-wider">Total Gastos</span>
+              <span class="text-xs font-black text-navy-800 uppercase tracking-wider">Total Gastos</span>
               <span class="text-lg font-black text-red-600">(${{ totalGastos | number }})</span>
             </div>
           </div>
@@ -364,7 +364,7 @@
             <lucide-icon [img]="Clock" class="w-4 h-4"></lucide-icon>
             Historial
           </button>
-          <button (click)="generateReport()" class="px-4 py-2 text-sm font-semibold text-white bg-gray-900 rounded-xl hover:bg-gray-800 transition-all shadow-lg flex items-center gap-2">
+          <button (click)="generateReport()" class="px-4 py-2 text-sm font-semibold text-white bg-navy-800 rounded-xl hover:bg-navy-900 transition-all shadow-lg flex items-center gap-2">
             <lucide-icon [img]="BarChart" class="w-4 h-4"></lucide-icon>
             Generar Nuevo
           </button>
@@ -380,11 +380,11 @@
 
         <div class="flex justify-between items-start relative">
           <div>
-            <h4 class="text-3xl font-black text-gray-900 tracking-tighter">Balance General</h4>
+            <h4 class="text-3xl font-black text-navy-800 tracking-tighter">Balance General</h4>
             <p class="text-gray-400 font-medium uppercase tracking-[0.3em] text-[10px] mt-1">Al {{ today | date:'mediumDate' }}</p>
           </div>
           <div class="text-right">
-            <p class="font-bold text-gray-900">FinanzaPro Accountants</p>
+            <p class="font-bold text-navy-800">FinanzaPro Accountants</p>
             <p class="text-xs text-gray-400">Certificado No. 8829-11</p>
           </div>
         </div>
@@ -396,19 +396,19 @@
             <div class="space-y-4">
               <div class="flex justify-between text-sm">
                 <span class="text-gray-600 font-medium">Caja y Bancos</span>
-                <span class="font-bold text-gray-900">${{ cajaYBancos | number }}</span>
+                <span class="font-bold text-navy-800">${{ cajaYBancos | number }}</span>
               </div>
               <div class="flex justify-between text-sm">
                 <span class="text-gray-600 font-medium">Cuentas por Cobrar</span>
-                <span class="font-bold text-gray-900">${{ totalPorCobrar | number }}</span>
+                <span class="font-bold text-navy-800">${{ totalPorCobrar | number }}</span>
               </div>
               <div class="flex justify-between text-sm">
                 <span class="text-gray-600 font-medium">Equipos y Mobiliario</span>
-                <span class="font-bold text-gray-900">${{ totalAssets | number }}</span>
+                <span class="font-bold text-navy-800">${{ totalAssets | number }}</span>
               </div>
               <div class="pt-4 border-t border-gray-50 flex justify-between">
-                <span class="font-black text-gray-900 uppercase text-[11px]">Total Activos</span>
-                <span class="font-black text-gray-900">${{ totalActivosBalance | number }}</span>
+                <span class="font-black text-navy-800 uppercase text-[11px]">Total Activos</span>
+                <span class="font-black text-navy-800">${{ totalActivosBalance | number }}</span>
               </div>
             </div>
           </div>
@@ -420,15 +420,15 @@
               <div class="space-y-4">
                 <div class="flex justify-between text-sm">
                   <span class="text-gray-600 font-medium">Deudas Corto Plazo</span>
-                  <span class="font-bold text-gray-900">${{ totalLiabilities | number }}</span>
+                  <span class="font-bold text-navy-800">${{ totalLiabilities | number }}</span>
                 </div>
                 <div class="flex justify-between text-sm">
                   <span class="text-gray-600 font-medium">Impuestos por Pagar</span>
-                  <span class="font-bold text-gray-900">${{ impuestosPorPagarBalance | number }}</span>
+                  <span class="font-bold text-navy-800">${{ impuestosPorPagarBalance | number }}</span>
                 </div>
                 <div class="pt-4 border-t border-gray-50 flex justify-between">
-                  <span class="font-black text-gray-900 uppercase text-[11px]">Total Pasivos</span>
-                  <span class="font-black text-gray-900">${{ totalPasivosBalance | number }}</span>
+                  <span class="font-black text-navy-800 uppercase text-[11px]">Total Pasivos</span>
+                  <span class="font-black text-navy-800">${{ totalPasivosBalance | number }}</span>
                 </div>
               </div>
             </div>
@@ -438,11 +438,11 @@
               <div class="space-y-4">
                 <div class="flex justify-between text-sm">
                   <span class="text-gray-600 font-medium">Resultados Acumulados</span>
-                  <span class="font-bold text-gray-900">${{ utilidadNeta | number }}</span>
+                  <span class="font-bold text-navy-800">${{ utilidadNeta | number }}</span>
                 </div>
                 <div class="pt-4 border-t border-gray-50 flex justify-between">
-                  <span class="font-black text-gray-900 uppercase text-[11px]">Total Patrimonio</span>
-                  <span class="font-black text-gray-900">${{ patrimonioBalance | number }}</span>
+                  <span class="font-black text-navy-800 uppercase text-[11px]">Total Patrimonio</span>
+                  <span class="font-black text-navy-800">${{ patrimonioBalance | number }}</span>
                 </div>
               </div>
             </div>
@@ -457,7 +457,7 @@
             <lucide-icon [img]="CheckCircle" class="w-4 h-4 text-green-500"></lucide-icon>
             <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Documento Verificado por Sistema</span>
           </div>
-          <button (click)="descargarBalancePDF()" class="px-6 py-2.5 bg-gray-50 hover:bg-gray-100 text-gray-900 rounded-xl text-xs font-bold transition-all flex items-center gap-2">
+          <button (click)="descargarBalancePDF()" class="px-6 py-2.5 bg-gray-50 hover:bg-gray-100 text-navy-800 rounded-xl text-xs font-bold transition-all flex items-center gap-2">
             <lucide-icon [img]="Download" class="w-4 h-4"></lucide-icon>
             Descargar PDF
           </button>
@@ -483,14 +483,14 @@
                   type="text"
                   placeholder="Ej. Ventas al contado"
                   (keydown.enter)="addCategory()"
-                  class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all"
+                  class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all"
                 >
               </div>
               <div>
                 <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Tipo</label>
                 <select
                   [(ngModel)]="newCategoryTipo"
-                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all"
+                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all"
                 >
                   <option value="Ingreso">Ingreso</option>
                   <option value="Gasto">Gasto</option>
@@ -500,7 +500,7 @@
               </div>
               <button
                 (click)="addCategory()"
-                class="w-full py-3 bg-gray-900 text-white rounded-xl text-sm font-bold hover:bg-gray-800 transition-all active:scale-[0.98]"
+                class="w-full py-3 bg-navy-800 text-white rounded-xl text-sm font-bold hover:bg-navy-900 transition-all active:scale-[0.98]"
               >
                 Agregar Categoría
               </button>
@@ -508,7 +508,7 @@
           </div>
 
           <!-- Contador resumen -->
-          <div class="mt-4 bg-gray-900 text-white p-5 rounded-2xl shadow-xl space-y-3">
+          <div class="mt-4 bg-navy-800 text-white p-5 rounded-2xl shadow-xl space-y-3">
             <p class="text-xs font-bold text-gray-400 uppercase tracking-[0.2em]">Total Categorías</p>
             <h2 class="text-4xl font-bold">{{ count }}</h2>
             <div class="grid grid-cols-2 gap-2 border-t border-white/10 pt-3 text-[10px] font-bold uppercase text-gray-400">
@@ -521,7 +521,7 @@
         <div class="lg:col-span-2">
           <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
             <div class="px-6 py-4 border-b border-gray-50 bg-gray-50/30">
-              <h3 class="font-bold text-gray-900">Categorías Registradas</h3>
+              <h3 class="font-bold text-navy-800">Categorías Registradas</h3>
             </div>
             <div class="overflow-x-auto">
               <table class="w-full text-left text-sm">
@@ -552,7 +552,7 @@
                             }">
                           </lucide-icon>
                         </span>
-                        <span class="font-semibold text-gray-900">{{ cat.nombre }}</span>
+                        <span class="font-semibold text-navy-800">{{ cat.nombre }}</span>
                       </div>
                     </td>
                     <td class="px-6 py-4">
@@ -601,50 +601,50 @@
             <div>
               <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Cliente Final</label>
               <input [(ngModel)]="newInvoice.cliente_final" type="text" placeholder="Ej. Comercial ABC"
-                class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+                class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
             </div>
             <div>
               <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Concepto</label>
               <input [(ngModel)]="newInvoice.concepto" type="text" placeholder="Ej. Servicios de consultoría"
-                class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+                class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
             </div>
             <div class="grid grid-cols-2 gap-2">
               <div>
                 <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Emisión</label>
                 <input [(ngModel)]="newInvoice.fecha_emision" type="date"
-                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
               </div>
               <div>
                 <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Vencimiento</label>
                 <input [(ngModel)]="newInvoice.fecha_vencimiento" type="date"
-                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
               </div>
             </div>
             <div class="grid grid-cols-2 gap-2">
               <div>
                 <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Subtotal ($)</label>
                 <input [(ngModel)]="newInvoice.subtotal" type="number" min="0"
-                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
               </div>
               <div>
                 <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">% IVA</label>
                 <input [(ngModel)]="newInvoice.iva_porcentaje" type="number" min="0"
-                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
               </div>
             </div>
             <div class="flex items-center justify-between px-3 py-2 bg-gray-50 rounded-xl text-xs">
               <span class="text-gray-400 font-semibold">IVA: ${{ newInvoiceIvaMonto | number }}</span>
-              <span class="font-black text-gray-900">Total: ${{ newInvoiceTotal | number }}</span>
+              <span class="font-black text-navy-800">Total: ${{ newInvoiceTotal | number }}</span>
             </div>
             <button (click)="crearFactura()"
               [disabled]="!newInvoice.cliente_final || !newInvoice.concepto || !newInvoice.fecha_vencimiento || !newInvoice.subtotal"
-              class="w-full py-3 bg-gray-900 text-white rounded-xl text-sm font-bold hover:bg-gray-800 transition-all active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed">
+              class="w-full py-3 bg-navy-800 text-white rounded-xl text-sm font-bold hover:bg-navy-900 transition-all active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed">
               Crear Factura
             </button>
           </div>
 
           <!-- Resumen -->
-          <div class="bg-gray-900 text-white p-6 rounded-2xl shadow-xl space-y-3">
+          <div class="bg-navy-800 text-white p-6 rounded-2xl shadow-xl space-y-3">
             <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">Facturación</p>
             <div class="grid grid-cols-2 gap-3">
               <div>
@@ -673,15 +673,15 @@
           <!-- Cuentas por Cobrar / Aging -->
           <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4">
             <div class="flex items-center justify-between mb-3">
-              <h4 class="font-bold text-gray-900 text-sm">Cuentas por Cobrar</h4>
-              <button (click)="showAgingView = !showAgingView" class="text-xs font-semibold text-gray-400 hover:text-gray-900">
+              <h4 class="font-bold text-navy-800 text-sm">Cuentas por Cobrar</h4>
+              <button (click)="showAgingView = !showAgingView" class="text-xs font-semibold text-gray-400 hover:text-navy-800">
                 {{ showAgingView ? 'Ocultar' : 'Ver detalle de antigüedad' }}
               </button>
             </div>
             <div *ngIf="showAgingView" class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-2">
               <div class="bg-gray-50 rounded-xl p-3 text-center">
                 <p class="text-[10px] font-bold text-gray-400 uppercase">0-30 días</p>
-                <p class="font-black text-gray-900">${{ agingBuckets.b0_30 | number }}</p>
+                <p class="font-black text-navy-800">${{ agingBuckets.b0_30 | number }}</p>
               </div>
               <div class="bg-amber-50 rounded-xl p-3 text-center">
                 <p class="text-[10px] font-bold text-amber-600 uppercase">31-60 días</p>
@@ -698,13 +698,13 @@
             </div>
             <div class="flex items-center justify-between pt-2 border-t border-gray-50">
               <span class="text-xs font-bold text-gray-400 uppercase">Total por Cobrar</span>
-              <span class="text-lg font-black text-gray-900">${{ totalPorCobrar | number }}</span>
+              <span class="text-lg font-black text-navy-800">${{ totalPorCobrar | number }}</span>
             </div>
           </div>
 
           <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
             <div class="px-6 py-4 border-b border-gray-50 bg-gray-50/30">
-              <h3 class="font-bold text-gray-900">Facturas</h3>
+              <h3 class="font-bold text-navy-800">Facturas</h3>
             </div>
             <div class="overflow-x-auto">
               <table class="w-full text-left text-sm">
@@ -721,7 +721,7 @@
                 </thead>
                 <tbody class="divide-y divide-gray-50">
                   <tr *ngFor="let f of invoices" class="hover:bg-gray-50 transition-colors">
-                    <td class="px-4 py-3 font-semibold text-gray-900">{{ f.cliente_final }}</td>
+                    <td class="px-4 py-3 font-semibold text-navy-800">{{ f.cliente_final }}</td>
                     <td class="px-4 py-3 text-gray-600">{{ f.concepto }}</td>
                     <td class="px-4 py-3 text-gray-400 text-xs">{{ f.fecha_emision | date }}</td>
                     <td class="px-4 py-3 text-gray-400 text-xs">{{ f.fecha_vencimiento | date }}</td>
@@ -737,7 +737,7 @@
                     </td>
                     <td class="px-4 py-3 text-right whitespace-nowrap">
                       <button (click)="descargarFacturaPDF(f)"
-                        class="text-xs font-semibold text-gray-500 hover:text-gray-900 mr-3">PDF</button>
+                        class="text-xs font-semibold text-gray-500 hover:text-navy-800 mr-3">PDF</button>
                       <button *ngIf="f.estado === 'Pendiente' || f.estado === 'Vencida'" (click)="marcarFacturaPagada(f)"
                         class="text-xs font-semibold text-green-600 hover:text-green-800 mr-3">Marcar Pagada</button>
                       <button *ngIf="f.estado !== 'Anulada'" (click)="anularFactura(f)"
@@ -759,10 +759,10 @@
     <div *ngSwitchCase="'payroll'" class="space-y-6">
       <div class="flex gap-2">
         <button (click)="payrollSubView = 'empleados'"
-          [class.bg-gray-900]="payrollSubView === 'empleados'" [class.text-white]="payrollSubView === 'empleados'"
+          [class.bg-navy-800]="payrollSubView === 'empleados'" [class.text-white]="payrollSubView === 'empleados'"
           class="px-4 py-2 rounded-xl text-sm font-semibold bg-gray-50 text-gray-500 transition-all">Empleados</button>
         <button (click)="payrollSubView = 'pagos'"
-          [class.bg-gray-900]="payrollSubView === 'pagos'" [class.text-white]="payrollSubView === 'pagos'"
+          [class.bg-navy-800]="payrollSubView === 'pagos'" [class.text-white]="payrollSubView === 'pagos'"
           class="px-4 py-2 rounded-xl text-sm font-semibold bg-gray-50 text-gray-500 transition-all">Pagos</button>
       </div>
 
@@ -776,21 +776,21 @@
             </h3>
             <div class="grid grid-cols-2 gap-2">
               <input [(ngModel)]="newEmployee.nombre" type="text" placeholder="Nombre"
-                class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+                class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
               <input [(ngModel)]="newEmployee.apellido" type="text" placeholder="Apellido"
-                class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+                class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
             </div>
             <input [(ngModel)]="newEmployee.cargo" type="text" placeholder="Cargo"
-              class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+              class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
             <div class="grid grid-cols-2 gap-2">
               <input [(ngModel)]="newEmployee.salario_base" type="number" min="0" placeholder="Salario Base"
-                class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+                class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
               <input [(ngModel)]="newEmployee.fecha_ingreso" type="date"
-                class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+                class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
             </div>
             <button (click)="crearEmpleado()"
               [disabled]="!newEmployee.nombre || !newEmployee.apellido || !newEmployee.salario_base"
-              class="w-full py-3 bg-gray-900 text-white rounded-xl text-sm font-bold hover:bg-gray-800 transition-all active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed">
+              class="w-full py-3 bg-navy-800 text-white rounded-xl text-sm font-bold hover:bg-navy-900 transition-all active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed">
               Agregar Empleado
             </button>
           </div>
@@ -798,7 +798,7 @@
         <div class="lg:col-span-2">
           <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
             <div class="px-6 py-4 border-b border-gray-50 bg-gray-50/30">
-              <h3 class="font-bold text-gray-900">Empleados</h3>
+              <h3 class="font-bold text-navy-800">Empleados</h3>
             </div>
             <div class="overflow-x-auto">
               <table class="w-full text-left text-sm">
@@ -813,7 +813,7 @@
                 </thead>
                 <tbody class="divide-y divide-gray-50">
                   <tr *ngFor="let e of employees" class="hover:bg-gray-50 transition-colors">
-                    <td class="px-4 py-3 font-semibold text-gray-900">{{ e.nombre }} {{ e.apellido }}</td>
+                    <td class="px-4 py-3 font-semibold text-navy-800">{{ e.nombre }} {{ e.apellido }}</td>
                     <td class="px-4 py-3 text-gray-600">{{ e.cargo }}</td>
                     <td class="px-4 py-3 text-right font-bold">${{ e.salario_base | number }}</td>
                     <td class="px-4 py-3">
@@ -821,7 +821,7 @@
                         [ngClass]="e.estado === 'Activo' ? 'bg-green-50 text-green-600' : 'bg-gray-100 text-gray-500'">{{ e.estado }}</span>
                     </td>
                     <td class="px-4 py-3 text-right">
-                      <button (click)="cambiarEstadoEmpleado(e)" class="text-xs font-semibold text-gray-400 hover:text-gray-900">
+                      <button (click)="cambiarEstadoEmpleado(e)" class="text-xs font-semibold text-gray-400 hover:text-navy-800">
                         {{ e.estado === 'Activo' ? 'Desactivar' : 'Activar' }}
                       </button>
                     </td>
@@ -847,7 +847,7 @@
             <div>
               <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Empleado</label>
               <select [(ngModel)]="newPayrollPayment.idempleado" (ngModelChange)="onEmployeeSelectedForPayroll()"
-                class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+                class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
                 <option [ngValue]="null" disabled>Seleccionar empleado...</option>
                 <option *ngFor="let e of employees" [ngValue]="e.id">{{ e.nombre }} {{ e.apellido }}</option>
               </select>
@@ -856,30 +856,30 @@
               <div>
                 <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Periodo Inicio</label>
                 <input [(ngModel)]="newPayrollPayment.periodo_inicio" type="date"
-                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
               </div>
               <div>
                 <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Periodo Fin</label>
                 <input [(ngModel)]="newPayrollPayment.periodo_fin" type="date"
-                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
               </div>
             </div>
             <div class="grid grid-cols-2 gap-2">
               <div>
                 <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Salario Bruto</label>
                 <input [(ngModel)]="newPayrollPayment.salario_bruto" type="number" min="0"
-                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
               </div>
               <div>
                 <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Deducciones</label>
                 <input [(ngModel)]="newPayrollPayment.deducciones" type="number" min="0"
-                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
               </div>
             </div>
             <div>
               <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Fecha de Pago</label>
               <input [(ngModel)]="newPayrollPayment.fecha_pago" type="date"
-                class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+                class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
             </div>
             <label class="flex items-center gap-2 text-xs font-semibold text-gray-600">
               <input [(ngModel)]="newPayrollPayment.reflejarEnContabilidad" type="checkbox" class="rounded">
@@ -887,12 +887,12 @@
             </label>
             <button (click)="registrarPagoNomina()"
               [disabled]="!newPayrollPayment.idempleado || !newPayrollPayment.periodo_inicio || !newPayrollPayment.periodo_fin || !newPayrollPayment.salario_bruto"
-              class="w-full py-3 bg-gray-900 text-white rounded-xl text-sm font-bold hover:bg-gray-800 transition-all active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed">
+              class="w-full py-3 bg-navy-800 text-white rounded-xl text-sm font-bold hover:bg-navy-900 transition-all active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed">
               Registrar Pago
             </button>
           </div>
 
-          <div class="bg-gray-900 text-white p-6 rounded-2xl shadow-xl space-y-2">
+          <div class="bg-navy-800 text-white p-6 rounded-2xl shadow-xl space-y-2">
             <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">Total Nómina Pagada</p>
             <h2 class="text-3xl font-bold">${{ totalNominaPagada | number }}</h2>
           </div>
@@ -901,7 +901,7 @@
         <div class="lg:col-span-2">
           <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
             <div class="px-6 py-4 border-b border-gray-50 bg-gray-50/30">
-              <h3 class="font-bold text-gray-900">Historial de Pagos</h3>
+              <h3 class="font-bold text-navy-800">Historial de Pagos</h3>
             </div>
             <div class="overflow-x-auto">
               <table class="w-full text-left text-sm">
@@ -918,7 +918,7 @@
                 </thead>
                 <tbody class="divide-y divide-gray-50">
                   <tr *ngFor="let p of payrollPayments" class="hover:bg-gray-50 transition-colors">
-                    <td class="px-4 py-3 font-semibold text-gray-900">{{ p.nombre }} {{ p.apellido }}</td>
+                    <td class="px-4 py-3 font-semibold text-navy-800">{{ p.nombre }} {{ p.apellido }}</td>
                     <td class="px-4 py-3 text-gray-400 text-xs">{{ p.periodo_inicio | date }} - {{ p.periodo_fin | date }}</td>
                     <td class="px-4 py-3 text-right">${{ p.salario_bruto | number }}</td>
                     <td class="px-4 py-3 text-right text-red-500">-${{ p.deducciones | number }}</td>
@@ -951,42 +951,42 @@
             <div>
               <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">% IVA</label>
               <input [(ngModel)]="taxConfigForm.iva_porcentaje" type="number" min="0"
-                class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+                class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
             </div>
             <div>
               <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">% Retención</label>
               <input [(ngModel)]="taxConfigForm.retencion_porcentaje" type="number" min="0"
-                class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+                class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
             </div>
             <button (click)="guardarConfigImpuestos()"
-              class="w-full py-3 bg-gray-900 text-white rounded-xl text-sm font-bold hover:bg-gray-800 transition-all active:scale-[0.98]">
+              class="w-full py-3 bg-navy-800 text-white rounded-xl text-sm font-bold hover:bg-navy-900 transition-all active:scale-[0.98]">
               Guardar Configuración
             </button>
           </div>
 
           <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-3">
-            <h3 class="text-sm font-bold text-gray-900">Periodo a Calcular</h3>
+            <h3 class="text-sm font-bold text-navy-800">Periodo a Calcular</h3>
             <div class="grid grid-cols-2 gap-2">
               <div>
                 <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Desde</label>
                 <input [(ngModel)]="taxPeriod.fecha_inicio" type="date"
-                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
               </div>
               <div>
                 <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Hasta</label>
                 <input [(ngModel)]="taxPeriod.fecha_fin" type="date"
-                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all">
+                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
               </div>
             </div>
             <button (click)="calcularImpuestos()"
-              class="w-full py-3 bg-gray-900 text-white rounded-xl text-sm font-bold hover:bg-gray-800 transition-all active:scale-[0.98]">
+              class="w-full py-3 bg-navy-800 text-white rounded-xl text-sm font-bold hover:bg-navy-900 transition-all active:scale-[0.98]">
               Calcular
             </button>
           </div>
         </div>
 
         <div class="lg:col-span-2">
-          <div *ngIf="taxResult" class="bg-gray-900 text-white p-8 rounded-2xl shadow-xl space-y-6">
+          <div *ngIf="taxResult" class="bg-navy-800 text-white p-8 rounded-2xl shadow-xl space-y-6">
             <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">
               Resultado — {{ taxPeriod.fecha_inicio | date }} a {{ taxPeriod.fecha_fin | date }}
             </p>
@@ -1022,7 +1022,7 @@
 
     <!-- Tab Flujo de Caja -->
     <div *ngSwitchCase="'cashflow'" class="space-y-6">
-      <div class="bg-gray-900 text-white p-6 rounded-2xl shadow-xl">
+      <div class="bg-navy-800 text-white p-6 rounded-2xl shadow-xl">
         <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">Saldo Acumulado Total</p>
         <h2 class="text-4xl font-bold" [ngClass]="saldoAcumuladoTotal >= 0 ? 'text-white' : 'text-red-400'">
           {{ saldoAcumuladoTotal >= 0 ? '+' : '' }}${{ saldoAcumuladoTotal | number }}
@@ -1032,7 +1032,7 @@
       <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
         <div class="px-6 py-4 border-b border-gray-50 bg-gray-50/30 flex items-center gap-2">
           <lucide-icon [img]="TrendingUp" class="w-4 h-4 text-gray-400"></lucide-icon>
-          <h3 class="font-bold text-gray-900">Flujo de Caja Mensual</h3>
+          <h3 class="font-bold text-navy-800">Flujo de Caja Mensual</h3>
         </div>
 
         <div class="p-6 space-y-2">
@@ -1066,11 +1066,11 @@
             </thead>
             <tbody class="divide-y divide-gray-50">
               <tr *ngFor="let f of cashFlowByMonth" class="hover:bg-gray-50 transition-colors">
-                <td class="px-6 py-4 font-semibold text-gray-900">{{ f.mes }}</td>
+                <td class="px-6 py-4 font-semibold text-navy-800">{{ f.mes }}</td>
                 <td class="px-6 py-4 text-right text-green-600 font-bold">${{ f.entradas | number }}</td>
                 <td class="px-6 py-4 text-right text-red-600 font-bold">${{ f.salidas | number }}</td>
                 <td class="px-6 py-4 text-right font-bold" [ngClass]="f.saldoMes >= 0 ? 'text-green-600' : 'text-red-600'">${{ f.saldoMes | number }}</td>
-                <td class="px-6 py-4 text-right font-black" [ngClass]="f.saldoAcumulado >= 0 ? 'text-gray-900' : 'text-red-600'">${{ f.saldoAcumulado | number }}</td>
+                <td class="px-6 py-4 text-right font-black" [ngClass]="f.saldoAcumulado >= 0 ? 'text-navy-800' : 'text-red-600'">${{ f.saldoAcumulado | number }}</td>
               </tr>
             </tbody>
           </table>
@@ -1079,7 +1079,7 @@
     </div>
 
   <!-- Loading Overlay for Reports -->
-  <div *ngIf="isGeneratingReport" class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-gray-900/60 backdrop-blur-md animate-in fade-in duration-300">
+  <div *ngIf="isGeneratingReport" class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-navy-800/60 backdrop-blur-md animate-in fade-in duration-300">
     <div class="relative">
       <div class="h-24 w-24 border-4 border-white/20 border-t-white rounded-full animate-spin"></div>
       <div class="absolute inset-0 flex items-center justify-center">

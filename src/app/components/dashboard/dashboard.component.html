@@ -1,4 +1,4 @@
-<div class="flex h-screen bg-white text-gray-900 font-sans overflow-hidden">
+<div class="flex h-screen bg-white text-navy-800 font-sans overflow-hidden">
   
   <!-- Sidebar -->
   <aside 
@@ -8,11 +8,9 @@
   >
     <div class="h-16 flex items-center px-6 border-b border-gray-50 shrink-0">
       <div class="flex items-center gap-3 overflow-hidden">
-        <div class="h-8 w-8 bg-gray-900 rounded-lg flex items-center justify-center shrink-0">
-          <lucide-icon [img]="PieChart" class="text-white w-5 h-5"></lucide-icon>
-        </div>
+        <img src="/assets/logo-icon.svg" alt="NOX" class="h-9 w-9 shrink-0">
         <span class="font-bold text-lg tracking-tight whitespace-nowrap transition-opacity duration-200" [class.opacity-0]="!isSidebarOpen">
-          FinanzaPro
+          NOX
         </span>
       </div>
     </div>
@@ -21,8 +19,8 @@
       <a 
         routerLink="/dashboard" 
         [routerLinkActiveOptions]="{exact: true}"
-        routerLinkActive="bg-gray-50 text-gray-900"
-        class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-500 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 group"
+        routerLinkActive="bg-gray-50 text-navy-800"
+        class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-500 hover:bg-gray-50 hover:text-navy-800 transition-all duration-200 group"
       >
         <lucide-icon [img]="LayoutDashboard" class="w-5 h-5 group-hover:scale-110 transition-transform"></lucide-icon>
         <span class="font-medium whitespace-nowrap transition-opacity duration-200" [class.hidden]="!isSidebarOpen">Resumen</span>
@@ -30,8 +28,8 @@
 
       <a 
         routerLink="/dashboard/clients" 
-        routerLinkActive="bg-gray-50 text-gray-900"
-        class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-500 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 group"
+        routerLinkActive="bg-gray-50 text-navy-800"
+        class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-500 hover:bg-gray-50 hover:text-navy-800 transition-all duration-200 group"
       >
         <lucide-icon [img]="Users" class="w-5 h-5 group-hover:scale-110 transition-transform"></lucide-icon>
         <span class="font-medium whitespace-nowrap transition-opacity duration-200" [class.hidden]="!isSidebarOpen">Clientes</span>
@@ -39,8 +37,8 @@
 
       <a 
         routerLink="/dashboard/reports" 
-        routerLinkActive="bg-gray-50 text-gray-900"
-        class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-500 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 group"
+        routerLinkActive="bg-gray-50 text-navy-800"
+        class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-500 hover:bg-gray-50 hover:text-navy-800 transition-all duration-200 group"
       >
         <lucide-icon [img]="FileText" class="w-5 h-5 group-hover:scale-110 transition-transform"></lucide-icon>
         <span class="font-medium whitespace-nowrap transition-opacity duration-200" [class.hidden]="!isSidebarOpen">Reportes</span>
@@ -48,8 +46,8 @@
       <a
       *ngIf="!hasRole"
       routerLink="/dashboard/personal"
-      routerLinkActive="bg-gray-50 text-gray-900"
-      class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-500 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 group"
+      routerLinkActive="bg-gray-50 text-navy-800"
+      class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-500 hover:bg-gray-50 hover:text-navy-800 transition-all duration-200 group"
     >
       <lucide-icon [img]="FileText" class="w-5 h-5 group-hover:scale-110 transition-transform"></lucide-icon>
       <span class="font-medium whitespace-nowrap transition-opacity duration-200" [class.hidden]="!isSidebarOpen">Personal</span>
@@ -58,8 +56,8 @@
     <a
       *ngIf="!hasRole"
       routerLink="/dashboard/usuarios"
-      routerLinkActive="bg-gray-50 text-gray-900"
-      class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-500 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 group"
+      routerLinkActive="bg-gray-50 text-navy-800"
+      class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-500 hover:bg-gray-50 hover:text-navy-800 transition-all duration-200 group"
     >
       <lucide-icon [img]="UserCog" class="w-5 h-5 group-hover:scale-110 transition-transform"></lucide-icon>
       <span class="font-medium whitespace-nowrap transition-opacity duration-200" [class.hidden]="!isSidebarOpen">Usuarios</span>
