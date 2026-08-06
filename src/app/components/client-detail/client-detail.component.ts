@@ -19,7 +19,9 @@ import {
   Receipt,
   Users,
   Percent,
-  TrendingUp
+  TrendingUp,
+  X,
+  FileSpreadsheet
 } from 'lucide-angular';
 import { DataService, Client, Document, Transaction, Category, Invoice, Employee, PayrollPayment, TaxConfig } from '../../services/data.service';
 import { RouterLink } from '@angular/router';
@@ -47,8 +49,12 @@ export class ClientDetailComponent implements OnInit {
   // Categories
   categories: Category[] = [];
   newCategoryName = '';
-  newCategoryTipo: 'Ingreso' | 'Gasto' | 'Activo' | 'Pasivo' = 'Ingreso';
+  newCategoryCodigo = '';
+  newCategoryTipo: 'Ingreso' | 'Gasto' | 'Activo' | 'Pasivo' | 'Patrimonio' | 'Costo' | 'Grupo' = 'Ingreso';
   showCategoryForm = false;
+  importingCatalogo = false;
+  notification: string | null = null;
+  notificationType: 'success' | 'error' = 'success';
 
   readonly ArrowLeft = ArrowLeft;
   readonly Upload = Upload;
@@ -66,6 +72,8 @@ export class ClientDetailComponent implements OnInit {
   readonly Users = Users;
   readonly Percent = Percent;
   readonly TrendingUp = TrendingUp;
+  readonly X = X;
+  readonly FileSpreadsheet = FileSpreadsheet;
 
   isGeneratingReport = false;
 newCategory: any;
@@ -217,27 +225,66 @@ public data:any
 
   // Category Methods
   addCategory() {
+    if (!this.newCategoryName) return;
     const data={
       nombre:this.newCategoryName,
+      codigo:this.newCategoryCodigo || null,
       idcreador:localStorage.getItem('id'),
       idcliente:this.ids,
       tipo:this.newCategoryTipo
     }
-    console.log(data);
-    
 
     this.dataService.insertarcategoria(data).subscribe((resp=>{
-      console.log(resp);
       if(resp.ok === true){
+        this.newCategoryName = '';
+        this.newCategoryCodigo = '';
         this.getCategoriesByTipo();
-       
+      } else {
+        this.showNotification('Error al crear la categoría', 'error');
       }
-      
     }))
    }
 
+  // Nivel de indentación jerárquica según el código del catálogo de cuentas
+  // (1 -> nivel 0, 1.01 -> nivel 1, 1.01.01 -> nivel 2...).
+  nivelCodigo(codigo: string | null | undefined): number {
+    if (!codigo) return 0;
+    return codigo.split('.').length - 1;
+  }
 
-   
+  onCatalogoFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    event.target.value = '';
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('archivo', file);
+    formData.append('idcliente', this.ids);
+    formData.append('idcreador', localStorage.getItem('id') || '');
+
+    this.importingCatalogo = true;
+    this.dataService.importarCatalogoCuentas(formData).subscribe({
+      next: (resp) => {
+        this.importingCatalogo = false;
+        if (resp.ok === true) {
+          this.showNotification(`${resp.importadas} cuentas importadas correctamente`, 'success');
+          this.getCategoriesByTipo();
+        } else {
+          this.showNotification(resp.message || 'Error al importar el catálogo', 'error');
+        }
+      },
+      error: (err) => {
+        this.importingCatalogo = false;
+        this.showNotification(err.error?.message || 'Error de conexión al importar el catálogo', 'error');
+      }
+    });
+  }
+
+  private showNotification(message: string, type: 'success' | 'error' = 'success') {
+    this.notification = message;
+    this.notificationType = type;
+    setTimeout(() => this.notification = null, 3500);
+  }
 
   deleteCategory(id: string) {
     this.dataService.deleteCategory(id);
@@ -248,17 +295,12 @@ public datas:any
   getCategoriesByTipo() {
     const data={
       idcliente:this.ids,
-      idcreador:localStorage.getItem('idcreador')
-      
+      idcreador:localStorage.getItem('id')
     }
-    console.log(data);
-    
+
     this.dataService.gettype(data).subscribe((resp=>{
-      console.log(resp);
       this.count =resp.data.length
       this.datas= resp.data
-
-      
     }))
   }
 

@@ -45,7 +45,8 @@ export interface Category {
   id: string;
   clientId: string;
   nombre: string;
-  tipo: 'Ingreso' | 'Gasto' | 'Activo' | 'Pasivo';
+  codigo?: string;
+  tipo: 'Ingreso' | 'Gasto' | 'Activo' | 'Pasivo' | 'Patrimonio' | 'Costo' | 'Grupo';
 }
 
 export interface Invoice {
@@ -206,6 +207,13 @@ export class DataService {
         return this.http.post<any>(
           this.url + 'insertcatego',
           data
+        )
+      }
+
+      importarCatalogoCuentas(formData: FormData){
+        return this.http.post<any>(
+          this.url + 'importarcategorias',
+          formData
         )
       }
 
