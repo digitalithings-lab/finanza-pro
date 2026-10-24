@@ -100,6 +100,16 @@ export interface TaxConfig {
   retencion_porcentaje: number;
 }
 
+export type EtapaProceso = 'documentos' | 'registro' | 'revision' | 'cierre' | 'declaracion';
+
+export interface ProcesoContable {
+  idcliente: string;
+  idcreador: string;
+  etapa: EtapaProceso;
+  nota: string | null;
+  fecha_actualizacion: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -349,6 +359,15 @@ export class DataService {
 
       exportFacturasExcel(data: any) {
         return this.http.post(this.url + 'export/facturas/excel', data, { responseType: 'blob' });
+      }
+
+      // Proceso Contable
+      guardarProcesoContable(data: any) {
+        return this.http.post<any>(this.url + 'proceso/estado', data);
+      }
+
+      getProcesoContable(data: any) {
+        return this.http.post<any>(this.url + 'proceso/getestado', data);
       }
 
   getCategoriesByClient(clientId: string): Observable<Category[]> {

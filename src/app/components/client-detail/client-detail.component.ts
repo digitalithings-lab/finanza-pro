@@ -23,7 +23,7 @@ import {
   X,
   FileSpreadsheet
 } from 'lucide-angular';
-import { DataService, Client, Document, Transaction, Category, Invoice, Employee, PayrollPayment, TaxConfig } from '../../services/data.service';
+import { DataService, Client, Document, Transaction, Category, Invoice, Employee, PayrollPayment, TaxConfig, ProcesoContable, EtapaProceso } from '../../services/data.service';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -124,6 +124,17 @@ newCategory: any;
   // Flujo de caja
   cashFlowLoaded = false;
 
+  // Proceso Contable
+  readonly PROCESO_ETAPAS: { key: EtapaProceso; label: string; descripcion: string }[] = [
+    { key: 'documentos',   label: 'Documentos',  descripcion: 'Recepción de documentos del cliente' },
+    { key: 'registro',     label: 'Registro',    descripcion: 'Registro de movimientos contables' },
+    { key: 'revision',     label: 'Revisión',    descripcion: 'Revisión de la contabilidad del período' },
+    { key: 'cierre',       label: 'Cierre',      descripcion: 'Cierre del período contable' },
+    { key: 'declaracion',  label: 'Declaración', descripcion: 'Presentación de la declaración' },
+  ];
+  procesoContable: ProcesoContable | null = null;
+  procesoEtapaActual: EtapaProceso = 'documentos';
+
   constructor(
     private route: ActivatedRoute,
     private dataService: DataService,
@@ -135,9 +146,38 @@ newCategory: any;
     this.obtenercliente();
     this.documentos();
     this.getCategoriesByTipo();
+    this.getProcesoContable();
     this.dataService.getCategoriesByClient(this.ids).subscribe(cats => {
       this.categories = cats;
     });
+  }
+
+  getProcesoContable() {
+    this.dataService.getProcesoContable({ idcliente: this.ids }).subscribe(resp => {
+      if (resp.ok === true) {
+        this.procesoContable = resp.data;
+        this.procesoEtapaActual = resp.data ? resp.data.etapa : 'documentos';
+      }
+    });
+  }
+
+  actualizarEtapaProceso(etapa: EtapaProceso) {
+    if (etapa === this.procesoEtapaActual) return;
+    const data = {
+      idcliente: this.ids,
+      idcreador: localStorage.getItem('id'),
+      etapa
+    };
+    this.dataService.guardarProcesoContable(data).subscribe(resp => {
+      if (resp.ok === true) {
+        this.procesoEtapaActual = etapa;
+        this.getProcesoContable();
+      }
+    });
+  }
+
+  get procesoEtapaIndex(): number {
+    return this.PROCESO_ETAPAS.findIndex(e => e.key === this.procesoEtapaActual);
   }
 
   obtenercliente(){

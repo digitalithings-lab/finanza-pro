@@ -14,9 +14,41 @@
     </div>
   </div>
 
+  <!-- Proceso Contable -->
+  <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-sm font-bold text-navy-800">Proceso Contable</h3>
+      <span *ngIf="procesoContable" class="text-[10px] text-gray-400 font-semibold uppercase tracking-wider">
+        Actualizado {{ procesoContable.fecha_actualizacion | date:'medium' }}
+      </span>
+    </div>
+    <div class="flex items-center">
+      <ng-container *ngFor="let etapa of PROCESO_ETAPAS; let i = index; let last = last">
+        <button
+          (click)="actualizarEtapaProceso(etapa.key)"
+          class="flex flex-col items-center gap-1.5 group"
+          [title]="etapa.descripcion"
+        >
+          <span class="h-8 w-8 rounded-full flex items-center justify-center text-xs font-bold transition-all"
+            [ngClass]="i <= procesoEtapaIndex ? 'bg-navy-800 text-white' : 'bg-gray-100 text-gray-400 group-hover:bg-gray-200'">
+            <lucide-icon *ngIf="i < procesoEtapaIndex" [img]="CheckCircle" class="w-4 h-4"></lucide-icon>
+            <span *ngIf="i >= procesoEtapaIndex">{{ i + 1 }}</span>
+          </span>
+          <span class="text-[10px] font-semibold uppercase tracking-wide whitespace-nowrap"
+            [ngClass]="i === procesoEtapaIndex ? 'text-navy-800' : 'text-gray-400'">
+            {{ etapa.label }}
+          </span>
+        </button>
+        <div *ngIf="!last" class="flex-1 h-0.5 mx-1 mb-5 rounded-full transition-all"
+          [ngClass]="i < procesoEtapaIndex ? 'bg-navy-800' : 'bg-gray-100'"></div>
+      </ng-container>
+    </div>
+    <p class="text-xs text-gray-400 mt-3">{{ PROCESO_ETAPAS[procesoEtapaIndex]?.descripcion }}</p>
+  </div>
+
   <!-- Tabs Navigation -->
   <div class="flex gap-2 border-b border-gray-100 pb-px">
-    <button 
+    <button
       (click)="activeTab = 'docs'"
       [class.border-navy-800]="activeTab === 'docs'"
       [class.text-navy-800]="activeTab === 'docs'"
