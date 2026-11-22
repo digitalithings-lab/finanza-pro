@@ -37,6 +37,7 @@ export class AuthService {
     localStorage.removeItem('idcreador');
     localStorage.removeItem('nombre');
     localStorage.removeItem('role');
+    localStorage.removeItem('mustChangePassword');
     this.loggedIn.next(false);
     this.router.navigate(['/login']);
   }
@@ -56,5 +57,9 @@ export class AuthService {
 
   deleteAccount(id: string) {
     return this.http.post<any>(this.url + `deletecuenta`, { id });
+  }
+
+  changePassword(data: { id: string; role?: string | null; currentPassword: string; newPassword: string }) {
+    return this.http.post<any>(this.url + `cambiarpassword`, data);
   }
 }

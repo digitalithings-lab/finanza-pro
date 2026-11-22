@@ -4,6 +4,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { finalize } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
+import { ForcePasswordModalComponent } from '../force-password-modal/force-password-modal.component';
 import {
   LucideAngularModule,
   LayoutDashboard,
@@ -23,7 +24,7 @@ import {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, LucideAngularModule, ThemeToggleComponent],
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, LucideAngularModule, ThemeToggleComponent, ForcePasswordModalComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
@@ -36,6 +37,7 @@ export class DashboardComponent {
   confirmDeleteAccount = false;
   deletingAccount = false;
   deleteAccountError = '';
+  mustChangePassword = localStorage.getItem('mustChangePassword') === 'true';
 
   readonly LayoutDashboard = LayoutDashboard;
   readonly Users = Users;
@@ -123,6 +125,10 @@ export class DashboardComponent {
         this.deleteAccountError = err?.error?.mensaje || 'Error de conexión al eliminar la cuenta.';
       }
     });
+  }
+
+  onPasswordChanged() {
+    this.mustChangePassword = false;
   }
 
   logout() {

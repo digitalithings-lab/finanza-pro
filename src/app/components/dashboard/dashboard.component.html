@@ -241,4 +241,11 @@
       </div>
     </div>
   </div>
+
+  <!-- Blocking Modal: Obligar cambio de contraseña inicial -->
+  <app-force-password-modal
+    *ngIf="mustChangePassword"
+    (passwordChanged)="onPasswordChanged()"
+    (logoutRequested)="logout()"
+  ></app-force-password-modal>
 </div>
