@@ -128,11 +128,11 @@ public rol:any
           this.showNotification('Cliente creado correctamente', 'success');
           this.getusers();
         } else {
-          this.showNotification('Error al crear un usuario', 'error');
+          this.showNotification('Error al crear el cliente', 'error');
         }
       },
       error: () => {
-        this.showNotification('Error de conexión al crear el usuario', 'error');
+        this.showNotification('Error de conexión al crear el cliente', 'error');
       }
     });
   }
@@ -211,7 +211,7 @@ this.getpersonal()
 
   deleteUser(event: Event, id: string) {
    
-    this.showNotification('Usuario eliminado');
+    this.showNotification('Cliente eliminado');
   }
 
   private showNotification(message: string, type: 'success' | 'error' = 'success') {

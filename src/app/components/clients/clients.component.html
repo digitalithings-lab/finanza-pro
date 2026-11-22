@@ -4,17 +4,17 @@
 
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
       <div>
-        <h1 class="text-3xl font-bold text-navy-800 dark:text-slate-100">Usuarios</h1>
-        <p class="text-gray-500 dark:text-slate-400 mt-1">Gestiona los usuarios del sistema.</p>
+        <h1 class="text-3xl font-bold text-navy-800 dark:text-slate-100">Clientes</h1>
+        <p class="text-gray-500 dark:text-slate-400 mt-1">Gestiona los clientes del sistema.</p>
       </div>
 
       <button
         *ngIf="!hasRole"
         (click)="toggleModal()"
-        class="flex items-center justify-center gap-2 px-5 py-2.5 bg-navy-800 dark:bg-brand-600 text-white rounded-xl font-semibold text-sm hover:bg-navy-900 dark:hover:bg-brand-500 transition-all shadow-lg hover:shadow-xl active:scale-95"
+        class="flex items-center justify-center gap-2 px-5 py-2.5 bg-navy-800 dark:bg-darkbtn text-white rounded-xl font-semibold text-sm hover:bg-navy-900 dark:hover:bg-darkbtn-hover transition-all shadow-lg hover:shadow-xl active:scale-95"
       >
         <lucide-icon [img]="Plus" class="w-4 h-4"></lucide-icon>
-        Nuevo Usuario
+        Nuevo Cliente
       </button>
     </div>
 
@@ -142,7 +142,7 @@
     <div class="bg-white dark:bg-slate-900 dark:border dark:border-slate-800 w-full max-w-md rounded-3xl shadow-2xl overflow-hidden">
 
       <div class="px-8 py-6 border-b border-gray-50 dark:border-slate-800 flex items-center justify-between bg-gray-50/50 dark:bg-slate-800/50">
-        <h3 class="text-xl font-bold text-navy-800 dark:text-slate-100">Nuevo Usuario</h3>
+        <h3 class="text-xl font-bold text-navy-800 dark:text-slate-100">Nuevo Cliente</h3>
         <button
           (click)="toggleModal()"
           class="p-2 hover:bg-white dark:hover:bg-slate-700 rounded-full transition-all text-gray-400 dark:text-slate-400 hover:text-navy-800 dark:hover:text-white"
@@ -197,9 +197,9 @@
         </button>
         <button
           (click)="saveUser()"
-          class="flex-1 py-3 bg-navy-800 dark:bg-brand-600 text-white rounded-xl text-sm font-bold hover:bg-navy-900 dark:hover:bg-brand-500 transition-all shadow-lg active:scale-[0.98]"
+          class="flex-1 py-3 bg-navy-800 dark:bg-darkbtn text-white rounded-xl text-sm font-bold hover:bg-navy-900 dark:hover:bg-darkbtn-hover transition-all shadow-lg active:scale-[0.98]"
         >
-          Guardar Usuario
+          Guardar Cliente
         </button>
       </div>
 
@@ -245,11 +245,11 @@
             (click)="selectedPersonal = p"
             class="flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition-all"
             [ngClass]="selectedPersonal?.id === p.id
-              ? 'border-navy-800 bg-navy-800 text-white dark:border-brand-500 dark:bg-brand-600'
+              ? 'border-navy-800 bg-navy-800 text-white dark:border-darkbtn-border dark:bg-darkbtn'
               : 'border-gray-100 dark:border-slate-800 hover:bg-gray-50 dark:hover:bg-slate-800/70 text-navy-800 dark:text-slate-100'"
           >
             <div class="h-9 w-9 rounded-full flex items-center justify-center font-bold text-sm shrink-0 transition-all"
-              [ngClass]="selectedPersonal?.id === p.id ? 'bg-white text-navy-800 dark:text-brand-700' : 'bg-indigo-50 dark:bg-indigo-500/15 text-indigo-500 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-500/30'">
+              [ngClass]="selectedPersonal?.id === p.id ? 'bg-white text-navy-800' : 'bg-indigo-50 dark:bg-indigo-500/15 text-indigo-500 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-500/30'">
               {{ p.nombre?.charAt(0)?.toUpperCase() }}
             </div>
             <div class="flex-1 min-w-0">
@@ -272,7 +272,7 @@
         <button
           (click)="asignarCliente()"
           [disabled]="!selectedPersonal || asignando"
-          class="flex-1 py-3 bg-navy-800 dark:bg-brand-600 text-white rounded-xl text-sm font-bold hover:bg-navy-900 dark:hover:bg-brand-500 transition-all shadow-lg active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100 flex items-center justify-center gap-2"
+          class="flex-1 py-3 bg-navy-800 dark:bg-darkbtn text-white rounded-xl text-sm font-bold hover:bg-navy-900 dark:hover:bg-darkbtn-hover transition-all shadow-lg active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100 flex items-center justify-center gap-2"
         >
           <span *ngIf="asignando" class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
           {{ asignando ? 'Asignando...' : 'Asignar Cliente' }}

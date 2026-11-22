@@ -33,6 +33,10 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('id');
+    localStorage.removeItem('idcreador');
+    localStorage.removeItem('nombre');
+    localStorage.removeItem('role');
     this.loggedIn.next(false);
     this.router.navigate(['/login']);
   }
@@ -44,5 +48,13 @@ export class AuthService {
   getpersonal(data:any){
     return this.http.post<any>(this.url+`getpersonal`,data);
 
+  }
+
+  deletePersonal(data: { id: number | string; idcreador?: string | null }) {
+    return this.http.post<any>(this.url + `deletepersonal`, data);
+  }
+
+  deleteAccount(id: string) {
+    return this.http.post<any>(this.url + `deletecuenta`, { id });
   }
 }

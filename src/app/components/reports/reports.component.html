@@ -25,7 +25,7 @@
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
     <div *ngFor="let card of reportCards" class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-gray-100 dark:border-slate-800 flex items-center justify-between hover:shadow-md transition-all group">
       <div class="flex items-center gap-4">
-        <div class="h-12 w-12 bg-gray-50 dark:bg-slate-800 rounded-xl flex items-center justify-center group-hover:bg-navy-800 dark:group-hover:bg-brand-600 transition-colors">
+        <div class="h-12 w-12 bg-gray-50 dark:bg-slate-800 rounded-xl flex items-center justify-center group-hover:bg-navy-800 dark:group-hover:bg-darkbtn transition-colors">
           <lucide-icon [img]="FileText" class="w-6 h-6 text-gray-400 dark:text-slate-400 group-hover:text-white transition-colors"></lucide-icon>
         </div>
         <div>
@@ -39,7 +39,7 @@
           <lucide-icon [img]="Download" class="w-3.5 h-3.5"></lucide-icon>
           PDF
         </button>
-        <button (click)="exportExcel(card)" class="px-3 py-2 text-xs font-bold text-white bg-navy-800 dark:bg-brand-600 rounded-xl hover:bg-navy-900 dark:hover:bg-brand-500 transition-all flex items-center gap-1.5">
+        <button (click)="exportExcel(card)" class="px-3 py-2 text-xs font-bold text-white bg-navy-800 dark:bg-darkbtn rounded-xl hover:bg-navy-900 dark:hover:bg-darkbtn-hover transition-all flex items-center gap-1.5">
           <lucide-icon [img]="Download" class="w-3.5 h-3.5"></lucide-icon>
           Excel
         </button>

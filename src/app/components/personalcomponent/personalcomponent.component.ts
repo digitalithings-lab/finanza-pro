@@ -23,6 +23,7 @@ interface Personal {
 export class PersonalcomponentComponent implements OnInit {
   personalForm: FormGroup;
   isLoading = false;
+  deletingId: number | null = null;
   
   // Lucide icons
   readonly UserPlus = UserPlus;
@@ -90,25 +91,41 @@ export class PersonalcomponentComponent implements OnInit {
   }
 
   deletePersonal(id: number) {
-    this.data = this.data.filter((p: Personal) => p.id !== id);
+    if (this.deletingId === id) {
+      return;
+    }
+
+    this.deletingId = id;
+    this.service.deletePersonal({
+      id,
+      idcreador: localStorage.getItem('id')
+    }).subscribe({
+      next: (resp: any) => {
+        this.deletingId = null;
+        if (resp.success === true) {
+          this.data = this.data.filter((p: Personal) => p.id !== id);
+        }
+      },
+      error: (err: any) => {
+        this.deletingId = null;
+        console.error('Error al eliminar personal', err);
+      }
+    });
   }
   public data: Personal[] = [];
 
   getpersonal(){
+    const id = localStorage.getItem('id');
+    const data = { id };
 
-    const id = localStorage.getItem('id')
-    const data={
-
-      id:id
-    }
-
-
-    this.service.getpersonal(data).subscribe((resp=>{
-      console.log(resp);
-      if (resp.success === true) {
-        this.data = resp.data;
+    this.service.getpersonal(data).subscribe((resp: any) => {
+      if (resp.success === true && Array.isArray(resp.data)) {
+        this.data = resp.data.map((p: any) => ({
+          ...p,
+          usuario: p.usuario ?? p.user ?? '',
+          rol: p.rol ?? p.role ?? ''
+        }));
       }
-    }))
-
+    });
   }
 }

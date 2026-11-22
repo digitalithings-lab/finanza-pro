@@ -66,7 +66,7 @@
           [disabled]="isLoading"
           [attr.aria-busy]="isLoading"
           [attr.aria-label]="isLoading ? 'Iniciando sesión' : null"
-          class="group relative w-full flex items-center justify-center py-3 px-4 border border-transparent text-sm font-semibold rounded-xl text-white bg-navy-800 hover:bg-navy-800/85 dark:bg-brand-600 dark:hover:bg-brand-600/85 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-slate-900 focus:ring-brand-500 transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] disabled:opacity-90 disabled:cursor-wait disabled:hover:bg-navy-800 dark:disabled:hover:bg-brand-600 disabled:hover:shadow-lg disabled:active:scale-100"
+          class="group relative w-full flex items-center justify-center py-3 px-4 border border-transparent text-sm font-semibold rounded-xl text-white bg-navy-800 hover:bg-navy-800/85 dark:bg-darkbtn dark:hover:bg-darkbtn-hover focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-slate-900 focus:ring-brand-500 transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] disabled:opacity-90 disabled:cursor-wait disabled:hover:bg-navy-800 dark:disabled:hover:bg-darkbtn disabled:hover:shadow-lg disabled:active:scale-100"
         >
           <span *ngIf="!isLoading">Iniciar Sesión</span>
           <span *ngIf="isLoading" class="relative flex h-5 w-5 items-center justify-center" aria-hidden="true">

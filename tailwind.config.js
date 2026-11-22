@@ -31,6 +31,11 @@ module.exports = {
           800: '#2b3c4d',
           900: '#212f3d',
         },
+        darkbtn: {
+          DEFAULT: '#3b5b7c',
+          hover: '#4a6f96',
+          border: '#5b82ab',
+        },
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
