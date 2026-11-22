@@ -4,44 +4,44 @@
 
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
       <div>
-        <h1 class="text-3xl font-bold text-navy-800">Usuarios</h1>
-        <p class="text-gray-500 mt-1">Gestiona los usuarios del sistema.</p>
+        <h1 class="text-3xl font-bold text-navy-800 dark:text-slate-100">Usuarios</h1>
+        <p class="text-gray-500 dark:text-slate-400 mt-1">Gestiona los usuarios del sistema.</p>
       </div>
 
       <button
         *ngIf="!hasRole"
         (click)="toggleModal()"
-        class="flex items-center justify-center gap-2 px-5 py-2.5 bg-navy-800 text-white rounded-xl font-semibold text-sm hover:bg-navy-900 transition-all shadow-lg hover:shadow-xl active:scale-95"
+        class="flex items-center justify-center gap-2 px-5 py-2.5 bg-navy-800 dark:bg-brand-600 text-white rounded-xl font-semibold text-sm hover:bg-navy-900 dark:hover:bg-brand-500 transition-all shadow-lg hover:shadow-xl active:scale-95"
       >
         <lucide-icon [img]="Plus" class="w-4 h-4"></lucide-icon>
         Nuevo Usuario
       </button>
     </div>
 
-    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-800 overflow-hidden">
 
       <!-- Buscador -->
-      <div class="p-4 border-b border-gray-50 flex flex-col sm:flex-row gap-4 items-center justify-between bg-white">
+      <div class="p-4 border-b border-gray-50 dark:border-slate-800 flex flex-col sm:flex-row gap-4 items-center justify-between bg-white dark:bg-slate-900">
 
         <div class="relative w-full sm:w-96">
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <lucide-icon [img]="Search" class="h-4 w-4 text-gray-400"></lucide-icon>
+            <lucide-icon [img]="Search" class="h-4 w-4 text-gray-400 dark:text-slate-500"></lucide-icon>
           </div>
           <input
             type="text"
             [(ngModel)]="searchTerm"
             placeholder="Buscar por nombre, usuario o correo..."
-            class="block w-full pl-10 pr-3 py-2 border border-gray-100 rounded-xl bg-gray-50/50 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all"
+            class="block w-full pl-10 pr-3 py-2 border border-gray-100 dark:border-slate-700 rounded-xl bg-gray-50/50 dark:bg-slate-800 text-navy-800 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white dark:focus:bg-slate-800 transition-all"
           >
         </div>
 
         <div class="relative w-full sm:w-auto">
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <lucide-icon [img]="Filter" class="h-4 w-4 text-gray-400"></lucide-icon>
+            <lucide-icon [img]="Filter" class="h-4 w-4 text-gray-400 dark:text-slate-500"></lucide-icon>
           </div>
           <select
             [(ngModel)]="filterTipo"
-            class="w-full sm:w-auto pl-10 pr-8 py-2 border border-gray-100 rounded-xl text-sm font-medium text-gray-600 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all appearance-none"
+            class="w-full sm:w-auto pl-10 pr-8 py-2 border border-gray-100 dark:border-slate-700 rounded-xl text-sm font-medium text-gray-600 dark:text-slate-200 bg-white dark:bg-slate-800 hover:bg-gray-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all appearance-none"
           >
             <option value="todos">Todos los tipos</option>
             <option value="natural">Persona Natural</option>
@@ -56,38 +56,38 @@
         <table class="w-full text-left border-collapse">
 
           <thead>
-            <tr class="bg-gray-50/50 border-b border-gray-100">
-              <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Nombre</th>
-              <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Usuario</th>
-              <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Correo</th>
-              <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Tipo</th>
-              <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider text-right">Acciones</th>
+            <tr class="bg-gray-50/50 dark:bg-slate-800/50 border-b border-gray-100 dark:border-slate-800">
+              <th class="px-6 py-4 text-xs font-bold text-gray-400 dark:text-slate-400 uppercase tracking-wider">Nombre</th>
+              <th class="px-6 py-4 text-xs font-bold text-gray-400 dark:text-slate-400 uppercase tracking-wider">Usuario</th>
+              <th class="px-6 py-4 text-xs font-bold text-gray-400 dark:text-slate-400 uppercase tracking-wider">Correo</th>
+              <th class="px-6 py-4 text-xs font-bold text-gray-400 dark:text-slate-400 uppercase tracking-wider">Tipo</th>
+              <th class="px-6 py-4 text-xs font-bold text-gray-400 dark:text-slate-400 uppercase tracking-wider text-right">Acciones</th>
             </tr>
           </thead>
 
-          <tbody class="divide-y divide-gray-50">
+          <tbody class="divide-y divide-gray-50 dark:divide-slate-800">
             <tr
               *ngFor="let user of filteredTabla"
-              class="hover:bg-gray-50/80 transition-colors group"
+              class="hover:bg-gray-50/80 dark:hover:bg-slate-800/50 transition-colors group"
             >
 
               <td class="px-6 py-4">
                 <div class="flex items-center gap-3">
-                  <div class="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center font-bold text-gray-500 border border-gray-100">
+                  <div class="h-10 w-10 rounded-full bg-gray-100 dark:bg-slate-800 flex items-center justify-center font-bold text-gray-500 dark:text-slate-300 border border-gray-100 dark:border-slate-700">
                     {{ user.nombre.charAt(0).toUpperCase() }}
                   </div>
-                  <p class="font-bold text-navy-800">{{ user.nombre }} {{ user.apellido }}</p>
+                  <p class="font-bold text-navy-800 dark:text-slate-100">{{ user.nombre }} {{ user.apellido }}</p>
                 </div>
               </td>
 
-              <td class="px-6 py-4 text-sm text-gray-600">{{ user.usuario }}</td>
+              <td class="px-6 py-4 text-sm text-gray-600 dark:text-slate-300">{{ user.usuario }}</td>
 
-              <td class="px-6 py-4 text-sm text-gray-600">{{ user.correo }}</td>
+              <td class="px-6 py-4 text-sm text-gray-600 dark:text-slate-300">{{ user.correo }}</td>
 
               <td class="px-6 py-4">
                 <span
                   class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-tight"
-                  [ngClass]="user.rol_id == 1 ? 'bg-purple-50 text-purple-600' : 'bg-blue-50 text-blue-600'"
+                  [ngClass]="user.rol_id == 1 ? 'bg-purple-50 text-purple-600 dark:bg-purple-500/15 dark:text-purple-400' : 'bg-blue-50 text-blue-600 dark:bg-blue-500/15 dark:text-blue-400'"
                 >
                   {{user.tipo}}
                 </span>
@@ -98,20 +98,20 @@
                   <button
                     *ngIf="!hasRole"
                     (click)="openAsignarModal(user)"
-                    class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-indigo-600 bg-indigo-50 border border-indigo-100 rounded-lg hover:bg-indigo-100 transition-all"
+                    class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/15 border border-indigo-100 dark:border-indigo-500/30 rounded-lg hover:bg-indigo-100 dark:hover:bg-indigo-500/25 transition-all"
                   >
                     <lucide-icon [img]="UserPlus" class="w-3.5 h-3.5"></lucide-icon>
                     Asignar
                   </button>
                   <a
                     [routerLink]="['/dashboard/clients', user.id]"
-                    class="p-2 text-gray-400 hover:text-blue-600 rounded-lg hover:bg-blue-50 transition-all"
+                    class="p-2 text-gray-400 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-500/15 transition-all"
                   >
                     <lucide-icon [img]="ChevronRight" class="w-4 h-4"></lucide-icon>
                   </a>
                   <button
                     (click)="deleteUser($event, user.id)"
-                    class="p-2 text-gray-400 hover:text-red-600 rounded-lg hover:bg-red-50 transition-all"
+                    class="p-2 text-gray-400 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 rounded-lg hover:bg-red-50 dark:hover:bg-red-500/15 transition-all"
                   >
                     <lucide-icon [img]="Trash2" class="w-4 h-4"></lucide-icon>
                   </button>
@@ -121,7 +121,7 @@
             </tr>
 
             <tr *ngIf="filteredTabla.length === 0">
-              <td colspan="5" class="px-6 py-12 text-center text-sm text-gray-400 italic">
+              <td colspan="5" class="px-6 py-12 text-center text-sm text-gray-400 dark:text-slate-500 italic">
                 No hay clientes que coincidan con la búsqueda.
               </td>
             </tr>
@@ -136,16 +136,16 @@
   <!-- Modal: fuera del div principal para evitar problemas de stacking -->
   <div
     *ngIf="showModal"
-    class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-800/40 backdrop-blur-sm"
+    class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-800/40 dark:bg-black/70 backdrop-blur-sm"
   >
 
-    <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl overflow-hidden">
+    <div class="bg-white dark:bg-slate-900 dark:border dark:border-slate-800 w-full max-w-md rounded-3xl shadow-2xl overflow-hidden">
 
-      <div class="px-8 py-6 border-b border-gray-50 flex items-center justify-between bg-gray-50/50">
-        <h3 class="text-xl font-bold text-navy-800">Nuevo Usuario</h3>
+      <div class="px-8 py-6 border-b border-gray-50 dark:border-slate-800 flex items-center justify-between bg-gray-50/50 dark:bg-slate-800/50">
+        <h3 class="text-xl font-bold text-navy-800 dark:text-slate-100">Nuevo Usuario</h3>
         <button
           (click)="toggleModal()"
-          class="p-2 hover:bg-white rounded-full transition-all text-gray-400 hover:text-navy-800"
+          class="p-2 hover:bg-white dark:hover:bg-slate-700 rounded-full transition-all text-gray-400 dark:text-slate-400 hover:text-navy-800 dark:hover:text-white"
         >
           <lucide-icon [img]="X" class="w-5 h-5"></lucide-icon>
         </button>
@@ -154,33 +154,33 @@
       <div class="p-8 space-y-5">
 
         <div>
-          <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-2">Nombre</label>
-          <input [(ngModel)]="nombre" type="text" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500">
+          <label class="text-[10px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-widest block mb-2">Nombre</label>
+          <input [(ngModel)]="nombre" type="text" class="w-full px-4 py-3 bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 text-navy-800 dark:text-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500">
         </div>
 
         <div>
-          <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-2">Apellido</label>
-          <input [(ngModel)]="apellido" type="text" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500">
+          <label class="text-[10px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-widest block mb-2">Apellido</label>
+          <input [(ngModel)]="apellido" type="text" class="w-full px-4 py-3 bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 text-navy-800 dark:text-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500">
         </div>
 
         <div>
-          <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-2">Correo</label>
-          <input [(ngModel)]="correo" type="email" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500">
+          <label class="text-[10px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-widest block mb-2">Correo</label>
+          <input [(ngModel)]="correo" type="email" class="w-full px-4 py-3 bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 text-navy-800 dark:text-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500">
         </div>
 
         <div>
-          <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-2">Usuario</label>
-          <input [(ngModel)]="usuario" type="text" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500">
+          <label class="text-[10px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-widest block mb-2">Usuario</label>
+          <input [(ngModel)]="usuario" type="text" class="w-full px-4 py-3 bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 text-navy-800 dark:text-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500">
         </div>
 
         <div>
-          <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-2">Contraseña</label>
-          <input [(ngModel)]="password" type="password" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500">
+          <label class="text-[10px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-widest block mb-2">Contraseña</label>
+          <input [(ngModel)]="password" type="password" class="w-full px-4 py-3 bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 text-navy-800 dark:text-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500">
         </div>
 
         <div>
-          <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-2">Rol</label>
-          <select [(ngModel)]="rol_id" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500">
+          <label class="text-[10px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-widest block mb-2">Rol</label>
+          <select [(ngModel)]="rol_id" class="w-full px-4 py-3 bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 text-navy-800 dark:text-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500">
             <option [ngValue]="1">natural</option>
             <option [ngValue]="2">juridica</option>
           </select>
@@ -188,16 +188,16 @@
 
       </div>
 
-      <div class="px-8 py-6 bg-gray-50/50 flex gap-3">
+      <div class="px-8 py-6 bg-gray-50/50 dark:bg-slate-800/50 flex gap-3">
         <button
           (click)="toggleModal()"
-          class="flex-1 py-3 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-600 hover:bg-gray-100 transition-all"
+          class="flex-1 py-3 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl text-sm font-bold text-gray-600 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-700 transition-all"
         >
           Cancelar
         </button>
         <button
           (click)="saveUser()"
-          class="flex-1 py-3 bg-navy-800 text-white rounded-xl text-sm font-bold hover:bg-navy-900 transition-all shadow-lg active:scale-[0.98]"
+          class="flex-1 py-3 bg-navy-800 dark:bg-brand-600 text-white rounded-xl text-sm font-bold hover:bg-navy-900 dark:hover:bg-brand-500 transition-all shadow-lg active:scale-[0.98]"
         >
           Guardar Usuario
         </button>
@@ -209,17 +209,17 @@
   <!-- Modal: Asignar Personal -->
   <div
     *ngIf="showAsignarModal"
-    class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-800/40 backdrop-blur-sm"
+    class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-800/40 dark:bg-black/70 backdrop-blur-sm"
     (click)="closeAsignarModal()"
   >
-    <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl overflow-hidden" (click)="$event.stopPropagation()">
+    <div class="bg-white dark:bg-slate-900 dark:border dark:border-slate-800 w-full max-w-md rounded-3xl shadow-2xl overflow-hidden" (click)="$event.stopPropagation()">
 
-      <div class="px-8 py-6 border-b border-gray-50 flex items-center justify-between bg-gray-50/50">
+      <div class="px-8 py-6 border-b border-gray-50 dark:border-slate-800 flex items-center justify-between bg-gray-50/50 dark:bg-slate-800/50">
         <div>
-          <h3 class="text-xl font-bold text-navy-800">Personal asignado</h3>
-          <p class="text-xs text-gray-400 mt-0.5">{{ selectedClient?.nombre }} {{ selectedClient?.apellido }}</p>
+          <h3 class="text-xl font-bold text-navy-800 dark:text-slate-100">Personal asignado</h3>
+          <p class="text-xs text-gray-400 dark:text-slate-400 mt-0.5">{{ selectedClient?.nombre }} {{ selectedClient?.apellido }}</p>
         </div>
-        <button (click)="closeAsignarModal()" class="p-2 hover:bg-white rounded-full transition-all text-gray-400 hover:text-navy-800">
+        <button (click)="closeAsignarModal()" class="p-2 hover:bg-white dark:hover:bg-slate-700 rounded-full transition-all text-gray-400 dark:text-slate-400 hover:text-navy-800 dark:hover:text-white">
           <lucide-icon [img]="X" class="w-5 h-5"></lucide-icon>
         </button>
       </div>
@@ -227,13 +227,13 @@
       <div class="p-6 min-h-[200px]">
 
         <!-- Loading -->
-        <div *ngIf="loadingPersonal" class="flex flex-col items-center justify-center h-40 gap-3 text-gray-400">
-          <div class="w-6 h-6 border-2 border-gray-300 border-t-gray-700 rounded-full animate-spin"></div>
+        <div *ngIf="loadingPersonal" class="flex flex-col items-center justify-center h-40 gap-3 text-gray-400 dark:text-slate-400">
+          <div class="w-6 h-6 border-2 border-gray-300 dark:border-slate-700 border-t-gray-700 dark:border-t-brand-400 rounded-full animate-spin"></div>
           <p class="text-sm">Cargando personal...</p>
         </div>
 
         <!-- Sin resultados -->
-        <div *ngIf="!loadingPersonal && personalAsignado.length === 0" class="flex flex-col items-center justify-center h-40 gap-2 text-gray-300">
+        <div *ngIf="!loadingPersonal && personalAsignado.length === 0" class="flex flex-col items-center justify-center h-40 gap-2 text-gray-300 dark:text-slate-600">
           <lucide-icon [img]="UserPlus" class="w-10 h-10"></lucide-icon>
           <p class="text-sm font-medium">Sin personal asignado</p>
         </div>
@@ -245,11 +245,11 @@
             (click)="selectedPersonal = p"
             class="flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition-all"
             [ngClass]="selectedPersonal?.id === p.id
-              ? 'border-navy-800 bg-navy-800 text-white'
-              : 'border-gray-100 hover:bg-gray-50'"
+              ? 'border-navy-800 bg-navy-800 text-white dark:border-brand-500 dark:bg-brand-600'
+              : 'border-gray-100 dark:border-slate-800 hover:bg-gray-50 dark:hover:bg-slate-800/70 text-navy-800 dark:text-slate-100'"
           >
             <div class="h-9 w-9 rounded-full flex items-center justify-center font-bold text-sm shrink-0 transition-all"
-              [ngClass]="selectedPersonal?.id === p.id ? 'bg-white text-navy-800' : 'bg-indigo-50 text-indigo-500 border border-indigo-100'">
+              [ngClass]="selectedPersonal?.id === p.id ? 'bg-white text-navy-800 dark:text-brand-700' : 'bg-indigo-50 dark:bg-indigo-500/15 text-indigo-500 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-500/30'">
               {{ p.nombre?.charAt(0)?.toUpperCase() }}
             </div>
             <div class="flex-1 min-w-0">
@@ -257,7 +257,7 @@
               <p class="text-xs truncate opacity-60">{{ p.correo || p.user }}</p>
             </div>
             <span class="text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full"
-              [ngClass]="selectedPersonal?.id === p.id ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-500'">
+              [ngClass]="selectedPersonal?.id === p.id ? 'bg-white/20 text-white' : 'bg-gray-100 dark:bg-slate-800 text-gray-500 dark:text-slate-400'">
               {{ p.role }}
             </span>
           </li>
@@ -265,14 +265,14 @@
 
       </div>
 
-      <div class="px-8 py-5 bg-gray-50/50 border-t border-gray-100 flex gap-3">
-        <button (click)="closeAsignarModal()" class="flex-1 py-3 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-600 hover:bg-gray-100 transition-all">
+      <div class="px-8 py-5 bg-gray-50/50 dark:bg-slate-800/50 border-t border-gray-100 dark:border-slate-800 flex gap-3">
+        <button (click)="closeAsignarModal()" class="flex-1 py-3 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl text-sm font-bold text-gray-600 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-700 transition-all">
           Cancelar
         </button>
         <button
           (click)="asignarCliente()"
           [disabled]="!selectedPersonal || asignando"
-          class="flex-1 py-3 bg-navy-800 text-white rounded-xl text-sm font-bold hover:bg-navy-900 transition-all shadow-lg active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100 flex items-center justify-center gap-2"
+          class="flex-1 py-3 bg-navy-800 dark:bg-brand-600 text-white rounded-xl text-sm font-bold hover:bg-navy-900 dark:hover:bg-brand-500 transition-all shadow-lg active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100 flex items-center justify-center gap-2"
         >
           <span *ngIf="asignando" class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
           {{ asignando ? 'Asignando...' : 'Asignar Cliente' }}
@@ -286,7 +286,7 @@
   <div
     *ngIf="notification"
     class="fixed bottom-8 right-8 z-[100] px-5 py-4 rounded-2xl shadow-2xl flex items-center gap-3 transition-all"
-    [ngClass]="notificationType === 'success' ? 'bg-navy-800 text-white' : 'bg-red-500 text-white'"
+    [ngClass]="notificationType === 'success' ? 'bg-navy-800 dark:bg-slate-800 dark:border dark:border-slate-700 text-white' : 'bg-red-500 dark:bg-red-600 text-white'"
   >
     <div class="w-8 h-8 rounded-xl flex items-center justify-center shrink-0"
       [ngClass]="notificationType === 'success' ? 'bg-white/10' : 'bg-white/20'">

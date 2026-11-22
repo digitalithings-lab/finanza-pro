@@ -5,6 +5,13 @@
 :root {
   --background: #ffffff;
   --foreground: #0f172a;
+  color-scheme: light;
+}
+
+html.dark {
+  --background: #020617;
+  --foreground: #f1f5f9;
+  color-scheme: dark;
 }
 
 body {
@@ -33,6 +40,14 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #cbd5e1;
+}
+
+html.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background: #475569;
 }
 
 /* Animations */
