@@ -67,6 +67,10 @@ export class DashboardComponent {
     return !!localStorage.getItem('role');
   }
 
+  get isMaster(): boolean {
+    return this.authService.isMaster();
+  }
+
   get nombreUsuario(): string {
     return localStorage.getItem('nombre') || 'Usuario';
   }

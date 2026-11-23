@@ -52,6 +52,16 @@
       <lucide-icon [img]="UserCog" class="w-5 h-5 group-hover:scale-110 transition-transform"></lucide-icon>
       <span class="font-medium whitespace-nowrap transition-opacity duration-200" [class.hidden]="!isSidebarOpen">Personal</span>
     </a>
+
+    <a
+      *ngIf="isMaster"
+      routerLink="/dashboard/usuarios"
+      routerLinkActive="bg-gray-50 text-navy-800 dark:bg-slate-800 dark:text-white"
+      class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-500 dark:text-slate-400 hover:bg-gray-50 dark:hover:bg-slate-800/70 hover:text-navy-800 dark:hover:text-slate-100 transition-all duration-200 group"
+    >
+      <lucide-icon [img]="UserCog" class="w-5 h-5 group-hover:scale-110 transition-transform"></lucide-icon>
+      <span class="font-medium whitespace-nowrap transition-opacity duration-200" [class.hidden]="!isSidebarOpen">Administradores</span>
+    </a>
     </nav>
   </aside>
 

@@ -38,6 +38,7 @@ export class AuthService {
     localStorage.removeItem('nombre');
     localStorage.removeItem('role');
     localStorage.removeItem('mustChangePassword');
+    localStorage.removeItem('isMaster');
     this.loggedIn.next(false);
     this.router.navigate(['/login']);
   }
@@ -65,6 +66,16 @@ export class AuthService {
    */
   getPersonalId(): string | null {
     return localStorage.getItem('role') ? localStorage.getItem('id') : null;
+  }
+
+  isMaster(): boolean {
+    if (localStorage.getItem('role')) {
+      return false;
+    }
+    if (localStorage.getItem('isMaster') === 'true') {
+      return true;
+    }
+    return (localStorage.getItem('nombre') || '').trim().toLowerCase() === 'admin';
   }
 
   getpersonal(data:any){

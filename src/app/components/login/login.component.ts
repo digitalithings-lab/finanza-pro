@@ -65,6 +65,7 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('role', resp.usuario.role);
           }
           localStorage.setItem('mustChangePassword', resp.usuario.debeCambiarPassword ? 'true' : 'false');
+          localStorage.setItem('isMaster', resp.usuario.esMaster ? 'true' : 'false');
           this.router.navigate(['/dashboard']);
         } else {
           this.error = 'Usuario o contraseña incorrectos';
