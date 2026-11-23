@@ -13,19 +13,33 @@
     class="fixed md:static inset-y-0 left-0 bg-white dark:bg-slate-900 border-r border-gray-100 dark:border-slate-800 flex flex-col transition-all duration-300 ease-in-out z-40 shrink-0 shadow-2xl md:shadow-none"
     [ngClass]="isSidebarOpen ? 'translate-x-0 w-64' : '-translate-x-full md:translate-x-0 md:w-20 w-64'"
   >
-    <!-- Brand & Integrated Toggle Header -->
+    <!-- Brand Header (Logo always at the top) -->
     <div
       class="h-16 flex items-center border-b border-gray-50 dark:border-slate-800 shrink-0 transition-all duration-300"
-      [ngClass]="isSidebarOpen ? 'justify-between px-4' : 'justify-center px-2'"
+      [ngClass]="isSidebarOpen ? 'px-6 justify-start' : 'px-2 justify-center'"
     >
-      <div class="flex items-center gap-3 overflow-hidden" *ngIf="isSidebarOpen">
+      <div class="flex items-center gap-3 overflow-hidden">
         <img src="/assets/logo-icon.svg" alt="NOX" class="h-9 w-9 shrink-0">
-        <span class="font-bold text-lg tracking-tight whitespace-nowrap">
+        <span
+          class="font-bold text-lg tracking-tight whitespace-nowrap transition-opacity duration-200"
+          [class.hidden]="!isSidebarOpen"
+        >
           NOX
         </span>
       </div>
+    </div>
 
-      <!-- Integrated Animated Menu Button inside the Sidebar -->
+    <!-- Hamburger / Collapse Toggle Button (Always below the logo inside the sidebar) -->
+    <div
+      class="px-3 pt-4 pb-1 flex items-center shrink-0 transition-all duration-300"
+      [ngClass]="isSidebarOpen ? 'justify-between px-4' : 'justify-center'"
+    >
+      <span
+        *ngIf="isSidebarOpen"
+        class="text-[11px] font-bold uppercase tracking-widest text-gray-400 dark:text-slate-500 select-none"
+      >
+        Menú
+      </span>
       <button
         type="button"
         (click)="toggleSidebar()"
@@ -42,15 +56,7 @@
       </button>
     </div>
 
-    <!-- Collapsed Desktop Logo Indicator (shown right below toggle button when sidebar is collapsed) -->
-    <div
-      *ngIf="!isSidebarOpen"
-      class="hidden md:flex items-center justify-center pt-4 pb-1 shrink-0"
-    >
-      <img src="/assets/logo-icon.svg" alt="NOX" class="h-8 w-8 opacity-90 hover:opacity-100 transition-opacity" title="NOX">
-    </div>
-
-    <nav class="flex-1 px-3 py-5 space-y-2 overflow-y-auto">
+    <nav class="flex-1 px-3 py-4 space-y-2 overflow-y-auto">
       <a
         routerLink="/dashboard"
         (click)="onNavClick()"
