@@ -72,10 +72,12 @@ export class AuthService {
     if (localStorage.getItem('role')) {
       return false;
     }
-    if (localStorage.getItem('isMaster') === 'true') {
-      return true;
+    const isMasterFlag = localStorage.getItem('isMaster');
+    if (isMasterFlag === 'true' || isMasterFlag === 'false') {
+      return isMasterFlag === 'true';
     }
-    return (localStorage.getItem('nombre') || '').trim().toLowerCase() === 'admin';
+    const nombre = (localStorage.getItem('nombre') || '').trim().toLowerCase();
+    return nombre === 'admin' || nombre === 'jorge';
   }
 
   getpersonal(data:any){
