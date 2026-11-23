@@ -74,3 +74,23 @@ html.dark ::-webkit-scrollbar-thumb:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.05);
 }
+
+/* Smooth & fast full-page theme switch transition */
+html.theme-transitioning,
+html.theme-transitioning body,
+html.theme-transitioning *:not(.nox-theme-switch):not(.nox-theme-switch *),
+html.theme-transitioning *:not(.nox-theme-switch):not(.nox-theme-switch *)::before,
+html.theme-transitioning *:not(.nox-theme-switch):not(.nox-theme-switch *)::after {
+  transition-property: background-color, border-color, color, fill, stroke, box-shadow, outline-color, text-decoration-color !important;
+  transition-duration: 260ms !important;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1) !important;
+  transition-delay: 0ms !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.theme-transitioning,
+  html.theme-transitioning body,
+  html.theme-transitioning * {
+    transition-duration: 0ms !important;
+  }
+}

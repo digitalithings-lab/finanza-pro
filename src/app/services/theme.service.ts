@@ -13,6 +13,7 @@ const THEME_STORAGE_KEY = 'nox-theme';
 export class ThemeService {
   private readonly darkModeSubject = new BehaviorSubject<boolean>(false);
   readonly isDark$ = this.darkModeSubject.asObservable();
+  private transitionTimer: ReturnType<typeof setTimeout> | null = null;
 
   constructor() {
     this.initTheme();
@@ -23,13 +24,24 @@ export class ThemeService {
   }
 
   toggleTheme(): void {
-    this.setDark(!this.darkModeSubject.value);
+    this.setDark(!this.darkModeSubject.value, true);
   }
 
-  setDark(dark: boolean): void {
+  setDark(dark: boolean, animate = true): void {
     this.darkModeSubject.next(dark);
     if (typeof document !== 'undefined') {
-      document.documentElement.classList.toggle('dark', dark);
+      const root = document.documentElement;
+      if (animate) {
+        if (this.transitionTimer) {
+          clearTimeout(this.transitionTimer);
+        }
+        root.classList.add('theme-transitioning');
+        this.transitionTimer = setTimeout(() => {
+          root.classList.remove('theme-transitioning');
+          this.transitionTimer = null;
+        }, 320);
+      }
+      root.classList.toggle('dark', dark);
     }
     try {
       localStorage.setItem(THEME_STORAGE_KEY, dark ? 'dark' : 'light');
