@@ -1,47 +1,45 @@
 <div class="fade-in space-y-6 pb-12" *ngIf="datos">
   <!-- Header -->
-  <div class="flex items-center gap-4 mb-2">
-    <a routerLink="/dashboard/clients" class="p-2 hover:bg-white dark:hover:bg-slate-800 rounded-xl text-gray-400 dark:text-slate-400 hover:text-navy-800 dark:hover:text-slate-100 transition-all border border-transparent hover:border-gray-100 dark:hover:border-slate-700">
+  <div class="flex flex-wrap items-center gap-3 sm:gap-4 mb-2">
+    <a routerLink="/dashboard/clients" class="p-2 hover:bg-white dark:hover:bg-slate-800 rounded-xl text-gray-400 dark:text-slate-400 hover:text-navy-800 dark:hover:text-slate-100 transition-all border border-transparent hover:border-gray-100 dark:hover:border-slate-700 shrink-0">
       <lucide-icon [img]="ArrowLeft" class="w-5 h-5"></lucide-icon>
     </a>
-    <div>
-      <h1 class="text-2xl font-bold text-navy-800 dark:text-slate-100">{{ datos.nombre }} {{datos.apellido}}</h1>
-      <p class="text-sm text-gray-500 dark:text-slate-400">{{ datos.correo }} • <span class="font-semibold">{{ datos.tipo }}</span></p>
-    </div>
-    <div class="ml-auto flex items-center gap-2">
-      <span class="px-3 py-1 bg-green-50 dark:bg-emerald-500/15 text-green-600 dark:text-emerald-400 rounded-full text-xs font-bold uppercase tracking-tight">
-      </span>
+    <div class="min-w-0 flex-1">
+      <h1 class="text-xl sm:text-2xl font-bold text-navy-800 dark:text-slate-100 truncate">{{ datos.nombre }} {{datos.apellido}}</h1>
+      <p class="text-xs sm:text-sm text-gray-500 dark:text-slate-400 truncate">{{ datos.correo }} • <span class="font-semibold">{{ datos.tipo }}</span></p>
     </div>
   </div>
 
   <!-- Proceso Contable -->
-  <div class="bg-white dark:bg-slate-900 rounded-2xl border border-gray-100 dark:border-slate-800 shadow-sm p-5">
-    <div class="flex items-center justify-between mb-4">
+  <div class="bg-white dark:bg-slate-900 rounded-2xl border border-gray-100 dark:border-slate-800 shadow-sm p-4 sm:p-5">
+    <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
       <h3 class="text-sm font-bold text-navy-800 dark:text-slate-100">Proceso Contable</h3>
       <span *ngIf="procesoContable" class="text-[10px] text-gray-400 dark:text-slate-400 font-semibold uppercase tracking-wider">
         Actualizado {{ procesoContable.fecha_actualizacion | date:'medium' }}
       </span>
     </div>
-    <div class="flex items-center">
-      <ng-container *ngFor="let etapa of PROCESO_ETAPAS; let i = index; let last = last">
-        <button
-          (click)="actualizarEtapaProceso(etapa.key)"
-          class="flex flex-col items-center gap-1.5 group"
-          [title]="etapa.descripcion"
-        >
-          <span class="h-8 w-8 rounded-full flex items-center justify-center text-xs font-bold transition-all"
-            [ngClass]="i <= procesoEtapaIndex ? 'bg-navy-800 dark:bg-brand-600 text-white' : 'bg-gray-100 dark:bg-slate-800 text-gray-400 dark:text-slate-500 group-hover:bg-gray-200 dark:group-hover:bg-slate-700'">
-            <lucide-icon *ngIf="i < procesoEtapaIndex" [img]="CheckCircle" class="w-4 h-4"></lucide-icon>
-            <span *ngIf="i >= procesoEtapaIndex">{{ i + 1 }}</span>
-          </span>
-          <span class="text-[10px] font-semibold uppercase tracking-wide whitespace-nowrap"
-            [ngClass]="i === procesoEtapaIndex ? 'text-navy-800 dark:text-brand-400' : 'text-gray-400 dark:text-slate-500'">
-            {{ etapa.label }}
-          </span>
-        </button>
-        <div *ngIf="!last" class="flex-1 h-0.5 mx-1 mb-5 rounded-full transition-all"
-          [ngClass]="i < procesoEtapaIndex ? 'bg-navy-800 dark:bg-brand-600' : 'bg-gray-100 dark:bg-slate-800'"></div>
-      </ng-container>
+    <div class="overflow-x-auto pb-1">
+      <div class="flex items-center min-w-[440px] sm:min-w-0">
+        <ng-container *ngFor="let etapa of PROCESO_ETAPAS; let i = index; let last = last">
+          <button
+            (click)="actualizarEtapaProceso(etapa.key)"
+            class="flex flex-col items-center gap-1.5 group"
+            [title]="etapa.descripcion"
+          >
+            <span class="h-8 w-8 rounded-full flex items-center justify-center text-xs font-bold transition-all"
+              [ngClass]="i <= procesoEtapaIndex ? 'bg-navy-800 dark:bg-brand-600 text-white' : 'bg-gray-100 dark:bg-slate-800 text-gray-400 dark:text-slate-500 group-hover:bg-gray-200 dark:group-hover:bg-slate-700'">
+              <lucide-icon *ngIf="i < procesoEtapaIndex" [img]="CheckCircle" class="w-4 h-4"></lucide-icon>
+              <span *ngIf="i >= procesoEtapaIndex">{{ i + 1 }}</span>
+            </span>
+            <span class="text-[10px] font-semibold uppercase tracking-wide whitespace-nowrap"
+              [ngClass]="i === procesoEtapaIndex ? 'text-navy-800 dark:text-brand-400' : 'text-gray-400 dark:text-slate-500'">
+              {{ etapa.label }}
+            </span>
+          </button>
+          <div *ngIf="!last" class="flex-1 h-0.5 mx-1 mb-5 rounded-full transition-all"
+            [ngClass]="i < procesoEtapaIndex ? 'bg-navy-800 dark:bg-brand-600' : 'bg-gray-100 dark:bg-slate-800'"></div>
+        </ng-container>
+      </div>
     </div>
     <p class="text-xs text-gray-400 dark:text-slate-400 mt-3">{{ PROCESO_ETAPAS[procesoEtapaIndex]?.descripcion }}</p>
   </div>

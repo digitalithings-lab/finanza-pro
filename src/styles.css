@@ -78,9 +78,9 @@ html.dark ::-webkit-scrollbar-thumb:hover {
 /* Smooth & fast full-page theme switch transition */
 html.theme-transitioning,
 html.theme-transitioning body,
-html.theme-transitioning *:not(.nox-theme-switch):not(.nox-theme-switch *),
-html.theme-transitioning *:not(.nox-theme-switch):not(.nox-theme-switch *)::before,
-html.theme-transitioning *:not(.nox-theme-switch):not(.nox-theme-switch *)::after {
+html.theme-transitioning *:not(.nox-theme-switch):not(.nox-theme-switch *):not(.nox-menu-btn):not(.nox-menu-btn *),
+html.theme-transitioning *:not(.nox-theme-switch):not(.nox-theme-switch *):not(.nox-menu-btn):not(.nox-menu-btn *)::before,
+html.theme-transitioning *:not(.nox-theme-switch):not(.nox-theme-switch *):not(.nox-menu-btn):not(.nox-menu-btn *)::after {
   transition-property: background-color, border-color, color, fill, stroke, box-shadow, outline-color, text-decoration-color !important;
   transition-duration: 260ms !important;
   transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1) !important;

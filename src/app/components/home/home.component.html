@@ -1,58 +1,58 @@
-<div class="fade-in space-y-8">
+<div class="fade-in space-y-6 sm:space-y-8">
   <div>
-    <h1 class="text-3xl font-bold text-navy-800 dark:text-slate-100">Resumen General</h1>
-    <p class="text-gray-500 dark:text-slate-400 mt-1">Bienvenido de nuevo, {{ nombreUsuario }}. Aquí tienes el estado de tus clientes.</p>
+    <h1 class="text-2xl sm:text-3xl font-bold text-navy-800 dark:text-slate-100">Resumen General</h1>
+    <p class="text-sm sm:text-base text-gray-500 dark:text-slate-400 mt-1">Bienvenido de nuevo, {{ nombreUsuario }}. Aquí tienes el estado de tus clientes.</p>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
     <!-- Stat Card -->
-    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-800 flex items-center gap-5 hover:shadow-md transition-all">
-      <div class="h-12 w-12 bg-blue-50 dark:bg-blue-500/15 rounded-xl flex items-center justify-center text-blue-600 dark:text-blue-400">
+    <div class="bg-white dark:bg-slate-900 p-4 sm:p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-800 flex items-center gap-4 sm:gap-5 hover:shadow-md transition-all">
+      <div class="h-11 w-11 sm:h-12 sm:w-12 shrink-0 bg-blue-50 dark:bg-blue-500/15 rounded-xl flex items-center justify-center text-blue-600 dark:text-blue-400">
         <lucide-icon [img]="Users" class="w-6 h-6"></lucide-icon>
       </div>
-      <div>
-        <p class="text-sm font-medium text-gray-400 dark:text-slate-400 uppercase tracking-wider">Mis Clientes</p>
-        <p class="text-2xl font-bold text-navy-800 dark:text-slate-100">{{ loadingClientes ? '...' : clientsCount }}</p>
+      <div class="min-w-0">
+        <p class="text-xs sm:text-sm font-medium text-gray-400 dark:text-slate-400 uppercase tracking-wider truncate">Mis Clientes</p>
+        <p class="text-xl sm:text-2xl font-bold text-navy-800 dark:text-slate-100">{{ loadingClientes ? '...' : clientsCount }}</p>
       </div>
     </div>
 
     <!-- Stat Card -->
-    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-800 flex items-center gap-5 hover:shadow-md transition-all">
-      <div class="h-12 w-12 bg-purple-50 dark:bg-purple-500/15 rounded-xl flex items-center justify-center text-purple-600 dark:text-purple-400">
+    <div class="bg-white dark:bg-slate-900 p-4 sm:p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-800 flex items-center gap-4 sm:gap-5 hover:shadow-md transition-all">
+      <div class="h-11 w-11 sm:h-12 sm:w-12 shrink-0 bg-purple-50 dark:bg-purple-500/15 rounded-xl flex items-center justify-center text-purple-600 dark:text-purple-400">
         <lucide-icon [img]="User" class="w-6 h-6"></lucide-icon>
       </div>
-      <div>
-        <p class="text-sm font-medium text-gray-400 dark:text-slate-400 uppercase tracking-wider">Persona Natural</p>
-        <p class="text-2xl font-bold text-navy-800 dark:text-slate-100">{{ loadingClientes ? '...' : naturalCount }}</p>
+      <div class="min-w-0">
+        <p class="text-xs sm:text-sm font-medium text-gray-400 dark:text-slate-400 uppercase tracking-wider truncate">Persona Natural</p>
+        <p class="text-xl sm:text-2xl font-bold text-navy-800 dark:text-slate-100">{{ loadingClientes ? '...' : naturalCount }}</p>
       </div>
     </div>
 
     <!-- Stat Card -->
-    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-800 flex items-center gap-5 hover:shadow-md transition-all">
-      <div class="h-12 w-12 bg-orange-50 dark:bg-orange-500/15 rounded-xl flex items-center justify-center text-orange-600 dark:text-orange-400">
+    <div class="bg-white dark:bg-slate-900 p-4 sm:p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-800 flex items-center gap-4 sm:gap-5 hover:shadow-md transition-all">
+      <div class="h-11 w-11 sm:h-12 sm:w-12 shrink-0 bg-orange-50 dark:bg-orange-500/15 rounded-xl flex items-center justify-center text-orange-600 dark:text-orange-400">
         <lucide-icon [img]="Building2" class="w-6 h-6"></lucide-icon>
       </div>
-      <div>
-        <p class="text-sm font-medium text-gray-400 dark:text-slate-400 uppercase tracking-wider">Persona Jurídica</p>
-        <p class="text-2xl font-bold text-navy-800 dark:text-slate-100">{{ loadingClientes ? '...' : juridicaCount }}</p>
+      <div class="min-w-0">
+        <p class="text-xs sm:text-sm font-medium text-gray-400 dark:text-slate-400 uppercase tracking-wider truncate">Persona Jurídica</p>
+        <p class="text-xl sm:text-2xl font-bold text-navy-800 dark:text-slate-100">{{ loadingClientes ? '...' : juridicaCount }}</p>
       </div>
     </div>
 
     <!-- Stat Card -->
-    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-800 flex items-center gap-5 hover:shadow-md transition-all">
-      <div class="h-12 w-12 bg-green-50 dark:bg-emerald-500/15 rounded-xl flex items-center justify-center text-green-600 dark:text-emerald-400">
+    <div class="bg-white dark:bg-slate-900 p-4 sm:p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-800 flex items-center gap-4 sm:gap-5 hover:shadow-md transition-all">
+      <div class="h-11 w-11 sm:h-12 sm:w-12 shrink-0 bg-green-50 dark:bg-emerald-500/15 rounded-xl flex items-center justify-center text-green-600 dark:text-emerald-400">
         <lucide-icon [img]="UserCog" class="w-6 h-6"></lucide-icon>
       </div>
-      <div>
-        <p class="text-sm font-medium text-gray-400 dark:text-slate-400 uppercase tracking-wider">Personal Asignado</p>
-        <p class="text-2xl font-bold text-navy-800 dark:text-slate-100">{{ loadingPersonal ? '...' : personalCount }}</p>
+      <div class="min-w-0">
+        <p class="text-xs sm:text-sm font-medium text-gray-400 dark:text-slate-400 uppercase tracking-wider truncate">Personal Asignado</p>
+        <p class="text-xl sm:text-2xl font-bold text-navy-800 dark:text-slate-100">{{ loadingPersonal ? '...' : personalCount }}</p>
       </div>
     </div>
   </div>
 
   <!-- Recent Activity / Chart Section -->
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-    <div class="bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-800 min-h-[400px]">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-8">
+    <div class="bg-white dark:bg-slate-900 p-5 sm:p-8 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-800 min-h-[280px] sm:min-h-[400px]">
       <div class="flex items-center justify-between mb-6">
         <h3 class="text-lg font-bold text-navy-800 dark:text-slate-100">Clientes Recientes</h3>
       </div>

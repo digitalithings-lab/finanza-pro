@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
@@ -35,10 +35,10 @@ import {
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   @ViewChild('userMenuContainer') userMenuContainer?: ElementRef<HTMLElement>;
 
-  isSidebarOpen = true;
+  isSidebarOpen = typeof window !== 'undefined' ? window.innerWidth >= 768 : true;
   showUserMenu = false;
   showSettingsModal = false;
   settingsTab: 'perfil' | 'password' | 'cuenta' = 'perfil';
@@ -88,6 +88,18 @@ export class DashboardComponent {
   readonly Lock = Lock;
 
   constructor(public authService: AuthService) {}
+
+  ngOnInit(): void {
+    if (typeof window !== 'undefined') {
+      this.isSidebarOpen = window.innerWidth >= 768;
+    }
+  }
+
+  onNavClick(): void {
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      this.isSidebarOpen = false;
+    }
+  }
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
