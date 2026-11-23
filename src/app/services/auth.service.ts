@@ -89,6 +89,27 @@ export class AuthService {
     return this.http.post<any>(this.url + `deletepersonal`, data);
   }
 
+  updatePersonal(data: {
+    id: number | string;
+    idcreador: string | null;
+    nombre: string;
+    apellido: string;
+    correo: string;
+    user: string;
+    role: string;
+    password?: string;
+  }) {
+    return this.http.post<any>(this.url + `updatepersonal`, data);
+  }
+
+  getProfile(data: { id: string; role?: string | null }) {
+    return this.http.post<any>(this.url + `getperfil`, data);
+  }
+
+  updateProfile(data: { id: string; role?: string | null; nombre: string; apellido?: string; correo?: string }) {
+    return this.http.post<any>(this.url + `updateperfil`, data);
+  }
+
   deleteAccount(id: string) {
     return this.http.post<any>(this.url + `deletecuenta`, { id });
   }
