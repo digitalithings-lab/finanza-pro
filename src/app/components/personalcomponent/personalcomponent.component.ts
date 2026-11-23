@@ -32,7 +32,7 @@ export class PersonalcomponentComponent implements OnInit {
   readonly Trash2 = Trash2;
   readonly Loader2 = Loader2;
 
-  roles = ['Administrador', 'Gerente', 'Cajero', 'Vendedor', 'Soporte'];
+  roles = ['Contador', 'Gerente', 'Cajero', 'Vendedor', 'Soporte'];
 
   constructor(private fb: FormBuilder,private service: AuthService) {
     this.personalForm = this.fb.group({

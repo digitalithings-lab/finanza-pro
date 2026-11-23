@@ -61,6 +61,7 @@
               <th class="px-6 py-4 text-xs font-bold text-gray-400 dark:text-slate-400 uppercase tracking-wider">Usuario</th>
               <th class="px-6 py-4 text-xs font-bold text-gray-400 dark:text-slate-400 uppercase tracking-wider">Correo</th>
               <th class="px-6 py-4 text-xs font-bold text-gray-400 dark:text-slate-400 uppercase tracking-wider">Tipo</th>
+              <th *ngIf="!hasRole" class="px-6 py-4 text-xs font-bold text-gray-400 dark:text-slate-400 uppercase tracking-wider">Responsable</th>
               <th class="px-6 py-4 text-xs font-bold text-gray-400 dark:text-slate-400 uppercase tracking-wider text-right">Acciones</th>
             </tr>
           </thead>
@@ -93,6 +94,18 @@
                 </span>
               </td>
 
+              <td *ngIf="!hasRole" class="px-6 py-4">
+                <span
+                  *ngIf="user.personal_asignado?.length > 0; else sinAsignar"
+                  class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300"
+                >
+                  {{ user.personal_asignado[0].nombre }} {{ user.personal_asignado[0].apellido }}
+                </span>
+                <ng-template #sinAsignar>
+                  <span class="text-xs text-gray-400 dark:text-slate-500 italic">Sin asignar</span>
+                </ng-template>
+              </td>
+
               <td class="px-6 py-4 text-right">
                 <div class="flex justify-end items-center gap-1">
                   <button
@@ -121,7 +134,7 @@
             </tr>
 
             <tr *ngIf="filteredTabla.length === 0">
-              <td colspan="5" class="px-6 py-12 text-center text-sm text-gray-400 dark:text-slate-500 italic">
+              <td [attr.colspan]="hasRole ? 5 : 6" class="px-6 py-12 text-center text-sm text-gray-400 dark:text-slate-500 italic">
                 No hay clientes que coincidan con la búsqueda.
               </td>
             </tr>

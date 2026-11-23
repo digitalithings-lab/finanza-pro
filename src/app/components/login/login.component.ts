@@ -53,8 +53,12 @@ export class LoginComponent implements OnInit {
       next: (resp) => {
         if (resp.success === true) {
           localStorage.removeItem('role'); // limpiar sesión anterior
+          localStorage.removeItem('idcreador');
+          localStorage.setItem('isLoggedIn', 'true');
           localStorage.setItem('id', resp.usuario.id);
-          localStorage.setItem('idcreador', resp.usuario.idcreador);
+          if (resp.usuario.idcreador) {
+            localStorage.setItem('idcreador', resp.usuario.idcreador);
+          }
 
           localStorage.setItem('nombre', resp.usuario.nombre);
           if (resp.usuario.role) {

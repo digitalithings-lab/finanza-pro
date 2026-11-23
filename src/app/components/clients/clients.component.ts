@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { LucideAngularModule, Search, Filter, Plus, ChevronRight, Trash2, X, UserPlus, CheckCircle } from 'lucide-angular';
 import { DataService } from '../../services/data.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-clients',
@@ -46,11 +47,13 @@ export class ClientsComponent implements OnInit {
     return !!localStorage.getItem('role');
   }
 
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService, private authService: AuthService) {}
 
   ngOnInit() {
-  this.getusers();
-  this.getpersonal()
+    this.getusers();
+    if (!this.hasRole) {
+      this.getpersonal();
+    }
   }
 
   get filteredTabla(): any[] {
@@ -85,39 +88,42 @@ export class ClientsComponent implements OnInit {
     }
   }
 
-  public tabla:any
-  getusers(){
-    const data={
-      id:localStorage.getItem('id')
-    }
+  public tabla: any[] = [];
+  getusers() {
+    const data = {
+      id: this.authService.getTenantId(),
+      idpersonal: this.authService.getPersonalId()
+    };
 
-    this.dataService.getclients(data).subscribe((resp=>{
-      if(resp.success === true){
-    this.tabla = resp.data
-    console.log(resp);
-    
+    this.dataService.getclients(data).subscribe({
+      next: (resp) => {
+        if (resp.success === true) {
+          this.tabla = resp.data || [];
+        } else {
+          this.tabla = [];
+        }
+      },
+      error: () => {
+        this.tabla = [];
       }
-      
-    }))
+    });
   }
-public rol:any
+  public rol: any;
   saveUser() {
-    if(this.rol_id === 1){
-      this.rol= 'natural'
-    }else{
-      this.rol='juridica'
+    if (this.rol_id === 1) {
+      this.rol = 'natural';
+    } else {
+      this.rol = 'juridica';
     }
-    const data={
-      nombre:this.nombre,
-      apellido:this.apellido,
-      user:this.usuario,
-      password:this.password,
-      idcreador:localStorage.getItem('id'),
-      correo:this.correo,
-      tipo:this.rol
-
-    }
-    console.log(data);
+    const data = {
+      nombre: this.nombre,
+      apellido: this.apellido,
+      user: this.usuario,
+      password: this.password,
+      idcreador: this.authService.getTenantId(),
+      correo: this.correo,
+      tipo: this.rol
+    };
     
 
     this.dataService.addClient(data).subscribe({
@@ -138,43 +144,37 @@ public rol:any
   }
 public data:any
 
-  getpersonal(){
+  getpersonal() {
+    const id = this.authService.getTenantId();
+    const data = { id };
 
-    const id = localStorage.getItem('id')
-    const data={
-
-      id:id
-    }
-
-
-    this.dataService.getpersonal(data).subscribe((resp=>{
-      console.log(resp);
-      if(resp.success === true){
-        this.personalAsignado=resp.data
+    this.dataService.getpersonal(data).subscribe({
+      next: (resp) => {
+        if (resp.success === true) {
+          this.personalAsignado = resp.data || [];
+          const currentAssignedId = this.selectedClient?.personal_asignado?.[0]?.id;
+          if (currentAssignedId) {
+            this.selectedPersonal = this.personalAsignado.find((p: any) => p.id === currentAssignedId) || null;
+          }
+        } else {
+          this.personalAsignado = [];
+        }
         this.loadingPersonal = false;
-
-
-      }else{
+      },
+      error: () => {
+        this.personalAsignado = [];
         this.loadingPersonal = false;
-
       }
-      
-    }))
-
+    });
   }
 
   openAsignarModal(client: any) {
     this.selectedClient = client;
+    this.selectedPersonal = null;
     this.personalAsignado = [];
     this.showAsignarModal = true;
     this.loadingPersonal = true;
-    const data = {
-      idcliente: client.id,
-      idcreador: localStorage.getItem('id')
-    };
-
-this.getpersonal()
-   
+    this.getpersonal();
   }
 
   closeAsignarModal() {
@@ -190,7 +190,7 @@ this.getpersonal()
     const data = {
       idcliente: this.selectedClient.id,
       idpersonal: this.selectedPersonal.id,
-      idcreador: localStorage.getItem('id')
+      idcreador: this.authService.getTenantId()
     };
     this.dataService.asignarcliente(data).subscribe({
       next: (resp) => {
@@ -198,6 +198,7 @@ this.getpersonal()
         if (resp.ok) {
           this.showNotification('Cliente asignado correctamente', 'success');
           this.closeAsignarModal();
+          this.getusers();
         } else {
           this.showNotification('No se pudo asignar el cliente', 'error');
         }

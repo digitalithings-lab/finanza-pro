@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule, Users, Building2, User, UserCog } from 'lucide-angular';
 import { DataService } from '../../services/data.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -33,7 +34,7 @@ export class HomeComponent implements OnInit {
     return Math.max(0, 10 - this.clientsCount);
   }
 
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService, private authService: AuthService) {}
 
   ngOnInit() {
     this.cargarClientes();
@@ -41,7 +42,10 @@ export class HomeComponent implements OnInit {
   }
 
   cargarClientes() {
-    const data = { id: localStorage.getItem('id') };
+    const data = {
+      id: this.authService.getTenantId(),
+      idpersonal: this.authService.getPersonalId()
+    };
     this.dataService.getclients(data).subscribe({
       next: (resp) => {
         this.loadingClientes = false;
@@ -60,7 +64,12 @@ export class HomeComponent implements OnInit {
   }
 
   cargarPersonal() {
-    const data = { id: localStorage.getItem('id') };
+    if (this.authService.getPersonalId()) {
+      this.loadingPersonal = false;
+      this.personalCount = 1;
+      return;
+    }
+    const data = { id: this.authService.getTenantId() };
     this.dataService.getpersonal(data).subscribe({
       next: (resp) => {
         this.loadingPersonal = false;

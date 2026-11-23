@@ -46,6 +46,27 @@ export class AuthService {
     return this.loggedIn.asObservable();
   }
 
+  /**
+   * Returns the root administrator (tenant) ID:
+   * - For main administrators (`usuarios`): their own `id`.
+   * - For staff (`personal`): their administrator's `idcreador`.
+   */
+  getTenantId(): string | null {
+    const hasRole = !!localStorage.getItem('role');
+    const idcreador = localStorage.getItem('idcreador');
+    if (hasRole && idcreador && idcreador !== 'undefined' && idcreador !== 'null') {
+      return idcreador;
+    }
+    return localStorage.getItem('id');
+  }
+
+  /**
+   * Returns the logged-in staff member ID when logged in as `personal`, or null for a main administrator.
+   */
+  getPersonalId(): string | null {
+    return localStorage.getItem('role') ? localStorage.getItem('id') : null;
+  }
+
   getpersonal(data:any){
     return this.http.post<any>(this.url+`getpersonal`,data);
 

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LucideAngularModule, FileText, Download, Clock } from 'lucide-angular';
 import { DataService } from '../../services/data.service';
+import { AuthService } from '../../services/auth.service';
 
 interface ReportCard {
   key: 'estadoresultados' | 'balance' | 'flujocaja' | 'facturas';
@@ -37,10 +38,13 @@ export class ReportsComponent implements OnInit {
 
   notification: string | null = null;
 
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService, private authService: AuthService) {}
 
   ngOnInit() {
-    this.dataService.getclients({ id: localStorage.getItem('id') }).subscribe({
+    this.dataService.getclients({
+      id: this.authService.getTenantId(),
+      idpersonal: this.authService.getPersonalId()
+    }).subscribe({
       next: (resp) => {
         if (resp.success === true) {
           this.clients = resp.data;
@@ -54,7 +58,7 @@ export class ReportsComponent implements OnInit {
   private baseData() {
     return {
       idcliente: this.selectedClientId,
-      idcreador: localStorage.getItem('id'),
+      idcreador: this.authService.getTenantId(),
       fecha_inicio: this.fechaInicio,
       fecha_fin: this.fechaFin
     };
