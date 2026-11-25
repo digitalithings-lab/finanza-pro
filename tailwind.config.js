@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'class',
   content: [
     "./src/**/*.{html,ts}",
   ],
@@ -29,6 +30,11 @@ module.exports = {
           700: '#34495e',
           800: '#2b3c4d',
           900: '#212f3d',
+        },
+        darkbtn: {
+          DEFAULT: '#3b5b7c',
+          hover: '#4a6f96',
+          border: '#5b82ab',
         },
       },
       fontFamily: {

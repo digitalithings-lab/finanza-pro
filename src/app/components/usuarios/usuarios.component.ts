@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { LucideAngularModule, Search, Plus, Trash2, X, UserCog, CheckCircle } from 'lucide-angular';
+import { Router } from '@angular/router';
+import { LucideAngularModule, Search, Plus, Trash2, X, UserCog, CheckCircle, Eye, EyeOff } from 'lucide-angular';
 import { DataService } from '../../services/data.service';
+import { AuthService } from '../../services/auth.service';
 
 interface Usuario {
   id: string;
@@ -11,6 +13,7 @@ interface Usuario {
   usuario: string;
   correo: string;
   rol: string;
+  es_master?: boolean;
 }
 
 @Component({
@@ -29,9 +32,8 @@ export class UsuariosComponent implements OnInit {
   correo = '';
   usuario = '';
   password = '';
-  rol = 'Administrador';
-
-  roles = ['Administrador', 'Gerente', 'Cajero', 'Vendedor', 'Soporte'];
+  esMaster = false;
+  showPassword = false;
 
   showModal = false;
   saving = false;
@@ -44,6 +46,8 @@ export class UsuariosComponent implements OnInit {
   readonly X = X;
   readonly UserCog = UserCog;
   readonly CheckCircle = CheckCircle;
+  readonly Eye = Eye;
+  readonly EyeOff = EyeOff;
 
   get filteredUsuarios(): Usuario[] {
     if (!this.searchTerm) return this.usuarios;
@@ -56,9 +60,17 @@ export class UsuariosComponent implements OnInit {
     );
   }
 
-  constructor(private dataService: DataService) {}
+  constructor(
+    private dataService: DataService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
+    if (!this.authService.isMaster()) {
+      this.router.navigate(['/dashboard']);
+      return;
+    }
     this.getUsuarios();
   }
 
@@ -70,7 +82,8 @@ export class UsuariosComponent implements OnInit {
       this.correo = '';
       this.usuario = '';
       this.password = '';
-      this.rol = 'Administrador';
+      this.esMaster = false;
+      this.showPassword = false;
     }
   }
 
@@ -80,8 +93,15 @@ export class UsuariosComponent implements OnInit {
     };
     this.dataService.getUsuarios(data).subscribe({
       next: (resp) => {
-        if (resp.success === true) {
-          this.usuarios = resp.data;
+        if (resp.success === true && Array.isArray(resp.data)) {
+          this.usuarios = resp.data.map((u: any) => {
+            const isMaster = Boolean(u.es_master || String(u.usuario || '').toLowerCase() === 'admin');
+            return {
+              ...u,
+              es_master: isMaster,
+              rol: isMaster ? 'Admin Maestro / Socio' : 'Administrador SaaS'
+            };
+          });
         }
       }
     });
@@ -99,7 +119,8 @@ export class UsuariosComponent implements OnInit {
       correo: this.correo,
       user: this.usuario,
       password: this.password,
-      rol: this.rol,
+      es_master: this.esMaster,
+      rol: this.esMaster ? 'Admin Maestro / Socio' : 'Administrador SaaS',
       idcreador: localStorage.getItem('id')
     };
 
@@ -108,15 +129,15 @@ export class UsuariosComponent implements OnInit {
         this.saving = false;
         if (resp.success === true) {
           this.toggleModal();
-          this.showNotification('Usuario creado correctamente', 'success');
+          this.showNotification('Administrador creado correctamente', 'success');
           this.getUsuarios();
         } else {
-          this.showNotification('Error al crear el usuario', 'error');
+          this.showNotification(resp.mensaje || 'Error al crear el administrador', 'error');
         }
       },
-      error: () => {
+      error: (err) => {
         this.saving = false;
-        this.showNotification('Error de conexión al crear el usuario', 'error');
+        this.showNotification(err?.error?.mensaje || 'Error de conexión al crear el administrador', 'error');
       }
     });
   }

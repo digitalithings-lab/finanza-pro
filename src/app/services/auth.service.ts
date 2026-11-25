@@ -33,6 +33,12 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('id');
+    localStorage.removeItem('idcreador');
+    localStorage.removeItem('nombre');
+    localStorage.removeItem('role');
+    localStorage.removeItem('mustChangePassword');
+    localStorage.removeItem('isMaster');
     this.loggedIn.next(false);
     this.router.navigate(['/login']);
   }
@@ -41,8 +47,74 @@ export class AuthService {
     return this.loggedIn.asObservable();
   }
 
+  /**
+   * Returns the root administrator (tenant) ID:
+   * - For main administrators (`usuarios`): their own `id`.
+   * - For staff (`personal`): their administrator's `idcreador`.
+   */
+  getTenantId(): string | null {
+    const hasRole = !!localStorage.getItem('role');
+    const idcreador = localStorage.getItem('idcreador');
+    if (hasRole && idcreador && idcreador !== 'undefined' && idcreador !== 'null') {
+      return idcreador;
+    }
+    return localStorage.getItem('id');
+  }
+
+  /**
+   * Returns the logged-in staff member ID when logged in as `personal`, or null for a main administrator.
+   */
+  getPersonalId(): string | null {
+    return localStorage.getItem('role') ? localStorage.getItem('id') : null;
+  }
+
+  isMaster(): boolean {
+    if (localStorage.getItem('role')) {
+      return false;
+    }
+    const isMasterFlag = localStorage.getItem('isMaster');
+    if (isMasterFlag === 'true' || isMasterFlag === 'false') {
+      return isMasterFlag === 'true';
+    }
+    const nombre = (localStorage.getItem('nombre') || '').trim().toLowerCase();
+    return nombre === 'admin' || nombre === 'jorge';
+  }
+
   getpersonal(data:any){
     return this.http.post<any>(this.url+`getpersonal`,data);
 
+  }
+
+  deletePersonal(data: { id: number | string; idcreador?: string | null }) {
+    return this.http.post<any>(this.url + `deletepersonal`, data);
+  }
+
+  updatePersonal(data: {
+    id: number | string;
+    idcreador: string | null;
+    nombre: string;
+    apellido: string;
+    correo: string;
+    user: string;
+    role: string;
+    password?: string;
+  }) {
+    return this.http.post<any>(this.url + `updatepersonal`, data);
+  }
+
+  getProfile(data: { id: string; role?: string | null }) {
+    return this.http.post<any>(this.url + `getperfil`, data);
+  }
+
+  updateProfile(data: { id: string; role?: string | null; nombre: string; apellido?: string; correo?: string }) {
+    return this.http.post<any>(this.url + `updateperfil`, data);
+  }
+
+  deleteAccount(id: string) {
+    return this.http.post<any>(this.url + `deletecuenta`, { id });
+  }
+
+  changePassword(data: { id: string; role?: string | null; currentPassword: string; newPassword: string }) {
+    return this.http.post<any>(this.url + `cambiarpassword`, data);
   }
 }

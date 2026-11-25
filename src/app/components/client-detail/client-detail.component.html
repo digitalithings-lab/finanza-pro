@@ -1,121 +1,111 @@
 <div class="fade-in space-y-6 pb-12" *ngIf="datos">
   <!-- Header -->
-  <div class="flex items-center gap-4 mb-2">
-    <a routerLink="/dashboard/clients" class="p-2 hover:bg-white rounded-xl text-gray-400 hover:text-navy-800 transition-all border border-transparent hover:border-gray-100">
+  <div class="flex flex-wrap items-center gap-3 sm:gap-4 mb-2">
+    <a routerLink="/dashboard/clients" class="p-2 hover:bg-white dark:hover:bg-slate-800 rounded-xl text-gray-400 dark:text-slate-400 hover:text-navy-800 dark:hover:text-slate-100 transition-all border border-transparent hover:border-gray-100 dark:hover:border-slate-700 shrink-0">
       <lucide-icon [img]="ArrowLeft" class="w-5 h-5"></lucide-icon>
     </a>
-    <div>
-      <h1 class="text-2xl font-bold text-navy-800">{{ datos.nombre }} {{datos.apellido}}</h1>
-      <p class="text-sm text-gray-500">{{ datos.correo }} • <span class="font-semibold">{{ datos.tipo }}</span></p>
-    </div>
-    <div class="ml-auto flex items-center gap-2">
-      <span class="px-3 py-1 bg-green-50 text-green-600 rounded-full text-xs font-bold uppercase tracking-tight">
-      </span>
+    <div class="min-w-0 flex-1">
+      <h1 class="text-xl sm:text-2xl font-bold text-navy-800 dark:text-slate-100 truncate">{{ datos.nombre }} {{datos.apellido}}</h1>
+      <p class="text-xs sm:text-sm text-gray-500 dark:text-slate-400 truncate">{{ datos.correo }} • <span class="font-semibold">{{ datos.tipo }}</span></p>
     </div>
   </div>
 
   <!-- Proceso Contable -->
-  <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
-    <div class="flex items-center justify-between mb-4">
-      <h3 class="text-sm font-bold text-navy-800">Proceso Contable</h3>
-      <span *ngIf="procesoContable" class="text-[10px] text-gray-400 font-semibold uppercase tracking-wider">
+  <div class="bg-white dark:bg-slate-900 rounded-2xl border border-gray-100 dark:border-slate-800 shadow-sm p-4 sm:p-5">
+    <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+      <h3 class="text-sm font-bold text-navy-800 dark:text-slate-100">Proceso Contable</h3>
+      <span *ngIf="procesoContable" class="text-[10px] text-gray-400 dark:text-slate-400 font-semibold uppercase tracking-wider">
         Actualizado {{ procesoContable.fecha_actualizacion | date:'medium' }}
       </span>
     </div>
-    <div class="flex items-center">
-      <ng-container *ngFor="let etapa of PROCESO_ETAPAS; let i = index; let last = last">
-        <button
-          (click)="actualizarEtapaProceso(etapa.key)"
-          class="flex flex-col items-center gap-1.5 group"
-          [title]="etapa.descripcion"
-        >
-          <span class="h-8 w-8 rounded-full flex items-center justify-center text-xs font-bold transition-all"
-            [ngClass]="i <= procesoEtapaIndex ? 'bg-navy-800 text-white' : 'bg-gray-100 text-gray-400 group-hover:bg-gray-200'">
-            <lucide-icon *ngIf="i < procesoEtapaIndex" [img]="CheckCircle" class="w-4 h-4"></lucide-icon>
-            <span *ngIf="i >= procesoEtapaIndex">{{ i + 1 }}</span>
-          </span>
-          <span class="text-[10px] font-semibold uppercase tracking-wide whitespace-nowrap"
-            [ngClass]="i === procesoEtapaIndex ? 'text-navy-800' : 'text-gray-400'">
-            {{ etapa.label }}
-          </span>
-        </button>
-        <div *ngIf="!last" class="flex-1 h-0.5 mx-1 mb-5 rounded-full transition-all"
-          [ngClass]="i < procesoEtapaIndex ? 'bg-navy-800' : 'bg-gray-100'"></div>
-      </ng-container>
+    <div class="overflow-x-auto pb-1">
+      <div class="flex items-center min-w-[440px] sm:min-w-0">
+        <ng-container *ngFor="let etapa of PROCESO_ETAPAS; let i = index; let last = last">
+          <button
+            (click)="actualizarEtapaProceso(etapa.key)"
+            class="flex flex-col items-center gap-1.5 group"
+            [title]="etapa.descripcion"
+          >
+            <span class="h-8 w-8 rounded-full flex items-center justify-center text-xs font-bold transition-all"
+              [ngClass]="i <= procesoEtapaIndex ? 'bg-navy-800 dark:bg-brand-600 text-white' : 'bg-gray-100 dark:bg-slate-800 text-gray-400 dark:text-slate-500 group-hover:bg-gray-200 dark:group-hover:bg-slate-700'">
+              <lucide-icon *ngIf="i < procesoEtapaIndex" [img]="CheckCircle" class="w-4 h-4"></lucide-icon>
+              <span *ngIf="i >= procesoEtapaIndex">{{ i + 1 }}</span>
+            </span>
+            <span class="text-[10px] font-semibold uppercase tracking-wide whitespace-nowrap"
+              [ngClass]="i === procesoEtapaIndex ? 'text-navy-800 dark:text-brand-400' : 'text-gray-400 dark:text-slate-500'">
+              {{ etapa.label }}
+            </span>
+          </button>
+          <div *ngIf="!last" class="flex-1 h-0.5 mx-1 mb-5 rounded-full transition-all"
+            [ngClass]="i < procesoEtapaIndex ? 'bg-navy-800 dark:bg-brand-600' : 'bg-gray-100 dark:bg-slate-800'"></div>
+        </ng-container>
+      </div>
     </div>
-    <p class="text-xs text-gray-400 mt-3">{{ PROCESO_ETAPAS[procesoEtapaIndex]?.descripcion }}</p>
+    <p class="text-xs text-gray-400 dark:text-slate-400 mt-3">{{ PROCESO_ETAPAS[procesoEtapaIndex]?.descripcion }}</p>
   </div>
 
   <!-- Tabs Navigation -->
-  <div class="flex gap-2 border-b border-gray-100 pb-px">
+  <div class="flex gap-2 border-b border-gray-100 dark:border-slate-800 pb-px overflow-x-auto">
     <button
       (click)="activeTab = 'docs'"
-      [class.border-navy-800]="activeTab === 'docs'"
-      [class.text-navy-800]="activeTab === 'docs'"
-      class="px-6 py-3 text-sm font-semibold text-gray-400 border-b-2 border-transparent transition-all hover:text-gray-600"
+      [ngClass]="activeTab === 'docs' ? 'border-navy-800 text-navy-800 dark:border-brand-400 dark:text-brand-400' : 'border-transparent text-gray-400 dark:text-slate-400 hover:text-gray-600 dark:hover:text-slate-200'"
+      class="px-6 py-3 text-sm font-semibold border-b-2 transition-all whitespace-nowrap"
     >
       Documentos
     </button>
     <button 
       (click)="activeTab = 'accounting'"
       (click)="getmovimientos()"
-      [class.border-navy-800]="activeTab === 'accounting'"
-      [class.text-navy-800]="activeTab === 'accounting'"
-      class="px-6 py-3 text-sm font-semibold text-gray-400 border-b-2 border-transparent transition-all hover:text-gray-600"
+      [ngClass]="activeTab === 'accounting' ? 'border-navy-800 text-navy-800 dark:border-brand-400 dark:text-brand-400' : 'border-transparent text-gray-400 dark:text-slate-400 hover:text-gray-600 dark:hover:text-slate-200'"
+      class="px-6 py-3 text-sm font-semibold border-b-2 transition-all whitespace-nowrap"
     >
       Contabilidad
     </button>
     <button
       (click)="activeTab = 'reports'"
       (click)="onReportsTab()"
-      [class.border-navy-800]="activeTab === 'reports'"
-      [class.text-navy-800]="activeTab === 'reports'"
-      class="px-6 py-3 text-sm font-semibold text-gray-400 border-b-2 border-transparent transition-all hover:text-gray-600"
+      [ngClass]="activeTab === 'reports' ? 'border-navy-800 text-navy-800 dark:border-brand-400 dark:text-brand-400' : 'border-transparent text-gray-400 dark:text-slate-400 hover:text-gray-600 dark:hover:text-slate-200'"
+      class="px-6 py-3 text-sm font-semibold border-b-2 transition-all whitespace-nowrap"
     >
       Estados Financieros
     </button>
     <button
       (click)="activeTab = 'categories'"
       (click)="getCategoriesByTipo()"
-      [class.border-navy-800]="activeTab === 'categories'"
-      [class.text-navy-800]="activeTab === 'categories'"
-      class="px-6 py-3 text-sm font-semibold text-gray-400 border-b-2 border-transparent transition-all hover:text-gray-600"
+      [ngClass]="activeTab === 'categories' ? 'border-navy-800 text-navy-800 dark:border-brand-400 dark:text-brand-400' : 'border-transparent text-gray-400 dark:text-slate-400 hover:text-gray-600 dark:hover:text-slate-200'"
+      class="px-6 py-3 text-sm font-semibold border-b-2 transition-all whitespace-nowrap"
     >
       Categorías
     </button>
     <button
       (click)="activeTab = 'invoices'"
       (click)="onInvoicesTab()"
-      [class.border-navy-800]="activeTab === 'invoices'"
-      [class.text-navy-800]="activeTab === 'invoices'"
-      class="px-6 py-3 text-sm font-semibold text-gray-400 border-b-2 border-transparent transition-all hover:text-gray-600"
+      [ngClass]="activeTab === 'invoices' ? 'border-navy-800 text-navy-800 dark:border-brand-400 dark:text-brand-400' : 'border-transparent text-gray-400 dark:text-slate-400 hover:text-gray-600 dark:hover:text-slate-200'"
+      class="px-6 py-3 text-sm font-semibold border-b-2 transition-all whitespace-nowrap"
     >
       Facturación
     </button>
     <button
       (click)="activeTab = 'payroll'"
       (click)="onPayrollTab()"
-      [class.border-navy-800]="activeTab === 'payroll'"
-      [class.text-navy-800]="activeTab === 'payroll'"
-      class="px-6 py-3 text-sm font-semibold text-gray-400 border-b-2 border-transparent transition-all hover:text-gray-600"
+      [ngClass]="activeTab === 'payroll' ? 'border-navy-800 text-navy-800 dark:border-brand-400 dark:text-brand-400' : 'border-transparent text-gray-400 dark:text-slate-400 hover:text-gray-600 dark:hover:text-slate-200'"
+      class="px-6 py-3 text-sm font-semibold border-b-2 transition-all whitespace-nowrap"
     >
       Nómina
     </button>
     <button
       (click)="activeTab = 'taxes'"
       (click)="onTaxesTab()"
-      [class.border-navy-800]="activeTab === 'taxes'"
-      [class.text-navy-800]="activeTab === 'taxes'"
-      class="px-6 py-3 text-sm font-semibold text-gray-400 border-b-2 border-transparent transition-all hover:text-gray-600"
+      [ngClass]="activeTab === 'taxes' ? 'border-navy-800 text-navy-800 dark:border-brand-400 dark:text-brand-400' : 'border-transparent text-gray-400 dark:text-slate-400 hover:text-gray-600 dark:hover:text-slate-200'"
+      class="px-6 py-3 text-sm font-semibold border-b-2 transition-all whitespace-nowrap"
     >
       Impuestos
     </button>
     <button
       (click)="activeTab = 'cashflow'"
       (click)="onCashflowTab()"
-      [class.border-navy-800]="activeTab === 'cashflow'"
-      [class.text-navy-800]="activeTab === 'cashflow'"
-      class="px-6 py-3 text-sm font-semibold text-gray-400 border-b-2 border-transparent transition-all hover:text-gray-600"
+      [ngClass]="activeTab === 'cashflow' ? 'border-navy-800 text-navy-800 dark:border-brand-400 dark:text-brand-400' : 'border-transparent text-gray-400 dark:text-slate-400 hover:text-gray-600 dark:hover:text-slate-200'"
+      class="px-6 py-3 text-sm font-semibold border-b-2 transition-all whitespace-nowrap"
     >
       Flujo de Caja
     </button>
@@ -127,36 +117,36 @@
     <!-- Tab Documentos -->
     <div *ngSwitchCase="'docs'" class="space-y-6">
       <div class="flex items-center justify-between">
-        <h3 class="text-lg font-bold">Documentos del Cliente</h3>
+        <h3 class="text-lg font-bold text-navy-800 dark:text-slate-100">Documentos del Cliente</h3>
         <input #fileInput type="file" (change)="onFileSelected($event)" class="hidden">
-        <button (click)="fileInput.click()" class="flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-xl text-sm font-semibold hover:bg-white transition-all shadow-sm">
+        <button (click)="fileInput.click()" class="flex items-center gap-2 px-4 py-2 border border-gray-200 dark:border-slate-700 dark:bg-slate-900 text-navy-800 dark:text-slate-200 rounded-xl text-sm font-semibold hover:bg-white dark:hover:bg-slate-800 transition-all shadow-sm">
           <lucide-icon [img]="Upload" class="w-4 h-4"></lucide-icon>
           Subir PDF
         </button>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <div *ngFor="let doc of data" class="bg-white p-4 rounded-2xl border border-gray-100 flex items-start gap-4 hover:shadow-md transition-all group">
-          <div class="h-12 w-12 bg-red-50 rounded-xl flex items-center justify-center shrink-0">
-            <lucide-icon [img]="File" class="w-6 h-6 text-red-500"></lucide-icon>
+        <div *ngFor="let doc of data" class="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-gray-100 dark:border-slate-800 flex items-start gap-4 hover:shadow-md transition-all group">
+          <div class="h-12 w-12 bg-red-50 dark:bg-red-500/15 rounded-xl flex items-center justify-center shrink-0">
+            <lucide-icon [img]="File" class="w-6 h-6 text-red-500 dark:text-red-400"></lucide-icon>
           </div>
           <div class="flex-1 min-w-0">
-            <p class="font-bold text-navy-800 truncate">{{ doc.nombre }}</p>
-            <p class="text-[10px] text-gray-400 uppercase font-semibold tracking-wider mt-1">{{ doc.uploadDate }} • {{ doc.size }}</p>
+            <p class="font-bold text-navy-800 dark:text-slate-100 truncate">{{ doc.nombre }}</p>
+            <p class="text-[10px] text-gray-400 dark:text-slate-400 uppercase font-semibold tracking-wider mt-1">{{ doc.uploadDate }} • {{ doc.size }}</p>
           </div>
           <div class="flex flex-col gap-1">
-            <button (click)="descargar(doc)" class="p-2 text-gray-300 hover:text-navy-800 rounded-lg group-hover:bg-gray-50">
+            <button (click)="descargar(doc)" class="p-2 text-gray-300 dark:text-slate-500 hover:text-navy-800 dark:hover:text-slate-100 rounded-lg group-hover:bg-gray-50 dark:group-hover:bg-slate-800">
               <lucide-icon [img]="Download" class="w-4 h-4"></lucide-icon>
             </button>
-            <button (click)="deleteDocument(doc.id)" class="p-2 text-gray-300 hover:text-red-500 rounded-lg group-hover:bg-gray-50">
+            <button (click)="deleteDocument(doc.id)" class="p-2 text-gray-300 dark:text-slate-500 hover:text-red-500 dark:hover:text-red-400 rounded-lg group-hover:bg-gray-50 dark:group-hover:bg-slate-800">
               <lucide-icon [img]="Trash2" class="w-4 h-4"></lucide-icon>
             </button>
           </div>
         </div>
 
-        <div (click)="fileInput.click()" class="border-2 border-dashed border-gray-100 rounded-2xl flex flex-col items-center justify-center p-8 text-center hover:border-gray-300 transition-colors cursor-pointer group">
-          <lucide-icon [img]="Plus" class="w-8 h-8 text-gray-200 group-hover:text-gray-400 mb-2"></lucide-icon>
-          <p class="text-sm font-semibold text-gray-400">Seleccionar archivo</p>
+        <div (click)="fileInput.click()" class="border-2 border-dashed border-gray-100 dark:border-slate-800 rounded-2xl flex flex-col items-center justify-center p-8 text-center hover:border-gray-300 dark:hover:border-slate-600 transition-colors cursor-pointer group">
+          <lucide-icon [img]="Plus" class="w-8 h-8 text-gray-200 dark:text-slate-600 group-hover:text-gray-400 dark:group-hover:text-slate-400 mb-2"></lucide-icon>
+          <p class="text-sm font-semibold text-gray-400 dark:text-slate-400">Seleccionar archivo</p>
         </div>
       </div>
     </div>
@@ -168,55 +158,55 @@
 
         <!-- Formulario -->
         <div class="lg:col-span-1 space-y-4">
-          <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-4">
-            <h3 class="text-lg font-bold flex items-center gap-2">
-              <lucide-icon [img]="Calculator" class="w-5 h-5 text-gray-400"></lucide-icon>
+          <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-gray-100 dark:border-slate-800 shadow-sm space-y-4">
+            <h3 class="text-lg font-bold text-navy-800 dark:text-slate-100 flex items-center gap-2">
+              <lucide-icon [img]="Calculator" class="w-5 h-5 text-gray-400 dark:text-slate-400"></lucide-icon>
               Nuevo Movimiento
             </h3>
 
-            <div *ngIf="!datas || datas.length === 0" class="text-center py-4 bg-amber-50 rounded-xl">
-              <p class="text-xs font-semibold text-amber-700">Primero crea categorías en el tab <strong>Categorías</strong>.</p>
+            <div *ngIf="!datas || datas.length === 0" class="text-center py-4 bg-amber-50 dark:bg-amber-500/15 rounded-xl">
+              <p class="text-xs font-semibold text-amber-700 dark:text-amber-300">Primero crea categorías en el tab <strong>Categorías</strong>.</p>
             </div>
 
             <div *ngIf="datas && datas.length > 0" class="space-y-3">
               <div>
-                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Categoría</label>
-                <select [(ngModel)]="newCategorySelected" class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+                <label class="text-[10px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-widest block mb-1">Categoría</label>
+                <select [(ngModel)]="newCategorySelected" class="w-full px-3 py-2 bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 text-navy-800 dark:text-slate-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
                   <option [ngValue]="null" disabled>Seleccionar categoría...</option>
                   <option *ngFor="let cat of datas" [ngValue]="cat">{{ cat.nombre }} ({{ cat.tipo }})</option>
                 </select>
               </div>
               <div>
-                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Descripción</label>
+                <label class="text-[10px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-widest block mb-1">Descripción</label>
                 <input [(ngModel)]="newDescription" type="text" placeholder="Ej. Pago Proveedor X"
-                  class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+                  class="w-full px-4 py-2 bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 text-navy-800 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-500 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
               </div>
               <div>
-                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Monto ($)</label>
+                <label class="text-[10px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-widest block mb-1">Monto ($)</label>
                 <input [(ngModel)]="newAmount" type="number" min="0"
-                  class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+                  class="w-full px-4 py-2 bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 text-navy-800 dark:text-slate-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
               </div>
 
               <div *ngIf="newCategorySelected" class="flex items-center gap-2 px-3 py-2 rounded-xl"
                 [ngClass]="{
-                  'bg-green-50': newCategorySelected.tipo === 'Ingreso',
-                  'bg-red-50':   newCategorySelected.tipo === 'Gasto',
-                  'bg-blue-50':  newCategorySelected.tipo === 'Activo',
-                  'bg-orange-50':newCategorySelected.tipo === 'Pasivo'
+                  'bg-green-50 dark:bg-emerald-500/15': newCategorySelected.tipo === 'Ingreso',
+                  'bg-red-50 dark:bg-red-500/15':   newCategorySelected.tipo === 'Gasto',
+                  'bg-blue-50 dark:bg-blue-500/15':  newCategorySelected.tipo === 'Activo',
+                  'bg-orange-50 dark:bg-orange-500/15':newCategorySelected.tipo === 'Pasivo'
                 }">
                 <lucide-icon [img]="Tag" class="w-3.5 h-3.5"
                   [ngClass]="{
-                    'text-green-600': newCategorySelected.tipo === 'Ingreso',
-                    'text-red-600':   newCategorySelected.tipo === 'Gasto',
-                    'text-blue-600':  newCategorySelected.tipo === 'Activo',
-                    'text-orange-600':newCategorySelected.tipo === 'Pasivo'
+                    'text-green-600 dark:text-emerald-400': newCategorySelected.tipo === 'Ingreso',
+                    'text-red-600 dark:text-red-400':   newCategorySelected.tipo === 'Gasto',
+                    'text-blue-600 dark:text-blue-400':  newCategorySelected.tipo === 'Activo',
+                    'text-orange-600 dark:text-orange-400':newCategorySelected.tipo === 'Pasivo'
                   }"></lucide-icon>
                 <span class="text-xs font-bold"
                   [ngClass]="{
-                    'text-green-700': newCategorySelected.tipo === 'Ingreso',
-                    'text-red-700':   newCategorySelected.tipo === 'Gasto',
-                    'text-blue-700':  newCategorySelected.tipo === 'Activo',
-                    'text-orange-700':newCategorySelected.tipo === 'Pasivo'
+                    'text-green-700 dark:text-emerald-300': newCategorySelected.tipo === 'Ingreso',
+                    'text-red-700 dark:text-red-300':   newCategorySelected.tipo === 'Gasto',
+                    'text-blue-700 dark:text-blue-300':  newCategorySelected.tipo === 'Activo',
+                    'text-orange-700 dark:text-orange-300':newCategorySelected.tipo === 'Pasivo'
                   }">
                   Se registrará como {{ newCategorySelected.tipo }}
                 </span>
@@ -224,33 +214,33 @@
 
               <button (click)="addEntry()"
                 [disabled]="!newCategorySelected || !newDescription || !newAmount"
-                class="w-full py-3 bg-navy-800 text-white rounded-xl text-sm font-bold hover:bg-navy-900 transition-all active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed">
+                class="w-full py-3 bg-navy-800 dark:bg-darkbtn text-white rounded-xl text-sm font-bold hover:bg-navy-900 dark:hover:bg-darkbtn-hover transition-all active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed">
                 Registrar Movimiento
               </button>
             </div>
           </div>
 
           <!-- Resumen rápido -->
-          <div class="bg-navy-800 text-white p-6 rounded-2xl shadow-xl space-y-3">
-            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">Utilidad del Período</p>
+          <div class="bg-navy-800 dark:bg-slate-800/90 dark:border dark:border-slate-700 text-white p-6 rounded-2xl shadow-xl space-y-3">
+            <p class="text-[10px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-[0.2em]">Utilidad del Período</p>
             <h2 class="text-4xl font-bold" [ngClass]="utilidadNeta >= 0 ? 'text-white' : 'text-red-400'">
               {{ utilidadNeta >= 0 ? '+' : '' }}${{ utilidadNeta | number }}
             </h2>
             <div class="grid grid-cols-2 gap-3 border-t border-white/10 pt-3">
               <div>
-                <p class="text-[10px] text-gray-400 font-bold uppercase">Ingresos</p>
+                <p class="text-[10px] text-gray-400 dark:text-slate-400 font-bold uppercase">Ingresos</p>
                 <p class="font-bold text-green-400">${{ totalIngresos | number }}</p>
               </div>
               <div>
-                <p class="text-[10px] text-gray-400 font-bold uppercase">Gastos</p>
+                <p class="text-[10px] text-gray-400 dark:text-slate-400 font-bold uppercase">Gastos</p>
                 <p class="font-bold text-red-400">${{ totalGastos | number }}</p>
               </div>
               <div>
-                <p class="text-[10px] text-gray-400 font-bold uppercase">Activos</p>
+                <p class="text-[10px] text-gray-400 dark:text-slate-400 font-bold uppercase">Activos</p>
                 <p class="font-bold text-blue-400">${{ totalAssets | number }}</p>
               </div>
               <div>
-                <p class="text-[10px] text-gray-400 font-bold uppercase">Pasivos</p>
+                <p class="text-[10px] text-gray-400 dark:text-slate-400 font-bold uppercase">Pasivos</p>
                 <p class="font-bold text-orange-400">${{ totalLiabilities | number }}</p>
               </div>
             </div>
@@ -259,14 +249,14 @@
 
         <!-- Tabla Libro Diario -->
         <div class="lg:col-span-2">
-          <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-            <div class="px-6 py-4 border-b border-gray-50 bg-gray-50/30">
-              <h3 class="font-bold text-navy-800">Libro Diario — Movimientos</h3>
+          <div class="bg-white dark:bg-slate-900 rounded-2xl border border-gray-100 dark:border-slate-800 shadow-sm overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-50 dark:border-slate-800 bg-gray-50/30 dark:bg-slate-800/40">
+              <h3 class="font-bold text-navy-800 dark:text-slate-100">Libro Diario — Movimientos</h3>
             </div>
             <div class="overflow-x-auto">
               <table class="w-full text-left text-sm">
                 <thead>
-                  <tr class="bg-gray-50/50 text-gray-400 font-bold border-b border-gray-100">
+                  <tr class="bg-gray-50/50 dark:bg-slate-800/50 text-gray-400 dark:text-slate-400 font-bold border-b border-gray-100 dark:border-slate-800">
                     <th class="px-6 py-3 uppercase tracking-wider text-[10px]">Fecha</th>
                     <th class="px-6 py-3 uppercase tracking-wider text-[10px]">Descripción</th>
                     <th class="px-6 py-3 uppercase tracking-wider text-[10px]">Categoría</th>
@@ -274,36 +264,36 @@
                     <th class="px-6 py-3 uppercase tracking-wider text-[10px] text-right">Monto</th>
                   </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-50">
-                  <tr *ngFor="let t of transactions" class="hover:bg-gray-50 transition-colors">
-                    <td class="px-6 py-4 text-gray-400 text-xs">{{ t.date | date }}</td>
-                    <td class="px-6 py-4 font-semibold text-navy-800">{{ t.description }}</td>
-                    <td class="px-6 py-4 text-gray-600">{{ t.category }}</td>
+                <tbody class="divide-y divide-gray-50 dark:divide-slate-800">
+                  <tr *ngFor="let t of transactions" class="hover:bg-gray-50 dark:hover:bg-slate-800/50 transition-colors">
+                    <td class="px-6 py-4 text-gray-400 dark:text-slate-400 text-xs">{{ t.date | date }}</td>
+                    <td class="px-6 py-4 font-semibold text-navy-800 dark:text-slate-100">{{ t.description }}</td>
+                    <td class="px-6 py-4 text-gray-600 dark:text-slate-300">{{ t.category }}</td>
                     <td class="px-6 py-4">
                       <span class="px-2 py-0.5 rounded text-[10px] font-bold"
                         [ngClass]="{
-                          'bg-green-50 text-green-600': t.tipo === 'Ingreso',
-                          'bg-red-50 text-red-600':     t.tipo === 'Gasto',
-                          'bg-blue-50 text-blue-600':   t.tipo === 'Activo',
-                          'bg-orange-50 text-orange-600':t.tipo === 'Pasivo'
+                          'bg-green-50 text-green-600 dark:bg-emerald-500/15 dark:text-emerald-400': t.tipo === 'Ingreso',
+                          'bg-red-50 text-red-600 dark:bg-red-500/15 dark:text-red-400':     t.tipo === 'Gasto',
+                          'bg-blue-50 text-blue-600 dark:bg-blue-500/15 dark:text-blue-400':   t.tipo === 'Activo',
+                          'bg-orange-50 text-orange-600 dark:bg-orange-500/15 dark:text-orange-400':t.tipo === 'Pasivo'
                         }">{{ t.tipo }}</span>
                     </td>
                     <td class="px-6 py-4 text-right font-bold">
                       <div class="flex items-center justify-end gap-3">
                         <span [ngClass]="{
-                          'text-green-600': t.tipo === 'Ingreso' || t.tipo === 'Activo',
-                          'text-red-600':   t.tipo === 'Gasto'   || t.tipo === 'Pasivo'
+                          'text-green-600 dark:text-emerald-400': t.tipo === 'Ingreso' || t.tipo === 'Activo',
+                          'text-red-600 dark:text-red-400':   t.tipo === 'Gasto'   || t.tipo === 'Pasivo'
                         }">
                           {{ (t.tipo === 'Gasto' || t.tipo === 'Pasivo') ? '-' : '+' }}${{ t.amount | number }}
                         </span>
-                        <button (click)="deleteEntry(t.id)" class="p-1 text-gray-300 hover:text-red-500 transition-colors">
+                        <button (click)="deleteEntry(t.id)" class="p-1 text-gray-300 dark:text-slate-500 hover:text-red-500 dark:hover:text-red-400 transition-colors">
                           <lucide-icon [img]="Trash2" class="w-3.5 h-3.5"></lucide-icon>
                         </button>
                       </div>
                     </td>
                   </tr>
                   <tr *ngIf="transactions.length === 0">
-                    <td colspan="5" class="px-6 py-12 text-center text-gray-400 italic">No hay movimientos registrados.</td>
+                    <td colspan="5" class="px-6 py-12 text-center text-gray-400 dark:text-slate-500 italic">No hay movimientos registrados.</td>
                   </tr>
                 </tbody>
               </table>
@@ -313,72 +303,72 @@
       </div>
 
       <!-- Estado de Resultados -->
-      <div *ngIf="transactions.length > 0" class="bg-white rounded-[1.5rem] border border-gray-100 shadow-sm overflow-hidden">
-        <div class="px-8 py-5 border-b border-gray-100 flex items-center justify-between">
+      <div *ngIf="transactions.length > 0" class="bg-white dark:bg-slate-900 rounded-[1.5rem] border border-gray-100 dark:border-slate-800 shadow-sm overflow-hidden">
+        <div class="px-8 py-5 border-b border-gray-100 dark:border-slate-800 flex items-center justify-between">
           <div>
-            <h3 class="text-lg font-black text-navy-800 tracking-tight">Estado de Resultados</h3>
-            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">Al {{ today | date:'mediumDate' }}</p>
+            <h3 class="text-lg font-black text-navy-800 dark:text-slate-100 tracking-tight">Estado de Resultados</h3>
+            <p class="text-[10px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-widest mt-0.5">Al {{ today | date:'mediumDate' }}</p>
           </div>
           <span class="px-3 py-1 rounded-full text-xs font-bold"
-            [ngClass]="utilidadNeta >= 0 ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'">
+            [ngClass]="utilidadNeta >= 0 ? 'bg-green-50 text-green-700 dark:bg-emerald-500/15 dark:text-emerald-400' : 'bg-red-50 text-red-700 dark:bg-red-500/15 dark:text-red-400'">
             {{ utilidadNeta >= 0 ? 'Utilidad' : 'Pérdida' }}
           </span>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-gray-100">
+        <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-gray-100 dark:divide-slate-800">
 
           <!-- Ingresos -->
           <div class="p-8 space-y-4">
-            <h4 class="text-[10px] font-black text-green-600 uppercase tracking-widest flex items-center gap-2">
+            <h4 class="text-[10px] font-black text-green-600 dark:text-emerald-400 uppercase tracking-widest flex items-center gap-2">
               <span class="h-2 w-2 rounded-full bg-green-500 inline-block"></span>Ingresos
             </h4>
             <div class="space-y-2">
               <div *ngFor="let item of estadoIngresos" class="flex items-center justify-between text-sm">
-                <span class="text-gray-600 font-medium">{{ item.nombre }}</span>
-                <span class="font-bold text-navy-800">${{ item.total | number }}</span>
+                <span class="text-gray-600 dark:text-slate-300 font-medium">{{ item.nombre }}</span>
+                <span class="font-bold text-navy-800 dark:text-slate-100">${{ item.total | number }}</span>
               </div>
-              <div *ngIf="estadoIngresos.length === 0" class="text-sm text-gray-400 italic">Sin movimientos de ingresos.</div>
+              <div *ngIf="estadoIngresos.length === 0" class="text-sm text-gray-400 dark:text-slate-500 italic">Sin movimientos de ingresos.</div>
             </div>
-            <div class="pt-3 border-t border-gray-100 flex items-center justify-between">
-              <span class="text-xs font-black text-navy-800 uppercase tracking-wider">Total Ingresos</span>
-              <span class="text-lg font-black text-green-600">${{ totalIngresos | number }}</span>
+            <div class="pt-3 border-t border-gray-100 dark:border-slate-800 flex items-center justify-between">
+              <span class="text-xs font-black text-navy-800 dark:text-slate-200 uppercase tracking-wider">Total Ingresos</span>
+              <span class="text-lg font-black text-green-600 dark:text-emerald-400">${{ totalIngresos | number }}</span>
             </div>
           </div>
 
           <!-- Gastos -->
           <div class="p-8 space-y-4">
-            <h4 class="text-[10px] font-black text-red-600 uppercase tracking-widest flex items-center gap-2">
+            <h4 class="text-[10px] font-black text-red-600 dark:text-red-400 uppercase tracking-widest flex items-center gap-2">
               <span class="h-2 w-2 rounded-full bg-red-500 inline-block"></span>Gastos
             </h4>
             <div class="space-y-2">
               <div *ngFor="let item of estadoGastos" class="flex items-center justify-between text-sm">
-                <span class="text-gray-600 font-medium">{{ item.nombre }}</span>
-                <span class="font-bold text-navy-800">(${{ item.total | number }})</span>
+                <span class="text-gray-600 dark:text-slate-300 font-medium">{{ item.nombre }}</span>
+                <span class="font-bold text-navy-800 dark:text-slate-100">(${{ item.total | number }})</span>
               </div>
-              <div *ngIf="estadoGastos.length === 0" class="text-sm text-gray-400 italic">Sin movimientos de gastos.</div>
+              <div *ngIf="estadoGastos.length === 0" class="text-sm text-gray-400 dark:text-slate-500 italic">Sin movimientos de gastos.</div>
             </div>
-            <div class="pt-3 border-t border-gray-100 flex items-center justify-between">
-              <span class="text-xs font-black text-navy-800 uppercase tracking-wider">Total Gastos</span>
-              <span class="text-lg font-black text-red-600">(${{ totalGastos | number }})</span>
+            <div class="pt-3 border-t border-gray-100 dark:border-slate-800 flex items-center justify-between">
+              <span class="text-xs font-black text-navy-800 dark:text-slate-200 uppercase tracking-wider">Total Gastos</span>
+              <span class="text-lg font-black text-red-600 dark:text-red-400">(${{ totalGastos | number }})</span>
             </div>
           </div>
         </div>
 
         <!-- Resultado final -->
-        <div class="px-8 py-6 border-t border-gray-100"
-          [ngClass]="utilidadNeta >= 0 ? 'bg-green-50/40' : 'bg-red-50/40'">
+        <div class="px-8 py-6 border-t border-gray-100 dark:border-slate-800"
+          [ngClass]="utilidadNeta >= 0 ? 'bg-green-50/40 dark:bg-emerald-500/10' : 'bg-red-50/40 dark:bg-red-500/10'">
           <div class="flex items-center justify-between">
             <div>
               <p class="text-xs font-black uppercase tracking-widest"
-                [ngClass]="utilidadNeta >= 0 ? 'text-green-700' : 'text-red-700'">
+                [ngClass]="utilidadNeta >= 0 ? 'text-green-700 dark:text-emerald-400' : 'text-red-700 dark:text-red-400'">
                 {{ utilidadNeta >= 0 ? 'Utilidad Neta del Período' : 'Pérdida Neta del Período' }}
               </p>
-              <p class="text-xs text-gray-400 mt-0.5">
+              <p class="text-xs text-gray-400 dark:text-slate-400 mt-0.5">
                 Ingresos ${{ totalIngresos | number }} − Gastos ${{ totalGastos | number }}
               </p>
             </div>
             <span class="text-3xl font-black"
-              [ngClass]="utilidadNeta >= 0 ? 'text-green-700' : 'text-red-700'">
+              [ngClass]="utilidadNeta >= 0 ? 'text-green-700 dark:text-emerald-400' : 'text-red-700 dark:text-red-400'">
               {{ utilidadNeta >= 0 ? '+' : '' }}${{ utilidadNeta | number }}
             </span>
           </div>
@@ -390,13 +380,13 @@
     <!-- Tab Reports -->
     <div *ngSwitchCase="'reports'" class="space-y-8 max-w-4xl mx-auto">
       <div class="flex items-center justify-between">
-        <h3 class="text-lg font-bold">Generación de Estados Financieros</h3>
+        <h3 class="text-lg font-bold text-navy-800 dark:text-slate-100">Generación de Estados Financieros</h3>
         <div class="flex gap-2">
-          <button (click)="generateReport()" class="px-4 py-2 text-sm font-semibold text-gray-600 border border-gray-100 rounded-xl hover:bg-white transition-all shadow-sm flex items-center gap-2">
+          <button (click)="generateReport()" class="px-4 py-2 text-sm font-semibold text-gray-600 dark:text-slate-300 border border-gray-100 dark:border-slate-700 rounded-xl hover:bg-white dark:hover:bg-slate-800 transition-all shadow-sm flex items-center gap-2">
             <lucide-icon [img]="Clock" class="w-4 h-4"></lucide-icon>
             Historial
           </button>
-          <button (click)="generateReport()" class="px-4 py-2 text-sm font-semibold text-white bg-navy-800 rounded-xl hover:bg-navy-900 transition-all shadow-lg flex items-center gap-2">
+          <button (click)="generateReport()" class="px-4 py-2 text-sm font-semibold text-white bg-navy-800 dark:bg-darkbtn rounded-xl hover:bg-navy-900 dark:hover:bg-darkbtn-hover transition-all shadow-lg flex items-center gap-2">
             <lucide-icon [img]="BarChart" class="w-4 h-4"></lucide-icon>
             Generar Nuevo
           </button>
@@ -404,43 +394,43 @@
       </div>
 
       <!-- Financial Report Mockup -->
-      <div class="bg-white p-12 rounded-[2rem] border border-gray-100 shadow-2xl space-y-10 relative overflow-hidden">
+      <div class="bg-white dark:bg-slate-900 p-12 rounded-[2rem] border border-gray-100 dark:border-slate-800 shadow-2xl space-y-10 relative overflow-hidden">
         <!-- Background Decoration -->
         <div class="absolute top-0 right-0 p-12">
-          <div class="h-32 w-32 bg-gray-50 rounded-full blur-3xl"></div>
+          <div class="h-32 w-32 bg-gray-50 dark:bg-brand-500/10 rounded-full blur-3xl"></div>
         </div>
 
         <div class="flex justify-between items-start relative">
           <div>
-            <h4 class="text-3xl font-black text-navy-800 tracking-tighter">Balance General</h4>
-            <p class="text-gray-400 font-medium uppercase tracking-[0.3em] text-[10px] mt-1">Al {{ today | date:'mediumDate' }}</p>
+            <h4 class="text-3xl font-black text-navy-800 dark:text-slate-100 tracking-tighter">Balance General</h4>
+            <p class="text-gray-400 dark:text-slate-400 font-medium uppercase tracking-[0.3em] text-[10px] mt-1">Al {{ today | date:'mediumDate' }}</p>
           </div>
           <div class="text-right">
-            <p class="font-bold text-navy-800">FinanzaPro Accountants</p>
-            <p class="text-xs text-gray-400">Certificado No. 8829-11</p>
+            <p class="font-bold text-navy-800 dark:text-slate-100">FinanzaPro Accountants</p>
+            <p class="text-xs text-gray-400 dark:text-slate-400">Certificado No. 8829-11</p>
           </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-16 relative">
           <!-- Activos -->
           <div class="space-y-6">
-            <h5 class="text-xs font-black text-gray-400 uppercase tracking-widest border-b border-gray-100 pb-2">Activos</h5>
+            <h5 class="text-xs font-black text-gray-400 dark:text-slate-400 uppercase tracking-widest border-b border-gray-100 dark:border-slate-800 pb-2">Activos</h5>
             <div class="space-y-4">
               <div class="flex justify-between text-sm">
-                <span class="text-gray-600 font-medium">Caja y Bancos</span>
-                <span class="font-bold text-navy-800">${{ cajaYBancos | number }}</span>
+                <span class="text-gray-600 dark:text-slate-300 font-medium">Caja y Bancos</span>
+                <span class="font-bold text-navy-800 dark:text-slate-100">${{ cajaYBancos | number }}</span>
               </div>
               <div class="flex justify-between text-sm">
-                <span class="text-gray-600 font-medium">Cuentas por Cobrar</span>
-                <span class="font-bold text-navy-800">${{ totalPorCobrar | number }}</span>
+                <span class="text-gray-600 dark:text-slate-300 font-medium">Cuentas por Cobrar</span>
+                <span class="font-bold text-navy-800 dark:text-slate-100">${{ totalPorCobrar | number }}</span>
               </div>
               <div class="flex justify-between text-sm">
-                <span class="text-gray-600 font-medium">Equipos y Mobiliario</span>
-                <span class="font-bold text-navy-800">${{ totalAssets | number }}</span>
+                <span class="text-gray-600 dark:text-slate-300 font-medium">Equipos y Mobiliario</span>
+                <span class="font-bold text-navy-800 dark:text-slate-100">${{ totalAssets | number }}</span>
               </div>
-              <div class="pt-4 border-t border-gray-50 flex justify-between">
-                <span class="font-black text-navy-800 uppercase text-[11px]">Total Activos</span>
-                <span class="font-black text-navy-800">${{ totalActivosBalance | number }}</span>
+              <div class="pt-4 border-t border-gray-50 dark:border-slate-800 flex justify-between">
+                <span class="font-black text-navy-800 dark:text-slate-100 uppercase text-[11px]">Total Activos</span>
+                <span class="font-black text-navy-800 dark:text-slate-100">${{ totalActivosBalance | number }}</span>
               </div>
             </div>
           </div>
@@ -448,48 +438,48 @@
           <!-- Pasivos & Patrimonio -->
           <div class="space-y-10">
             <div class="space-y-6">
-              <h5 class="text-xs font-black text-gray-400 uppercase tracking-widest border-b border-gray-100 pb-2">Pasivos</h5>
+              <h5 class="text-xs font-black text-gray-400 dark:text-slate-400 uppercase tracking-widest border-b border-gray-100 dark:border-slate-800 pb-2">Pasivos</h5>
               <div class="space-y-4">
                 <div class="flex justify-between text-sm">
-                  <span class="text-gray-600 font-medium">Deudas Corto Plazo</span>
-                  <span class="font-bold text-navy-800">${{ totalLiabilities | number }}</span>
+                  <span class="text-gray-600 dark:text-slate-300 font-medium">Deudas Corto Plazo</span>
+                  <span class="font-bold text-navy-800 dark:text-slate-100">${{ totalLiabilities | number }}</span>
                 </div>
                 <div class="flex justify-between text-sm">
-                  <span class="text-gray-600 font-medium">Impuestos por Pagar</span>
-                  <span class="font-bold text-navy-800">${{ impuestosPorPagarBalance | number }}</span>
+                  <span class="text-gray-600 dark:text-slate-300 font-medium">Impuestos por Pagar</span>
+                  <span class="font-bold text-navy-800 dark:text-slate-100">${{ impuestosPorPagarBalance | number }}</span>
                 </div>
-                <div class="pt-4 border-t border-gray-50 flex justify-between">
-                  <span class="font-black text-navy-800 uppercase text-[11px]">Total Pasivos</span>
-                  <span class="font-black text-navy-800">${{ totalPasivosBalance | number }}</span>
+                <div class="pt-4 border-t border-gray-50 dark:border-slate-800 flex justify-between">
+                  <span class="font-black text-navy-800 dark:text-slate-100 uppercase text-[11px]">Total Pasivos</span>
+                  <span class="font-black text-navy-800 dark:text-slate-100">${{ totalPasivosBalance | number }}</span>
                 </div>
               </div>
             </div>
 
             <div class="space-y-6">
-              <h5 class="text-xs font-black text-gray-400 uppercase tracking-widest border-b border-gray-100 pb-2">Patrimonio</h5>
+              <h5 class="text-xs font-black text-gray-400 dark:text-slate-400 uppercase tracking-widest border-b border-gray-100 dark:border-slate-800 pb-2">Patrimonio</h5>
               <div class="space-y-4">
                 <div class="flex justify-between text-sm">
-                  <span class="text-gray-600 font-medium">Resultados Acumulados</span>
-                  <span class="font-bold text-navy-800">${{ utilidadNeta | number }}</span>
+                  <span class="text-gray-600 dark:text-slate-300 font-medium">Resultados Acumulados</span>
+                  <span class="font-bold text-navy-800 dark:text-slate-100">${{ utilidadNeta | number }}</span>
                 </div>
-                <div class="pt-4 border-t border-gray-50 flex justify-between">
-                  <span class="font-black text-navy-800 uppercase text-[11px]">Total Patrimonio</span>
-                  <span class="font-black text-navy-800">${{ patrimonioBalance | number }}</span>
+                <div class="pt-4 border-t border-gray-50 dark:border-slate-800 flex justify-between">
+                  <span class="font-black text-navy-800 dark:text-slate-100 uppercase text-[11px]">Total Patrimonio</span>
+                  <span class="font-black text-navy-800 dark:text-slate-100">${{ patrimonioBalance | number }}</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <p class="text-[10px] text-gray-400 italic relative">
+        <p class="text-[10px] text-gray-400 dark:text-slate-400 italic relative">
           Cuentas por Cobrar viene de Facturación, Impuestos por Pagar del último cálculo en el tab Impuestos, y Caja y Bancos del saldo acumulado en Flujo de Caja.
         </p>
 
-        <div class="pt-10 border-t border-gray-100 flex items-center justify-between">
+        <div class="pt-10 border-t border-gray-100 dark:border-slate-800 flex items-center justify-between">
           <div class="flex items-center gap-2">
             <lucide-icon [img]="CheckCircle" class="w-4 h-4 text-green-500"></lucide-icon>
-            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Documento Verificado por Sistema</span>
+            <span class="text-[10px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-wider">Documento Verificado por Sistema</span>
           </div>
-          <button (click)="descargarBalancePDF()" class="px-6 py-2.5 bg-gray-50 hover:bg-gray-100 text-navy-800 rounded-xl text-xs font-bold transition-all flex items-center gap-2">
+          <button (click)="descargarBalancePDF()" class="px-6 py-2.5 bg-gray-50 dark:bg-slate-800 hover:bg-gray-100 dark:hover:bg-slate-700 text-navy-800 dark:text-slate-100 rounded-xl text-xs font-bold transition-all flex items-center gap-2">
             <lucide-icon [img]="Download" class="w-4 h-4"></lucide-icon>
             Descargar PDF
           </button>
@@ -502,36 +492,36 @@
 
         <!-- Formulario siempre visible -->
         <div class="lg:col-span-1">
-          <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-4">
-            <h3 class="text-lg font-bold flex items-center gap-2">
-              <lucide-icon [img]="Tag" class="w-5 h-5 text-gray-400"></lucide-icon>
+          <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-gray-100 dark:border-slate-800 shadow-sm space-y-4">
+            <h3 class="text-lg font-bold text-navy-800 dark:text-slate-100 flex items-center gap-2">
+              <lucide-icon [img]="Tag" class="w-5 h-5 text-gray-400 dark:text-slate-400"></lucide-icon>
               Nueva Categoría
             </h3>
             <div class="space-y-3">
               <div>
-                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Código</label>
+                <label class="text-[10px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-widest block mb-1">Código</label>
                 <input
                   [(ngModel)]="newCategoryCodigo"
                   type="text"
                   placeholder="Ej. 1.04"
-                  class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all"
+                  class="w-full px-4 py-2 bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 text-navy-800 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-500 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all"
                 >
               </div>
               <div>
-                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Nombre</label>
+                <label class="text-[10px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-widest block mb-1">Nombre</label>
                 <input
                   [(ngModel)]="newCategoryName"
                   type="text"
                   placeholder="Ej. Ventas al contado"
                   (keydown.enter)="addCategory()"
-                  class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all"
+                  class="w-full px-4 py-2 bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 text-navy-800 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-500 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all"
                 >
               </div>
               <div>
-                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Tipo</label>
+                <label class="text-[10px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-widest block mb-1">Tipo</label>
                 <select
                   [(ngModel)]="newCategoryTipo"
-                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all"
+                  class="w-full px-3 py-2 bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 text-navy-800 dark:text-slate-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all"
                 >
                   <option value="Grupo">Grupo (encabezado)</option>
                   <option value="Ingreso">Ingreso</option>
@@ -544,7 +534,7 @@
               </div>
               <button
                 (click)="addCategory()"
-                class="w-full py-3 bg-navy-800 text-white rounded-xl text-sm font-bold hover:bg-navy-900 transition-all active:scale-[0.98]"
+                class="w-full py-3 bg-navy-800 dark:bg-darkbtn text-white rounded-xl text-sm font-bold hover:bg-navy-900 dark:hover:bg-darkbtn-hover transition-all active:scale-[0.98]"
               >
                 Agregar Categoría
               </button>
@@ -552,16 +542,16 @@
           </div>
 
           <!-- Importar catálogo de cuentas desde Excel -->
-          <div class="mt-4 bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-3">
-            <h3 class="text-sm font-bold flex items-center gap-2 text-navy-800">
-              <lucide-icon [img]="FileSpreadsheet" class="w-5 h-5 text-gray-400"></lucide-icon>
+          <div class="mt-4 bg-white dark:bg-slate-900 p-6 rounded-2xl border border-gray-100 dark:border-slate-800 shadow-sm space-y-3">
+            <h3 class="text-sm font-bold flex items-center gap-2 text-navy-800 dark:text-slate-100">
+              <lucide-icon [img]="FileSpreadsheet" class="w-5 h-5 text-gray-400 dark:text-slate-400"></lucide-icon>
               Importar catálogo de cuentas
             </h3>
-            <p class="text-xs text-gray-500">
+            <p class="text-xs text-gray-500 dark:text-slate-400">
               Sube un Excel (.xlsx) con columnas <strong>Codigo</strong>, <strong>Nombre</strong> y <strong>Tipo</strong> para cargar el catálogo completo de una sola vez.
             </p>
             <label
-              class="flex items-center justify-center gap-2 w-full py-3 border-2 border-dashed border-gray-200 rounded-xl text-sm font-semibold text-gray-500 hover:border-brand-500 hover:text-brand-600 transition-all cursor-pointer"
+              class="flex items-center justify-center gap-2 w-full py-3 border-2 border-dashed border-gray-200 dark:border-slate-700 rounded-xl text-sm font-semibold text-gray-500 dark:text-slate-400 hover:border-brand-500 hover:text-brand-600 dark:hover:text-brand-400 transition-all cursor-pointer"
               [class.opacity-50]="importingCatalogo"
             >
               <span *ngIf="importingCatalogo" class="w-4 h-4 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"></span>
@@ -578,8 +568,8 @@
           </div>
 
           <!-- Contador resumen -->
-          <div class="mt-4 bg-navy-800 text-white p-5 rounded-2xl shadow-xl space-y-3">
-            <p class="text-xs font-bold text-gray-400 uppercase tracking-[0.2em]">Total Categorías</p>
+          <div class="mt-4 bg-navy-800 dark:bg-slate-800/90 dark:border dark:border-slate-700 text-white p-5 rounded-2xl shadow-xl space-y-3">
+            <p class="text-xs font-bold text-gray-400 dark:text-slate-400 uppercase tracking-[0.2em]">Total Categorías</p>
             <h2 class="text-4xl font-bold">{{ count }}</h2>
             <div class="grid grid-cols-2 gap-2 border-t border-white/10 pt-3 text-[10px] font-bold uppercase text-gray-400">
            
@@ -589,61 +579,61 @@
 
         <!-- Tabla de categorías -->
         <div class="lg:col-span-2">
-          <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-            <div class="px-6 py-4 border-b border-gray-50 bg-gray-50/30">
-              <h3 class="font-bold text-navy-800">Categorías Registradas</h3>
+          <div class="bg-white dark:bg-slate-900 rounded-2xl border border-gray-100 dark:border-slate-800 shadow-sm overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-50 dark:border-slate-800 bg-gray-50/30 dark:bg-slate-800/40">
+              <h3 class="font-bold text-navy-800 dark:text-slate-100">Categorías Registradas</h3>
             </div>
             <div class="overflow-x-auto">
               <table class="w-full text-left text-sm">
                 <thead>
-                  <tr class="bg-gray-50/50 text-gray-400 font-bold border-b border-gray-100">
+                  <tr class="bg-gray-50/50 dark:bg-slate-800/50 text-gray-400 dark:text-slate-400 font-bold border-b border-gray-100 dark:border-slate-800">
                     <th class="px-6 py-3 uppercase tracking-wider text-[10px]">Código</th>
                     <th class="px-6 py-3 uppercase tracking-wider text-[10px]">Nombre</th>
                     <th class="px-6 py-3 uppercase tracking-wider text-[10px]">Tipo</th>
                     <th class="px-6 py-3 uppercase tracking-wider text-[10px] text-right">Acciones</th>
                   </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-50">
+                <tbody class="divide-y divide-gray-50 dark:divide-slate-800">
                   <tr
                     *ngFor="let cat of datas"
                     class="transition-colors group"
-                    [ngClass]="cat.tipo === 'Grupo' ? 'bg-gray-50/70' : 'hover:bg-gray-50'"
+                    [ngClass]="cat.tipo === 'Grupo' ? 'bg-gray-50/70 dark:bg-slate-800/60' : 'hover:bg-gray-50 dark:hover:bg-slate-800/40'"
                   >
-                    <td class="px-6 py-4 text-xs text-gray-400 font-mono">{{ cat.codigo }}</td>
+                    <td class="px-6 py-4 text-xs text-gray-400 dark:text-slate-400 font-mono">{{ cat.codigo }}</td>
                     <td class="px-6 py-4">
                       <div class="flex items-center gap-3" [style.paddingLeft.px]="nivelCodigo(cat.codigo) * 20">
                         <span *ngIf="cat.tipo !== 'Grupo'" class="h-8 w-8 rounded-xl flex items-center justify-center shrink-0"
                           [ngClass]="{
-                            'bg-green-50': cat.tipo === 'Ingreso',
-                            'bg-red-50': cat.tipo === 'Gasto',
-                            'bg-amber-50': cat.tipo === 'Costo',
-                            'bg-blue-50': cat.tipo === 'Activo',
-                            'bg-orange-50': cat.tipo === 'Pasivo',
-                            'bg-purple-50': cat.tipo === 'Patrimonio'
+                            'bg-green-50 dark:bg-emerald-500/15': cat.tipo === 'Ingreso',
+                            'bg-red-50 dark:bg-red-500/15': cat.tipo === 'Gasto',
+                            'bg-amber-50 dark:bg-amber-500/15': cat.tipo === 'Costo',
+                            'bg-blue-50 dark:bg-blue-500/15': cat.tipo === 'Activo',
+                            'bg-orange-50 dark:bg-orange-500/15': cat.tipo === 'Pasivo',
+                            'bg-purple-50 dark:bg-purple-500/15': cat.tipo === 'Patrimonio'
                           }">
                           <lucide-icon [img]="Tag" class="w-4 h-4"
                             [ngClass]="{
-                              'text-green-500': cat.tipo === 'Ingreso',
-                              'text-red-500': cat.tipo === 'Gasto',
-                              'text-amber-500': cat.tipo === 'Costo',
-                              'text-blue-500': cat.tipo === 'Activo',
-                              'text-orange-500': cat.tipo === 'Pasivo',
-                              'text-purple-500': cat.tipo === 'Patrimonio'
+                              'text-green-500 dark:text-emerald-400': cat.tipo === 'Ingreso',
+                              'text-red-500 dark:text-red-400': cat.tipo === 'Gasto',
+                              'text-amber-500 dark:text-amber-400': cat.tipo === 'Costo',
+                              'text-blue-500 dark:text-blue-400': cat.tipo === 'Activo',
+                              'text-orange-500 dark:text-orange-400': cat.tipo === 'Pasivo',
+                              'text-purple-500 dark:text-purple-400': cat.tipo === 'Patrimonio'
                             }">
                           </lucide-icon>
                         </span>
-                        <span [ngClass]="cat.tipo === 'Grupo' ? 'font-black uppercase tracking-wide text-navy-800 text-xs' : 'font-semibold text-navy-800'">{{ cat.nombre }}</span>
+                        <span [ngClass]="cat.tipo === 'Grupo' ? 'font-black uppercase tracking-wide text-navy-800 dark:text-slate-100 text-xs' : 'font-semibold text-navy-800 dark:text-slate-100'">{{ cat.nombre }}</span>
                       </div>
                     </td>
                     <td class="px-6 py-4">
                       <span *ngIf="cat.tipo !== 'Grupo'" class="px-2 py-0.5 rounded text-[10px] font-bold"
                         [ngClass]="{
-                          'bg-green-50 text-green-600': cat.tipo === 'Ingreso',
-                          'bg-red-50 text-red-600': cat.tipo === 'Gasto',
-                          'bg-amber-50 text-amber-600': cat.tipo === 'Costo',
-                          'bg-blue-50 text-blue-600': cat.tipo === 'Activo',
-                          'bg-orange-50 text-orange-600': cat.tipo === 'Pasivo',
-                          'bg-purple-50 text-purple-600': cat.tipo === 'Patrimonio'
+                          'bg-green-50 text-green-600 dark:bg-emerald-500/15 dark:text-emerald-400': cat.tipo === 'Ingreso',
+                          'bg-red-50 text-red-600 dark:bg-red-500/15 dark:text-red-400': cat.tipo === 'Gasto',
+                          'bg-amber-50 text-amber-600 dark:bg-amber-500/15 dark:text-amber-400': cat.tipo === 'Costo',
+                          'bg-blue-50 text-blue-600 dark:bg-blue-500/15 dark:text-blue-400': cat.tipo === 'Activo',
+                          'bg-orange-50 text-orange-600 dark:bg-orange-500/15 dark:text-orange-400': cat.tipo === 'Pasivo',
+                          'bg-purple-50 text-purple-600 dark:bg-purple-500/15 dark:text-purple-400': cat.tipo === 'Patrimonio'
                         }">
                         {{ cat.tipo }}
                       </span>
@@ -651,14 +641,14 @@
                     <td class="px-6 py-4 text-right">
                       <button
                         (click)="deleteCategory(cat.id)"
-                        class="p-1.5 text-gray-300 hover:text-red-500 rounded-lg transition-colors"
+                        class="p-1.5 text-gray-300 dark:text-slate-500 hover:text-red-500 dark:hover:text-red-400 rounded-lg transition-colors"
                       >
                         <lucide-icon [img]="Trash2" class="w-4 h-4"></lucide-icon>
                       </button>
                     </td>
                   </tr>
                   <tr *ngIf="!datas || datas.length === 0">
-                    <td colspan="4" class="px-6 py-12 text-center text-gray-400 italic">No hay categorías registradas.</td>
+                    <td colspan="4" class="px-6 py-12 text-center text-gray-400 dark:text-slate-500 italic">No hay categorías registradas.</td>
                   </tr>
                 </tbody>
               </table>
@@ -675,74 +665,74 @@
 
         <!-- Formulario -->
         <div class="lg:col-span-1 space-y-4">
-          <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-3">
-            <h3 class="text-lg font-bold flex items-center gap-2">
-              <lucide-icon [img]="Receipt" class="w-5 h-5 text-gray-400"></lucide-icon>
+          <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-gray-100 dark:border-slate-800 shadow-sm space-y-3">
+            <h3 class="text-lg font-bold text-navy-800 dark:text-slate-100 flex items-center gap-2">
+              <lucide-icon [img]="Receipt" class="w-5 h-5 text-gray-400 dark:text-slate-400"></lucide-icon>
               Nueva Factura
             </h3>
             <div>
-              <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Cliente Final</label>
+              <label class="text-[10px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-widest block mb-1">Cliente Final</label>
               <input [(ngModel)]="newInvoice.cliente_final" type="text" placeholder="Ej. Comercial ABC"
-                class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+                class="w-full px-4 py-2 bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 text-navy-800 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-500 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
             </div>
             <div>
-              <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Concepto</label>
+              <label class="text-[10px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-widest block mb-1">Concepto</label>
               <input [(ngModel)]="newInvoice.concepto" type="text" placeholder="Ej. Servicios de consultoría"
-                class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+                class="w-full px-4 py-2 bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 text-navy-800 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-500 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
             </div>
             <div class="grid grid-cols-2 gap-2">
               <div>
-                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Emisión</label>
+                <label class="text-[10px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-widest block mb-1">Emisión</label>
                 <input [(ngModel)]="newInvoice.fecha_emision" type="date"
-                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+                  class="w-full px-3 py-2 bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 text-navy-800 dark:text-slate-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
               </div>
               <div>
-                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Vencimiento</label>
+                <label class="text-[10px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-widest block mb-1">Vencimiento</label>
                 <input [(ngModel)]="newInvoice.fecha_vencimiento" type="date"
-                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+                  class="w-full px-3 py-2 bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 text-navy-800 dark:text-slate-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
               </div>
             </div>
             <div class="grid grid-cols-2 gap-2">
               <div>
-                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Subtotal ($)</label>
+                <label class="text-[10px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-widest block mb-1">Subtotal ($)</label>
                 <input [(ngModel)]="newInvoice.subtotal" type="number" min="0"
-                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+                  class="w-full px-3 py-2 bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 text-navy-800 dark:text-slate-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
               </div>
               <div>
-                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">% IVA</label>
+                <label class="text-[10px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-widest block mb-1">% IVA</label>
                 <input [(ngModel)]="newInvoice.iva_porcentaje" type="number" min="0"
-                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+                  class="w-full px-3 py-2 bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 text-navy-800 dark:text-slate-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
               </div>
             </div>
-            <div class="flex items-center justify-between px-3 py-2 bg-gray-50 rounded-xl text-xs">
-              <span class="text-gray-400 font-semibold">IVA: ${{ newInvoiceIvaMonto | number }}</span>
-              <span class="font-black text-navy-800">Total: ${{ newInvoiceTotal | number }}</span>
+            <div class="flex items-center justify-between px-3 py-2 bg-gray-50 dark:bg-slate-800 rounded-xl text-xs">
+              <span class="text-gray-400 dark:text-slate-400 font-semibold">IVA: ${{ newInvoiceIvaMonto | number }}</span>
+              <span class="font-black text-navy-800 dark:text-slate-100">Total: ${{ newInvoiceTotal | number }}</span>
             </div>
             <button (click)="crearFactura()"
               [disabled]="!newInvoice.cliente_final || !newInvoice.concepto || !newInvoice.fecha_vencimiento || !newInvoice.subtotal"
-              class="w-full py-3 bg-navy-800 text-white rounded-xl text-sm font-bold hover:bg-navy-900 transition-all active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed">
+              class="w-full py-3 bg-navy-800 dark:bg-darkbtn text-white rounded-xl text-sm font-bold hover:bg-navy-900 dark:hover:bg-darkbtn-hover transition-all active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed">
               Crear Factura
             </button>
           </div>
 
           <!-- Resumen -->
-          <div class="bg-navy-800 text-white p-6 rounded-2xl shadow-xl space-y-3">
-            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">Facturación</p>
+          <div class="bg-navy-800 dark:bg-slate-800/90 dark:border dark:border-slate-700 text-white p-6 rounded-2xl shadow-xl space-y-3">
+            <p class="text-[10px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-[0.2em]">Facturación</p>
             <div class="grid grid-cols-2 gap-3">
               <div>
-                <p class="text-[10px] text-gray-400 font-bold uppercase">Facturado</p>
+                <p class="text-[10px] text-gray-400 dark:text-slate-400 font-bold uppercase">Facturado</p>
                 <p class="font-bold text-white">${{ totalFacturado | number }}</p>
               </div>
               <div>
-                <p class="text-[10px] text-gray-400 font-bold uppercase">Cobrado</p>
+                <p class="text-[10px] text-gray-400 dark:text-slate-400 font-bold uppercase">Cobrado</p>
                 <p class="font-bold text-green-400">${{ totalCobrado | number }}</p>
               </div>
               <div>
-                <p class="text-[10px] text-gray-400 font-bold uppercase">Pendiente</p>
+                <p class="text-[10px] text-gray-400 dark:text-slate-400 font-bold uppercase">Pendiente</p>
                 <p class="font-bold text-amber-400">${{ totalPendiente | number }}</p>
               </div>
               <div>
-                <p class="text-[10px] text-gray-400 font-bold uppercase">Vencido</p>
+                <p class="text-[10px] text-gray-400 dark:text-slate-400 font-bold uppercase">Vencido</p>
                 <p class="font-bold text-red-400">${{ totalVencido | number }}</p>
               </div>
             </div>
@@ -753,45 +743,45 @@
         <div class="lg:col-span-2 space-y-4">
 
           <!-- Cuentas por Cobrar / Aging -->
-          <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4">
+          <div class="bg-white dark:bg-slate-900 rounded-2xl border border-gray-100 dark:border-slate-800 shadow-sm p-4">
             <div class="flex items-center justify-between mb-3">
-              <h4 class="font-bold text-navy-800 text-sm">Cuentas por Cobrar</h4>
-              <button (click)="showAgingView = !showAgingView" class="text-xs font-semibold text-gray-400 hover:text-navy-800">
+              <h4 class="font-bold text-navy-800 dark:text-slate-100 text-sm">Cuentas por Cobrar</h4>
+              <button (click)="showAgingView = !showAgingView" class="text-xs font-semibold text-gray-400 dark:text-slate-400 hover:text-navy-800 dark:hover:text-slate-100">
                 {{ showAgingView ? 'Ocultar' : 'Ver detalle de antigüedad' }}
               </button>
             </div>
             <div *ngIf="showAgingView" class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-2">
-              <div class="bg-gray-50 rounded-xl p-3 text-center">
-                <p class="text-[10px] font-bold text-gray-400 uppercase">0-30 días</p>
-                <p class="font-black text-navy-800">${{ agingBuckets.b0_30 | number }}</p>
+              <div class="bg-gray-50 dark:bg-slate-800 rounded-xl p-3 text-center">
+                <p class="text-[10px] font-bold text-gray-400 dark:text-slate-400 uppercase">0-30 días</p>
+                <p class="font-black text-navy-800 dark:text-slate-100">${{ agingBuckets.b0_30 | number }}</p>
               </div>
-              <div class="bg-amber-50 rounded-xl p-3 text-center">
-                <p class="text-[10px] font-bold text-amber-600 uppercase">31-60 días</p>
-                <p class="font-black text-amber-700">${{ agingBuckets.b31_60 | number }}</p>
+              <div class="bg-amber-50 dark:bg-amber-500/15 rounded-xl p-3 text-center">
+                <p class="text-[10px] font-bold text-amber-600 dark:text-amber-400 uppercase">31-60 días</p>
+                <p class="font-black text-amber-700 dark:text-amber-300">${{ agingBuckets.b31_60 | number }}</p>
               </div>
-              <div class="bg-orange-50 rounded-xl p-3 text-center">
-                <p class="text-[10px] font-bold text-orange-600 uppercase">61-90 días</p>
-                <p class="font-black text-orange-700">${{ agingBuckets.b61_90 | number }}</p>
+              <div class="bg-orange-50 dark:bg-orange-500/15 rounded-xl p-3 text-center">
+                <p class="text-[10px] font-bold text-orange-600 dark:text-orange-400 uppercase">61-90 días</p>
+                <p class="font-black text-orange-700 dark:text-orange-300">${{ agingBuckets.b61_90 | number }}</p>
               </div>
-              <div class="bg-red-50 rounded-xl p-3 text-center">
-                <p class="text-[10px] font-bold text-red-600 uppercase">+90 días</p>
-                <p class="font-black text-red-700">${{ agingBuckets.b90mas | number }}</p>
+              <div class="bg-red-50 dark:bg-red-500/15 rounded-xl p-3 text-center">
+                <p class="text-[10px] font-bold text-red-600 dark:text-red-400 uppercase">+90 días</p>
+                <p class="font-black text-red-700 dark:text-red-300">${{ agingBuckets.b90mas | number }}</p>
               </div>
             </div>
-            <div class="flex items-center justify-between pt-2 border-t border-gray-50">
-              <span class="text-xs font-bold text-gray-400 uppercase">Total por Cobrar</span>
-              <span class="text-lg font-black text-navy-800">${{ totalPorCobrar | number }}</span>
+            <div class="flex items-center justify-between pt-2 border-t border-gray-50 dark:border-slate-800">
+              <span class="text-xs font-bold text-gray-400 dark:text-slate-400 uppercase">Total por Cobrar</span>
+              <span class="text-lg font-black text-navy-800 dark:text-slate-100">${{ totalPorCobrar | number }}</span>
             </div>
           </div>
 
-          <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-            <div class="px-6 py-4 border-b border-gray-50 bg-gray-50/30">
-              <h3 class="font-bold text-navy-800">Facturas</h3>
+          <div class="bg-white dark:bg-slate-900 rounded-2xl border border-gray-100 dark:border-slate-800 shadow-sm overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-50 dark:border-slate-800 bg-gray-50/30 dark:bg-slate-800/40">
+              <h3 class="font-bold text-navy-800 dark:text-slate-100">Facturas</h3>
             </div>
             <div class="overflow-x-auto">
               <table class="w-full text-left text-sm">
                 <thead>
-                  <tr class="bg-gray-50/50 text-gray-400 font-bold border-b border-gray-100">
+                  <tr class="bg-gray-50/50 dark:bg-slate-800/50 text-gray-400 dark:text-slate-400 font-bold border-b border-gray-100 dark:border-slate-800">
                     <th class="px-4 py-3 uppercase tracking-wider text-[10px]">Cliente Final</th>
                     <th class="px-4 py-3 uppercase tracking-wider text-[10px]">Concepto</th>
                     <th class="px-4 py-3 uppercase tracking-wider text-[10px]">Emisión</th>
@@ -801,33 +791,33 @@
                     <th class="px-4 py-3 uppercase tracking-wider text-[10px] text-right">Acciones</th>
                   </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-50">
-                  <tr *ngFor="let f of invoices" class="hover:bg-gray-50 transition-colors">
-                    <td class="px-4 py-3 font-semibold text-navy-800">{{ f.cliente_final }}</td>
-                    <td class="px-4 py-3 text-gray-600">{{ f.concepto }}</td>
-                    <td class="px-4 py-3 text-gray-400 text-xs">{{ f.fecha_emision | date }}</td>
-                    <td class="px-4 py-3 text-gray-400 text-xs">{{ f.fecha_vencimiento | date }}</td>
-                    <td class="px-4 py-3 text-right font-bold">${{ f.total | number }}</td>
+                <tbody class="divide-y divide-gray-50 dark:divide-slate-800">
+                  <tr *ngFor="let f of invoices" class="hover:bg-gray-50 dark:hover:bg-slate-800/50 transition-colors">
+                    <td class="px-4 py-3 font-semibold text-navy-800 dark:text-slate-100">{{ f.cliente_final }}</td>
+                    <td class="px-4 py-3 text-gray-600 dark:text-slate-300">{{ f.concepto }}</td>
+                    <td class="px-4 py-3 text-gray-400 dark:text-slate-400 text-xs">{{ f.fecha_emision | date }}</td>
+                    <td class="px-4 py-3 text-gray-400 dark:text-slate-400 text-xs">{{ f.fecha_vencimiento | date }}</td>
+                    <td class="px-4 py-3 text-right font-bold text-navy-800 dark:text-slate-100">${{ f.total | number }}</td>
                     <td class="px-4 py-3">
                       <span class="px-2 py-0.5 rounded text-[10px] font-bold"
                         [ngClass]="{
-                          'bg-green-50 text-green-600': f.estado === 'Pagada',
-                          'bg-amber-50 text-amber-600': f.estado === 'Pendiente',
-                          'bg-red-50 text-red-600': f.estado === 'Vencida',
-                          'bg-gray-100 text-gray-500': f.estado === 'Anulada'
+                          'bg-green-50 text-green-600 dark:bg-emerald-500/15 dark:text-emerald-400': f.estado === 'Pagada',
+                          'bg-amber-50 text-amber-600 dark:bg-amber-500/15 dark:text-amber-400': f.estado === 'Pendiente',
+                          'bg-red-50 text-red-600 dark:bg-red-500/15 dark:text-red-400': f.estado === 'Vencida',
+                          'bg-gray-100 text-gray-500 dark:bg-slate-800 dark:text-slate-400': f.estado === 'Anulada'
                         }">{{ f.estado }}</span>
                     </td>
                     <td class="px-4 py-3 text-right whitespace-nowrap">
                       <button (click)="descargarFacturaPDF(f)"
-                        class="text-xs font-semibold text-gray-500 hover:text-navy-800 mr-3">PDF</button>
+                        class="text-xs font-semibold text-gray-500 dark:text-slate-400 hover:text-navy-800 dark:hover:text-slate-100 mr-3">PDF</button>
                       <button *ngIf="f.estado === 'Pendiente' || f.estado === 'Vencida'" (click)="marcarFacturaPagada(f)"
-                        class="text-xs font-semibold text-green-600 hover:text-green-800 mr-3">Marcar Pagada</button>
+                        class="text-xs font-semibold text-green-600 dark:text-emerald-400 hover:text-green-800 dark:hover:text-emerald-300 mr-3">Marcar Pagada</button>
                       <button *ngIf="f.estado !== 'Anulada'" (click)="anularFactura(f)"
-                        class="text-xs font-semibold text-gray-400 hover:text-red-500">Anular</button>
+                        class="text-xs font-semibold text-gray-400 dark:text-slate-400 hover:text-red-500 dark:hover:text-red-400">Anular</button>
                     </td>
                   </tr>
                   <tr *ngIf="invoices.length === 0">
-                    <td colspan="7" class="px-6 py-12 text-center text-gray-400 italic">No hay facturas registradas.</td>
+                    <td colspan="7" class="px-6 py-12 text-center text-gray-400 dark:text-slate-500 italic">No hay facturas registradas.</td>
                   </tr>
                 </tbody>
               </table>
@@ -841,51 +831,51 @@
     <div *ngSwitchCase="'payroll'" class="space-y-6">
       <div class="flex gap-2">
         <button (click)="payrollSubView = 'empleados'"
-          [class.bg-navy-800]="payrollSubView === 'empleados'" [class.text-white]="payrollSubView === 'empleados'"
-          class="px-4 py-2 rounded-xl text-sm font-semibold bg-gray-50 text-gray-500 transition-all">Empleados</button>
+          [ngClass]="payrollSubView === 'empleados' ? 'bg-navy-800 text-white dark:bg-darkbtn' : 'bg-gray-50 text-gray-500 dark:bg-slate-800 dark:text-slate-300'"
+          class="px-4 py-2 rounded-xl text-sm font-semibold transition-all">Empleados</button>
         <button (click)="payrollSubView = 'pagos'"
-          [class.bg-navy-800]="payrollSubView === 'pagos'" [class.text-white]="payrollSubView === 'pagos'"
-          class="px-4 py-2 rounded-xl text-sm font-semibold bg-gray-50 text-gray-500 transition-all">Pagos</button>
+          [ngClass]="payrollSubView === 'pagos' ? 'bg-navy-800 text-white dark:bg-darkbtn' : 'bg-gray-50 text-gray-500 dark:bg-slate-800 dark:text-slate-300'"
+          class="px-4 py-2 rounded-xl text-sm font-semibold transition-all">Pagos</button>
       </div>
 
       <!-- Sub-vista Empleados -->
       <div *ngIf="payrollSubView === 'empleados'" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div class="lg:col-span-1">
-          <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-3">
-            <h3 class="text-lg font-bold flex items-center gap-2">
-              <lucide-icon [img]="Users" class="w-5 h-5 text-gray-400"></lucide-icon>
+          <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-gray-100 dark:border-slate-800 shadow-sm space-y-3">
+            <h3 class="text-lg font-bold text-navy-800 dark:text-slate-100 flex items-center gap-2">
+              <lucide-icon [img]="Users" class="w-5 h-5 text-gray-400 dark:text-slate-400"></lucide-icon>
               Nuevo Empleado
             </h3>
             <div class="grid grid-cols-2 gap-2">
               <input [(ngModel)]="newEmployee.nombre" type="text" placeholder="Nombre"
-                class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+                class="w-full px-3 py-2 bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 text-navy-800 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-500 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
               <input [(ngModel)]="newEmployee.apellido" type="text" placeholder="Apellido"
-                class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+                class="w-full px-3 py-2 bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 text-navy-800 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-500 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
             </div>
             <input [(ngModel)]="newEmployee.cargo" type="text" placeholder="Cargo"
-              class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+              class="w-full px-4 py-2 bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 text-navy-800 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-500 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
             <div class="grid grid-cols-2 gap-2">
               <input [(ngModel)]="newEmployee.salario_base" type="number" min="0" placeholder="Salario Base"
-                class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+                class="w-full px-3 py-2 bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 text-navy-800 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-500 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
               <input [(ngModel)]="newEmployee.fecha_ingreso" type="date"
-                class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+                class="w-full px-3 py-2 bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 text-navy-800 dark:text-slate-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
             </div>
             <button (click)="crearEmpleado()"
               [disabled]="!newEmployee.nombre || !newEmployee.apellido || !newEmployee.salario_base"
-              class="w-full py-3 bg-navy-800 text-white rounded-xl text-sm font-bold hover:bg-navy-900 transition-all active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed">
+              class="w-full py-3 bg-navy-800 dark:bg-darkbtn text-white rounded-xl text-sm font-bold hover:bg-navy-900 dark:hover:bg-darkbtn-hover transition-all active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed">
               Agregar Empleado
             </button>
           </div>
         </div>
         <div class="lg:col-span-2">
-          <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-            <div class="px-6 py-4 border-b border-gray-50 bg-gray-50/30">
-              <h3 class="font-bold text-navy-800">Empleados</h3>
+          <div class="bg-white dark:bg-slate-900 rounded-2xl border border-gray-100 dark:border-slate-800 shadow-sm overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-50 dark:border-slate-800 bg-gray-50/30 dark:bg-slate-800/40">
+              <h3 class="font-bold text-navy-800 dark:text-slate-100">Empleados</h3>
             </div>
             <div class="overflow-x-auto">
               <table class="w-full text-left text-sm">
                 <thead>
-                  <tr class="bg-gray-50/50 text-gray-400 font-bold border-b border-gray-100">
+                  <tr class="bg-gray-50/50 dark:bg-slate-800/50 text-gray-400 dark:text-slate-400 font-bold border-b border-gray-100 dark:border-slate-800">
                     <th class="px-4 py-3 uppercase tracking-wider text-[10px]">Nombre</th>
                     <th class="px-4 py-3 uppercase tracking-wider text-[10px]">Cargo</th>
                     <th class="px-4 py-3 uppercase tracking-wider text-[10px] text-right">Salario Base</th>
@@ -893,23 +883,23 @@
                     <th class="px-4 py-3 uppercase tracking-wider text-[10px] text-right">Acciones</th>
                   </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-50">
-                  <tr *ngFor="let e of employees" class="hover:bg-gray-50 transition-colors">
-                    <td class="px-4 py-3 font-semibold text-navy-800">{{ e.nombre }} {{ e.apellido }}</td>
-                    <td class="px-4 py-3 text-gray-600">{{ e.cargo }}</td>
-                    <td class="px-4 py-3 text-right font-bold">${{ e.salario_base | number }}</td>
+                <tbody class="divide-y divide-gray-50 dark:divide-slate-800">
+                  <tr *ngFor="let e of employees" class="hover:bg-gray-50 dark:hover:bg-slate-800/50 transition-colors">
+                    <td class="px-4 py-3 font-semibold text-navy-800 dark:text-slate-100">{{ e.nombre }} {{ e.apellido }}</td>
+                    <td class="px-4 py-3 text-gray-600 dark:text-slate-300">{{ e.cargo }}</td>
+                    <td class="px-4 py-3 text-right font-bold text-navy-800 dark:text-slate-100">${{ e.salario_base | number }}</td>
                     <td class="px-4 py-3">
                       <span class="px-2 py-0.5 rounded text-[10px] font-bold"
-                        [ngClass]="e.estado === 'Activo' ? 'bg-green-50 text-green-600' : 'bg-gray-100 text-gray-500'">{{ e.estado }}</span>
+                        [ngClass]="e.estado === 'Activo' ? 'bg-green-50 text-green-600 dark:bg-emerald-500/15 dark:text-emerald-400' : 'bg-gray-100 text-gray-500 dark:bg-slate-800 dark:text-slate-400'">{{ e.estado }}</span>
                     </td>
                     <td class="px-4 py-3 text-right">
-                      <button (click)="cambiarEstadoEmpleado(e)" class="text-xs font-semibold text-gray-400 hover:text-navy-800">
+                      <button (click)="cambiarEstadoEmpleado(e)" class="text-xs font-semibold text-gray-400 dark:text-slate-400 hover:text-navy-800 dark:hover:text-slate-100">
                         {{ e.estado === 'Activo' ? 'Desactivar' : 'Activar' }}
                       </button>
                     </td>
                   </tr>
                   <tr *ngIf="employees.length === 0">
-                    <td colspan="5" class="px-6 py-12 text-center text-gray-400 italic">No hay empleados registrados.</td>
+                    <td colspan="5" class="px-6 py-12 text-center text-gray-400 dark:text-slate-500 italic">No hay empleados registrados.</td>
                   </tr>
                 </tbody>
               </table>
@@ -921,74 +911,74 @@
       <!-- Sub-vista Pagos -->
       <div *ngIf="payrollSubView === 'pagos'" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div class="lg:col-span-1 space-y-4">
-          <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-3">
-            <h3 class="text-lg font-bold flex items-center gap-2">
-              <lucide-icon [img]="Receipt" class="w-5 h-5 text-gray-400"></lucide-icon>
+          <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-gray-100 dark:border-slate-800 shadow-sm space-y-3">
+            <h3 class="text-lg font-bold text-navy-800 dark:text-slate-100 flex items-center gap-2">
+              <lucide-icon [img]="Receipt" class="w-5 h-5 text-gray-400 dark:text-slate-400"></lucide-icon>
               Registrar Pago
             </h3>
             <div>
-              <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Empleado</label>
+              <label class="text-[10px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-widest block mb-1">Empleado</label>
               <select [(ngModel)]="newPayrollPayment.idempleado" (ngModelChange)="onEmployeeSelectedForPayroll()"
-                class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+                class="w-full px-3 py-2 bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 text-navy-800 dark:text-slate-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
                 <option [ngValue]="null" disabled>Seleccionar empleado...</option>
                 <option *ngFor="let e of employees" [ngValue]="e.id">{{ e.nombre }} {{ e.apellido }}</option>
               </select>
             </div>
             <div class="grid grid-cols-2 gap-2">
               <div>
-                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Periodo Inicio</label>
+                <label class="text-[10px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-widest block mb-1">Periodo Inicio</label>
                 <input [(ngModel)]="newPayrollPayment.periodo_inicio" type="date"
-                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+                  class="w-full px-3 py-2 bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 text-navy-800 dark:text-slate-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
               </div>
               <div>
-                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Periodo Fin</label>
+                <label class="text-[10px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-widest block mb-1">Periodo Fin</label>
                 <input [(ngModel)]="newPayrollPayment.periodo_fin" type="date"
-                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+                  class="w-full px-3 py-2 bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 text-navy-800 dark:text-slate-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
               </div>
             </div>
             <div class="grid grid-cols-2 gap-2">
               <div>
-                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Salario Bruto</label>
+                <label class="text-[10px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-widest block mb-1">Salario Bruto</label>
                 <input [(ngModel)]="newPayrollPayment.salario_bruto" type="number" min="0"
-                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+                  class="w-full px-3 py-2 bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 text-navy-800 dark:text-slate-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
               </div>
               <div>
-                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Deducciones</label>
+                <label class="text-[10px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-widest block mb-1">Deducciones</label>
                 <input [(ngModel)]="newPayrollPayment.deducciones" type="number" min="0"
-                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+                  class="w-full px-3 py-2 bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 text-navy-800 dark:text-slate-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
               </div>
             </div>
             <div>
-              <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Fecha de Pago</label>
+              <label class="text-[10px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-widest block mb-1">Fecha de Pago</label>
               <input [(ngModel)]="newPayrollPayment.fecha_pago" type="date"
-                class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+                class="w-full px-3 py-2 bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 text-navy-800 dark:text-slate-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
             </div>
-            <label class="flex items-center gap-2 text-xs font-semibold text-gray-600">
+            <label class="flex items-center gap-2 text-xs font-semibold text-gray-600 dark:text-slate-300">
               <input [(ngModel)]="newPayrollPayment.reflejarEnContabilidad" type="checkbox" class="rounded">
               Reflejar en contabilidad (como Gasto)
             </label>
             <button (click)="registrarPagoNomina()"
               [disabled]="!newPayrollPayment.idempleado || !newPayrollPayment.periodo_inicio || !newPayrollPayment.periodo_fin || !newPayrollPayment.salario_bruto"
-              class="w-full py-3 bg-navy-800 text-white rounded-xl text-sm font-bold hover:bg-navy-900 transition-all active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed">
+              class="w-full py-3 bg-navy-800 dark:bg-darkbtn text-white rounded-xl text-sm font-bold hover:bg-navy-900 dark:hover:bg-darkbtn-hover transition-all active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed">
               Registrar Pago
             </button>
           </div>
 
-          <div class="bg-navy-800 text-white p-6 rounded-2xl shadow-xl space-y-2">
-            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">Total Nómina Pagada</p>
+          <div class="bg-navy-800 dark:bg-slate-800/90 dark:border dark:border-slate-700 text-white p-6 rounded-2xl shadow-xl space-y-2">
+            <p class="text-[10px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-[0.2em]">Total Nómina Pagada</p>
             <h2 class="text-3xl font-bold">${{ totalNominaPagada | number }}</h2>
           </div>
         </div>
 
         <div class="lg:col-span-2">
-          <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-            <div class="px-6 py-4 border-b border-gray-50 bg-gray-50/30">
-              <h3 class="font-bold text-navy-800">Historial de Pagos</h3>
+          <div class="bg-white dark:bg-slate-900 rounded-2xl border border-gray-100 dark:border-slate-800 shadow-sm overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-50 dark:border-slate-800 bg-gray-50/30 dark:bg-slate-800/40">
+              <h3 class="font-bold text-navy-800 dark:text-slate-100">Historial de Pagos</h3>
             </div>
             <div class="overflow-x-auto">
               <table class="w-full text-left text-sm">
                 <thead>
-                  <tr class="bg-gray-50/50 text-gray-400 font-bold border-b border-gray-100">
+                  <tr class="bg-gray-50/50 dark:bg-slate-800/50 text-gray-400 dark:text-slate-400 font-bold border-b border-gray-100 dark:border-slate-800">
                     <th class="px-4 py-3 uppercase tracking-wider text-[10px]">Empleado</th>
                     <th class="px-4 py-3 uppercase tracking-wider text-[10px]">Periodo</th>
                     <th class="px-4 py-3 uppercase tracking-wider text-[10px] text-right">Bruto</th>
@@ -998,20 +988,20 @@
                     <th class="px-4 py-3 uppercase tracking-wider text-[10px]">Contabilizado</th>
                   </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-50">
-                  <tr *ngFor="let p of payrollPayments" class="hover:bg-gray-50 transition-colors">
-                    <td class="px-4 py-3 font-semibold text-navy-800">{{ p.nombre }} {{ p.apellido }}</td>
-                    <td class="px-4 py-3 text-gray-400 text-xs">{{ p.periodo_inicio | date }} - {{ p.periodo_fin | date }}</td>
-                    <td class="px-4 py-3 text-right">${{ p.salario_bruto | number }}</td>
-                    <td class="px-4 py-3 text-right text-red-500">-${{ p.deducciones | number }}</td>
-                    <td class="px-4 py-3 text-right font-bold">${{ p.salario_neto | number }}</td>
-                    <td class="px-4 py-3 text-gray-400 text-xs">{{ p.fecha_pago | date }}</td>
+                <tbody class="divide-y divide-gray-50 dark:divide-slate-800">
+                  <tr *ngFor="let p of payrollPayments" class="hover:bg-gray-50 dark:hover:bg-slate-800/50 transition-colors">
+                    <td class="px-4 py-3 font-semibold text-navy-800 dark:text-slate-100">{{ p.nombre }} {{ p.apellido }}</td>
+                    <td class="px-4 py-3 text-gray-400 dark:text-slate-400 text-xs">{{ p.periodo_inicio | date }} - {{ p.periodo_fin | date }}</td>
+                    <td class="px-4 py-3 text-right text-navy-800 dark:text-slate-200">${{ p.salario_bruto | number }}</td>
+                    <td class="px-4 py-3 text-right text-red-500 dark:text-red-400">-${{ p.deducciones | number }}</td>
+                    <td class="px-4 py-3 text-right font-bold text-navy-800 dark:text-slate-100">${{ p.salario_neto | number }}</td>
+                    <td class="px-4 py-3 text-gray-400 dark:text-slate-400 text-xs">{{ p.fecha_pago | date }}</td>
                     <td class="px-4 py-3">
-                      <lucide-icon *ngIf="p.idmovimiento" [img]="CheckCircle" class="w-4 h-4 text-green-500"></lucide-icon>
+                      <lucide-icon *ngIf="p.idmovimiento" [img]="CheckCircle" class="w-4 h-4 text-green-500 dark:text-emerald-400"></lucide-icon>
                     </td>
                   </tr>
                   <tr *ngIf="payrollPayments.length === 0">
-                    <td colspan="7" class="px-6 py-12 text-center text-gray-400 italic">No hay pagos de nómina registrados.</td>
+                    <td colspan="7" class="px-6 py-12 text-center text-gray-400 dark:text-slate-500 italic">No hay pagos de nómina registrados.</td>
                   </tr>
                 </tbody>
               </table>
@@ -1025,64 +1015,64 @@
     <div *ngSwitchCase="'taxes'" class="space-y-8">
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div class="lg:col-span-1 space-y-4">
-          <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-3">
-            <h3 class="text-lg font-bold flex items-center gap-2">
-              <lucide-icon [img]="Percent" class="w-5 h-5 text-gray-400"></lucide-icon>
+          <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-gray-100 dark:border-slate-800 shadow-sm space-y-3">
+            <h3 class="text-lg font-bold text-navy-800 dark:text-slate-100 flex items-center gap-2">
+              <lucide-icon [img]="Percent" class="w-5 h-5 text-gray-400 dark:text-slate-400"></lucide-icon>
               Configuración
             </h3>
             <div>
-              <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">% IVA</label>
+              <label class="text-[10px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-widest block mb-1">% IVA</label>
               <input [(ngModel)]="taxConfigForm.iva_porcentaje" type="number" min="0"
-                class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+                class="w-full px-4 py-2 bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 text-navy-800 dark:text-slate-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
             </div>
             <div>
-              <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">% Retención</label>
+              <label class="text-[10px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-widest block mb-1">% Retención</label>
               <input [(ngModel)]="taxConfigForm.retencion_porcentaje" type="number" min="0"
-                class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+                class="w-full px-4 py-2 bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 text-navy-800 dark:text-slate-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
             </div>
             <button (click)="guardarConfigImpuestos()"
-              class="w-full py-3 bg-navy-800 text-white rounded-xl text-sm font-bold hover:bg-navy-900 transition-all active:scale-[0.98]">
+              class="w-full py-3 bg-navy-800 dark:bg-darkbtn text-white rounded-xl text-sm font-bold hover:bg-navy-900 dark:hover:bg-darkbtn-hover transition-all active:scale-[0.98]">
               Guardar Configuración
             </button>
           </div>
 
-          <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-3">
-            <h3 class="text-sm font-bold text-navy-800">Periodo a Calcular</h3>
+          <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-gray-100 dark:border-slate-800 shadow-sm space-y-3">
+            <h3 class="text-sm font-bold text-navy-800 dark:text-slate-100">Periodo a Calcular</h3>
             <div class="grid grid-cols-2 gap-2">
               <div>
-                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Desde</label>
+                <label class="text-[10px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-widest block mb-1">Desde</label>
                 <input [(ngModel)]="taxPeriod.fecha_inicio" type="date"
-                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+                  class="w-full px-3 py-2 bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 text-navy-800 dark:text-slate-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
               </div>
               <div>
-                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Hasta</label>
+                <label class="text-[10px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-widest block mb-1">Hasta</label>
                 <input [(ngModel)]="taxPeriod.fecha_fin" type="date"
-                  class="w-full px-3 py-2 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+                  class="w-full px-3 py-2 bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 text-navy-800 dark:text-slate-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
               </div>
             </div>
             <button (click)="calcularImpuestos()"
-              class="w-full py-3 bg-navy-800 text-white rounded-xl text-sm font-bold hover:bg-navy-900 transition-all active:scale-[0.98]">
+              class="w-full py-3 bg-navy-800 dark:bg-darkbtn text-white rounded-xl text-sm font-bold hover:bg-navy-900 dark:hover:bg-darkbtn-hover transition-all active:scale-[0.98]">
               Calcular
             </button>
           </div>
         </div>
 
         <div class="lg:col-span-2">
-          <div *ngIf="taxResult" class="bg-navy-800 text-white p-8 rounded-2xl shadow-xl space-y-6">
-            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">
+          <div *ngIf="taxResult" class="bg-navy-800 dark:bg-slate-800/90 dark:border dark:border-slate-700 text-white p-8 rounded-2xl shadow-xl space-y-6">
+            <p class="text-[10px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-[0.2em]">
               Resultado — {{ taxPeriod.fecha_inicio | date }} a {{ taxPeriod.fecha_fin | date }}
             </p>
             <div class="grid grid-cols-3 gap-4 border-b border-white/10 pb-6">
               <div>
-                <p class="text-[10px] text-gray-400 font-bold uppercase">IVA Cobrado</p>
+                <p class="text-[10px] text-gray-400 dark:text-slate-400 font-bold uppercase">IVA Cobrado</p>
                 <p class="font-bold text-lg">${{ taxResult.iva_cobrado | number }}</p>
               </div>
               <div>
-                <p class="text-[10px] text-gray-400 font-bold uppercase">IVA Pagado</p>
+                <p class="text-[10px] text-gray-400 dark:text-slate-400 font-bold uppercase">IVA Pagado</p>
                 <p class="font-bold text-lg">${{ taxResult.iva_pagado | number }}</p>
               </div>
               <div>
-                <p class="text-[10px] text-gray-400 font-bold uppercase">Retención</p>
+                <p class="text-[10px] text-gray-400 dark:text-slate-400 font-bold uppercase">Retención</p>
                 <p class="font-bold text-lg">${{ taxResult.retencion | number }}</p>
               </div>
             </div>
@@ -1095,7 +1085,7 @@
               </h2>
             </div>
           </div>
-          <div *ngIf="!taxResult" class="bg-white rounded-2xl border border-gray-100 shadow-sm p-12 text-center text-gray-400 italic">
+          <div *ngIf="!taxResult" class="bg-white dark:bg-slate-900 rounded-2xl border border-gray-100 dark:border-slate-800 shadow-sm p-12 text-center text-gray-400 dark:text-slate-500 italic">
             Selecciona un periodo y presiona "Calcular" para ver el resultado.
           </div>
         </div>
@@ -1104,41 +1094,41 @@
 
     <!-- Tab Flujo de Caja -->
     <div *ngSwitchCase="'cashflow'" class="space-y-6">
-      <div class="bg-navy-800 text-white p-6 rounded-2xl shadow-xl">
-        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">Saldo Acumulado Total</p>
+      <div class="bg-navy-800 dark:bg-slate-800/90 dark:border dark:border-slate-700 text-white p-6 rounded-2xl shadow-xl">
+        <p class="text-[10px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-[0.2em]">Saldo Acumulado Total</p>
         <h2 class="text-4xl font-bold" [ngClass]="saldoAcumuladoTotal >= 0 ? 'text-white' : 'text-red-400'">
           {{ saldoAcumuladoTotal >= 0 ? '+' : '' }}${{ saldoAcumuladoTotal | number }}
         </h2>
       </div>
 
-      <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-        <div class="px-6 py-4 border-b border-gray-50 bg-gray-50/30 flex items-center gap-2">
-          <lucide-icon [img]="TrendingUp" class="w-4 h-4 text-gray-400"></lucide-icon>
-          <h3 class="font-bold text-navy-800">Flujo de Caja Mensual</h3>
+      <div class="bg-white dark:bg-slate-900 rounded-2xl border border-gray-100 dark:border-slate-800 shadow-sm overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-50 dark:border-slate-800 bg-gray-50/30 dark:bg-slate-800/40 flex items-center gap-2">
+          <lucide-icon [img]="TrendingUp" class="w-4 h-4 text-gray-400 dark:text-slate-400"></lucide-icon>
+          <h3 class="font-bold text-navy-800 dark:text-slate-100">Flujo de Caja Mensual</h3>
         </div>
 
         <div class="p-6 space-y-2">
           <div *ngFor="let f of cashFlowByMonth" class="flex items-center gap-3">
-            <span class="w-16 text-xs font-bold text-gray-400 shrink-0">{{ f.mes }}</span>
-            <div class="flex-1 h-6 bg-gray-50 rounded-full overflow-hidden relative">
+            <span class="w-16 text-xs font-bold text-gray-400 dark:text-slate-400 shrink-0">{{ f.mes }}</span>
+            <div class="flex-1 h-6 bg-gray-50 dark:bg-slate-800 rounded-full overflow-hidden relative">
               <div class="h-full rounded-full transition-all"
                 [ngClass]="f.saldoAcumulado >= 0 ? 'bg-green-400' : 'bg-red-400'"
                 [style.width.%]="(Math.abs(f.saldoAcumulado) / maxAbsCashFlow) * 100">
               </div>
             </div>
-            <span class="w-28 text-right text-xs font-bold shrink-0" [ngClass]="f.saldoAcumulado >= 0 ? 'text-green-600' : 'text-red-600'">
+            <span class="w-28 text-right text-xs font-bold shrink-0" [ngClass]="f.saldoAcumulado >= 0 ? 'text-green-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'">
               ${{ f.saldoAcumulado | number }}
             </span>
           </div>
-          <div *ngIf="cashFlowByMonth.length === 0" class="text-center text-gray-400 italic py-8">
+          <div *ngIf="cashFlowByMonth.length === 0" class="text-center text-gray-400 dark:text-slate-500 italic py-8">
             No hay suficientes movimientos para calcular el flujo de caja.
           </div>
         </div>
 
-        <div class="overflow-x-auto border-t border-gray-100">
+        <div class="overflow-x-auto border-t border-gray-100 dark:border-slate-800">
           <table class="w-full text-left text-sm">
             <thead>
-              <tr class="bg-gray-50/50 text-gray-400 font-bold border-b border-gray-100">
+              <tr class="bg-gray-50/50 dark:bg-slate-800/50 text-gray-400 dark:text-slate-400 font-bold border-b border-gray-100 dark:border-slate-800">
                 <th class="px-6 py-3 uppercase tracking-wider text-[10px]">Mes</th>
                 <th class="px-6 py-3 uppercase tracking-wider text-[10px] text-right">Entradas</th>
                 <th class="px-6 py-3 uppercase tracking-wider text-[10px] text-right">Salidas</th>
@@ -1146,13 +1136,13 @@
                 <th class="px-6 py-3 uppercase tracking-wider text-[10px] text-right">Saldo Acumulado</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-gray-50">
-              <tr *ngFor="let f of cashFlowByMonth" class="hover:bg-gray-50 transition-colors">
-                <td class="px-6 py-4 font-semibold text-navy-800">{{ f.mes }}</td>
-                <td class="px-6 py-4 text-right text-green-600 font-bold">${{ f.entradas | number }}</td>
-                <td class="px-6 py-4 text-right text-red-600 font-bold">${{ f.salidas | number }}</td>
-                <td class="px-6 py-4 text-right font-bold" [ngClass]="f.saldoMes >= 0 ? 'text-green-600' : 'text-red-600'">${{ f.saldoMes | number }}</td>
-                <td class="px-6 py-4 text-right font-black" [ngClass]="f.saldoAcumulado >= 0 ? 'text-navy-800' : 'text-red-600'">${{ f.saldoAcumulado | number }}</td>
+            <tbody class="divide-y divide-gray-50 dark:divide-slate-800">
+              <tr *ngFor="let f of cashFlowByMonth" class="hover:bg-gray-50 dark:hover:bg-slate-800/50 transition-colors">
+                <td class="px-6 py-4 font-semibold text-navy-800 dark:text-slate-100">{{ f.mes }}</td>
+                <td class="px-6 py-4 text-right text-green-600 dark:text-emerald-400 font-bold">${{ f.entradas | number }}</td>
+                <td class="px-6 py-4 text-right text-red-600 dark:text-red-400 font-bold">${{ f.salidas | number }}</td>
+                <td class="px-6 py-4 text-right font-bold" [ngClass]="f.saldoMes >= 0 ? 'text-green-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'">${{ f.saldoMes | number }}</td>
+                <td class="px-6 py-4 text-right font-black" [ngClass]="f.saldoAcumulado >= 0 ? 'text-navy-800 dark:text-slate-100' : 'text-red-600 dark:text-red-400'">${{ f.saldoAcumulado | number }}</td>
               </tr>
             </tbody>
           </table>
@@ -1161,7 +1151,7 @@
     </div>
 
   <!-- Loading Overlay for Reports -->
-  <div *ngIf="isGeneratingReport" class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-navy-800/60 backdrop-blur-md animate-in fade-in duration-300">
+  <div *ngIf="isGeneratingReport" class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-navy-800/60 dark:bg-black/75 backdrop-blur-md animate-in fade-in duration-300">
     <div class="relative">
       <div class="h-24 w-24 border-4 border-white/20 border-t-white rounded-full animate-spin"></div>
       <div class="absolute inset-0 flex items-center justify-center">
@@ -1176,7 +1166,7 @@
   <div
     *ngIf="notification"
     class="fixed bottom-8 right-8 z-[100] px-5 py-4 rounded-2xl shadow-2xl flex items-center gap-3 transition-all"
-    [ngClass]="notificationType === 'success' ? 'bg-navy-800 text-white' : 'bg-red-500 text-white'"
+    [ngClass]="notificationType === 'success' ? 'bg-navy-800 dark:bg-slate-800 dark:border dark:border-slate-700 text-white' : 'bg-red-500 dark:bg-red-600 text-white'"
   >
     <div class="w-8 h-8 rounded-xl flex items-center justify-center shrink-0"
       [ngClass]="notificationType === 'success' ? 'bg-white/10' : 'bg-white/20'">

@@ -18,8 +18,8 @@ export const routes: Routes = [
       { path: 'clients', component: ClientsComponent },
       { path: 'clients/:id', component: ClientDetailComponent },
       { path: 'reports', component: ReportsComponent },
-      {path:'personal',component: PersonalcomponentComponent},
-      {path:'usuarios',component: UsuariosComponent}
+      { path: 'personal', component: PersonalcomponentComponent },
+      { path: 'usuarios', component: UsuariosComponent }
     ]
   },
   { path: '', redirectTo: '/login', pathMatch: 'full' },

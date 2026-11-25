@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import {
   LucideAngularModule,
@@ -24,7 +24,7 @@ import {
   FileSpreadsheet
 } from 'lucide-angular';
 import { DataService, Client, Document, Transaction, Category, Invoice, Employee, PayrollPayment, TaxConfig, ProcesoContable, EtapaProceso } from '../../services/data.service';
-import { RouterLink } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-client-detail',
@@ -137,9 +137,18 @@ newCategory: any;
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private dataService: DataService,
-    
+    private authService: AuthService
   ) {}
+
+  get tenantId(): string | null {
+    return this.authService.getTenantId();
+  }
+
+  get personalId(): string | null {
+    return this.authService.getPersonalId();
+  }
 
   ngOnInit() {
     this.ids = this.route.snapshot.paramMap.get('id');
@@ -153,7 +162,7 @@ newCategory: any;
   }
 
   getProcesoContable() {
-    this.dataService.getProcesoContable({ idcliente: this.ids }).subscribe(resp => {
+    this.dataService.getProcesoContable({ idcliente: this.ids, idcreador: this.tenantId }).subscribe(resp => {
       if (resp.ok === true) {
         this.procesoContable = resp.data;
         this.procesoEtapaActual = resp.data ? resp.data.etapa : 'documentos';
@@ -165,7 +174,7 @@ newCategory: any;
     if (etapa === this.procesoEtapaActual) return;
     const data = {
       idcliente: this.ids,
-      idcreador: localStorage.getItem('id'),
+      idcreador: this.tenantId,
       etapa
     };
     this.dataService.guardarProcesoContable(data).subscribe(resp => {
@@ -180,18 +189,25 @@ newCategory: any;
     return this.PROCESO_ETAPAS.findIndex(e => e.key === this.procesoEtapaActual);
   }
 
-  obtenercliente(){
-    const data={
-      id:this.ids
-    }
+  obtenercliente() {
+    const data = {
+      id: this.ids,
+      idcreador: this.tenantId,
+      idpersonal: this.personalId
+    };
 
-    this.dataService.getclientbyid(data).subscribe((resp=>{
-console.log(resp);
-if(resp.success === true){
- this.datos = resp.data[0]
-}
-
-    }))
+    this.dataService.getclientbyid(data).subscribe({
+      next: (resp) => {
+        if (resp.success === true && resp.data?.length > 0) {
+          this.datos = resp.data[0];
+        } else {
+          this.router.navigate(['/dashboard/clients']);
+        }
+      },
+      error: () => {
+        this.router.navigate(['/dashboard/clients']);
+      }
+    });
   }
 
 
@@ -269,7 +285,7 @@ public data:any
     const data={
       nombre:this.newCategoryName,
       codigo:this.newCategoryCodigo || null,
-      idcreador:localStorage.getItem('id'),
+      idcreador: this.tenantId,
       idcliente:this.ids,
       tipo:this.newCategoryTipo
     }
@@ -300,7 +316,7 @@ public data:any
     const formData = new FormData();
     formData.append('archivo', file);
     formData.append('idcliente', this.ids);
-    formData.append('idcreador', localStorage.getItem('id') || '');
+    formData.append('idcreador', this.tenantId || '');
 
     this.importingCatalogo = true;
     this.dataService.importarCatalogoCuentas(formData).subscribe({
@@ -335,7 +351,7 @@ public datas:any
   getCategoriesByTipo() {
     const data={
       idcliente:this.ids,
-      idcreador:localStorage.getItem('id')
+      idcreador: this.tenantId
     }
 
     this.dataService.gettype(data).subscribe((resp=>{
@@ -385,7 +401,7 @@ public datas:any
 
     const data = {
       idcliente: this.ids,
-      idcreador: localStorage.getItem('id'),
+      idcreador: this.tenantId,
       descripcion: this.newDescription,
       monto: this.newAmount,
       idcategoria: this.newCategorySelected.id,
@@ -406,7 +422,7 @@ public datas:any
   getmovimientos() {
     const data = {
       idcliente: this.ids,
-      idcreador: localStorage.getItem('id')
+      idcreador: this.tenantId
     };
     this.dataService.getmovimientos(data).subscribe((resp) => {
       console.log(resp);
@@ -487,7 +503,7 @@ public datas:any
   }
 
   getFacturas() {
-    const data = { idcliente: this.ids, idcreador: localStorage.getItem('id') };
+    const data = { idcliente: this.ids, idcreador: this.tenantId };
     this.dataService.getFacturas(data).subscribe(resp => {
       if (resp.ok === true) {
         this.invoices = resp.data.map((row: any) => ({
@@ -514,7 +530,7 @@ public datas:any
 
     const data = {
       idcliente: this.ids,
-      idcreador: localStorage.getItem('id'),
+      idcreador: this.tenantId,
       cliente_final: this.newInvoice.cliente_final,
       concepto: this.newInvoice.concepto,
       fecha_emision: this.newInvoice.fecha_emision,
@@ -619,7 +635,7 @@ public datas:any
   }
 
   getEmpleados() {
-    const data = { idcliente: this.ids, idcreador: localStorage.getItem('id') };
+    const data = { idcliente: this.ids, idcreador: this.tenantId };
     this.dataService.getEmpleados(data).subscribe(resp => {
       if (resp.ok === true) {
         this.employees = resp.data.map((row: any) => ({
@@ -642,7 +658,7 @@ public datas:any
 
     const data = {
       idcliente: this.ids,
-      idcreador: localStorage.getItem('id'),
+      idcreador: this.tenantId,
       nombre: this.newEmployee.nombre,
       apellido: this.newEmployee.apellido,
       cargo: this.newEmployee.cargo,
@@ -672,7 +688,7 @@ public datas:any
   }
 
   getPagosNomina() {
-    const data = { idcliente: this.ids, idcreador: localStorage.getItem('id') };
+    const data = { idcliente: this.ids, idcreador: this.tenantId };
     this.dataService.getPagosNomina(data).subscribe(resp => {
       if (resp.ok === true) {
         this.payrollPayments = resp.data.map((row: any) => ({
@@ -705,7 +721,7 @@ public datas:any
     const data = {
       idempleado: this.newPayrollPayment.idempleado,
       idcliente: this.ids,
-      idcreador: localStorage.getItem('id'),
+      idcreador: this.tenantId,
       periodo_inicio: this.newPayrollPayment.periodo_inicio,
       periodo_fin: this.newPayrollPayment.periodo_fin,
       salario_bruto: this.newPayrollPayment.salario_bruto,
@@ -742,7 +758,7 @@ public datas:any
   }
 
   getConfigImpuestos() {
-    this.dataService.getConfigImpuestos({ idcliente: this.ids }).subscribe(resp => {
+    this.dataService.getConfigImpuestos({ idcliente: this.ids, idcreador: this.tenantId }).subscribe(resp => {
       if (resp.ok === true && resp.data) {
         this.taxConfig = {
           idcliente: String(resp.data.idcliente),
@@ -762,7 +778,7 @@ public datas:any
   guardarConfigImpuestos() {
     const data = {
       idcliente: this.ids,
-      idcreador: localStorage.getItem('id'),
+      idcreador: this.tenantId,
       iva_porcentaje: this.taxConfigForm.iva_porcentaje,
       retencion_porcentaje: this.taxConfigForm.retencion_porcentaje
     };
@@ -775,7 +791,7 @@ public datas:any
   calcularImpuestos() {
     const data = {
       idcliente: this.ids,
-      idcreador: localStorage.getItem('id'),
+      idcreador: this.tenantId,
       fecha_inicio: this.taxPeriod.fecha_inicio,
       fecha_fin: this.taxPeriod.fecha_fin
     };
@@ -872,7 +888,7 @@ public datas:any
   }
 
   descargarBalancePDF() {
-    const data = { idcliente: this.ids, idcreador: localStorage.getItem('id') };
+    const data = { idcliente: this.ids, idcreador: this.tenantId };
     this.dataService.exportBalancePDF(data).subscribe({
       next: (blob: Blob) => {
         const url = window.URL.createObjectURL(blob);
